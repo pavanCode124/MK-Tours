@@ -98,7 +98,7 @@ function useNav() {
 }
 
 const TRIGGER =
-  'relative flex items-center gap-1.5 whitespace-nowrap py-2 text-[13.5px] font-medium tracking-[0.01em] text-text transition-colors hover:text-meadow-700';
+  'relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-2 text-[13.5px] font-semibold text-text transition-colors hover:bg-meadow-50 hover:text-meadow-700 data-[open=true]:bg-meadow-50 data-[open=true]:text-meadow-700';
 
 /** A dropdown trigger plus its panel. Opens on hover, click and keyboard focus. */
 export function NavMenu({
@@ -131,6 +131,7 @@ export function NavMenu({
       <button
         type="button"
         className={TRIGGER}
+        data-open={isOpen}
         aria-expanded={isOpen}
         aria-haspopup="true"
         onClick={() => toggle(id)}
@@ -147,7 +148,7 @@ export function NavMenu({
           <path d="M5 7.5l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <span
-          className={`absolute inset-x-0 -bottom-[3px] h-[2px] origin-left rounded-full bg-meadow-600 transition-transform duration-200 ${
+          className={`absolute inset-x-3.5 -bottom-0.5 h-[2px] origin-center rounded-full bg-meadow-500 transition-transform duration-300 ${
             isOpen ? 'scale-x-100' : 'scale-x-0'
           }`}
         />
@@ -157,7 +158,7 @@ export function NavMenu({
         data-open={isOpen}
         aria-hidden={!isOpen}
         onClick={close}
-        className={`nav-panel absolute top-[calc(100%+14px)] z-40 ${width} ${alignment} max-w-[min(94vw,1120px)] overflow-hidden border border-border bg-raised shadow-[0_24px_60px_-18px_rgba(28,46,61,0.3)]`}
+        className={`nav-panel thin-scroll absolute top-[calc(100%+16px)] z-40 ${width} ${alignment} max-h-[calc(100vh-150px)] max-w-[min(94vw,1120px)] overflow-y-auto rounded-[1.75rem] border border-border bg-raised shadow-float`}
       >
         {children}
       </div>

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { BanyanTree, CameraBadge, FlightPath, PineTree, SmokePlume, TopoField, TreeLine } from './Decor';
 import { PencilCamera } from './PencilCamera';
 import { PencilPalm } from './PencilPalm';
 import { Display } from './ui';
@@ -10,10 +11,49 @@ export interface Crumb {
   label: string;
 }
 
+/** The breadcrumb trail, as a row of soft capsules rather than slash-separated text. */
+function Breadcrumbs({ crumbs, tone }: { crumbs: Crumb[]; tone: 'dark' | 'light' }) {
+  if (crumbs.length === 0) return null;
+  const onDark = tone === 'dark';
+  const base = onDark
+    ? 'border-white/20 bg-white/10 text-on-dark/80 hover:border-white/50 hover:text-on-dark'
+    : 'border-border bg-raised text-muted shadow-soft hover:border-meadow-300 hover:text-meadow-700';
+  const current = onDark
+    ? 'border-meadow-300/40 bg-meadow-500/15 text-meadow-300'
+    : 'border-meadow-300/70 bg-meadow-50 text-meadow-700';
+
+  return (
+    <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-[11.5px]">
+      <Link href="/" className={`rounded-full border px-3 py-1.5 transition-colors ${base}`}>
+        Home
+      </Link>
+      {crumbs.map((c, i) => (
+        <span key={c.label} className="flex items-center gap-2">
+          <span aria-hidden="true" className={onDark ? 'text-on-dark/35' : 'text-subtle'}>
+            ›
+          </span>
+          {c.href && i !== crumbs.length - 1 ? (
+            <Link href={c.href} className={`rounded-full border px-3 py-1.5 transition-colors ${base}`}>
+              {c.label}
+            </Link>
+          ) : (
+            <span className={`max-w-[60vw] truncate rounded-full border px-3 py-1.5 font-semibold ${current}`}>
+              {c.label}
+            </span>
+          )}
+        </span>
+      ))}
+    </nav>
+  );
+}
+
 /**
- * The banner every inner page opens with: a photograph, a breadcrumb, an
- * eyebrow and a display heading, in the same proportions as the home hero's
- * lower third.
+ * The banner every photographic inner page opens with.
+ *
+ * The photograph is inset from the page edges and clipped to a deep curve, so it
+ * reads as a mounted print rather than a full-bleed band. Decorative trees, a
+ * flight arc and a drifting plume sit inside the frame, and the copy is laid over
+ * the lower-left corner.
  */
 export function PageHero({
   image,
@@ -31,87 +71,95 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-text">
-      <Image src={image} alt="" fill priority sizes="100vw" className="object-cover" aria-hidden="true" />
-      <div className="absolute inset-0 bg-gradient-to-t from-text/90 via-text/55 to-text/35" />
-      <div className="relative mx-auto flex max-w-[1280px] flex-col justify-end px-5 pb-12 pt-20 md:px-8 lg:px-12 lg:pb-16 lg:pt-28">
-        {crumbs.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-[11.5px] text-on-dark/65">
-            <Link href="/" className="transition-colors hover:text-on-dark">
-              Home
-            </Link>
-            {crumbs.map((c) => (
-              <span key={c.label} className="flex items-center gap-2">
-                <span aria-hidden="true">/</span>
-                {c.href ? (
-                  <Link href={c.href} className="transition-colors hover:text-on-dark">
-                    {c.label}
-                  </Link>
-                ) : (
-                  <span className="text-on-dark/90">{c.label}</span>
-                )}
-              </span>
-            ))}
-          </nav>
-        )}
-        {eyebrow && (
-          <span className="mb-3 text-[10.5px] font-medium uppercase tracking-[0.26em] text-meadow-300">{eyebrow}</span>
-        )}
-        <Display as="h1" className="display-caps max-w-3xl text-[29px] text-on-dark sm:text-[38px] lg:text-[46px]">
-          {title}
-        </Display>
-        {lede && <p className="mt-4 max-w-2xl text-[14.5px] leading-relaxed text-on-dark/80">{lede}</p>}
-        {children && <div className="mt-7">{children}</div>}
+    <section className="relative bg-bg px-3 pt-3 sm:px-5 sm:pt-4 lg:px-7 lg:pt-5">
+      <div className="relative overflow-hidden rounded-[2rem] bg-sherwood-900 shadow-lift lg:rounded-[2.75rem]">
+        <Image src={image} alt="" fill priority sizes="100vw" className="object-cover" aria-hidden="true" />
+        {/* Grading. Neither layer reaches full opacity: the banner is short, so a
+            solid stop at the foot would bury the photograph entirely rather than
+            just darkening it under the copy. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-sherwood-900/88 via-sherwood-900/45 to-sherwood-900/15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-sherwood-900/65 via-sherwood-900/15 to-transparent" />
+
+        {/* Ornament inside the frame */}
+        <FlightPath
+          variant="arch"
+          className="pointer-events-none absolute left-[10%] top-6 hidden h-[130px] w-[80%] text-meadow-300/40 md:block"
+        />
+        <SmokePlume
+          seed={1}
+          className="pointer-events-none absolute -bottom-4 right-[8%] hidden h-[200px] w-[160px] text-white/25 lg:block"
+        />
+        <PineTree className="pointer-events-none absolute -bottom-1 right-[4%] hidden h-[150px] w-[64px] text-sherwood-900/70 tree-breathe sm:block" />
+        <PineTree className="pointer-events-none absolute -bottom-2 right-[12%] hidden h-[110px] w-[48px] text-sherwood-900/55 tree-breathe tree-breathe-slow sm:block" />
+        <TreeLine className="pointer-events-none absolute inset-x-0 bottom-0 h-[70px] text-sherwood-900/60" />
+
+        <div className="relative mx-auto flex max-w-[1280px] flex-col justify-end px-6 pb-14 pt-16 md:px-10 lg:px-14 lg:pb-16 lg:pt-24">
+          <Breadcrumbs crumbs={crumbs} tone="dark" />
+          {eyebrow && (
+            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-meadow-300/40 bg-sherwood-900/40 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-meadow-300 backdrop-blur-md">
+              <span className="h-1.5 w-1.5 rounded-full bg-meadow-400" />
+              {eyebrow}
+            </span>
+          )}
+          <Display
+            as="h1"
+            className="display-caps max-w-3xl text-[32px] text-on-dark sm:text-[42px] lg:text-[52px]"
+          >
+            {title}
+          </Display>
+          {lede && <p className="mt-5 max-w-2xl text-[14.5px] leading-[1.8] text-on-dark/80">{lede}</p>}
+          {children && <div className="mt-8">{children}</div>}
+        </div>
       </div>
     </section>
   );
 }
 
-/** Narrower banner for editorial pages that lead with text rather than a photo. */
+/**
+ * Narrower banner for editorial pages that lead with text rather than a photo.
+ * A tinted panel with the sketch set, a topographic field and a banyan rather
+ * than a photograph.
+ */
 export function PlainPageHero({
   eyebrow,
   title,
   lede,
   crumbs = [],
+  children,
 }: {
   eyebrow?: string;
   title: ReactNode;
   lede?: ReactNode;
   crumbs?: Crumb[];
+  children?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-border bg-surface">
-      <PencilCamera className="absolute -right-8 -top-4 hidden w-[190px] rotate-[7deg] opacity-[0.11] sm:block lg:-right-10 lg:w-[250px]" />
-      <PencilPalm className="absolute bottom-2 right-[240px] hidden w-[86px] -rotate-[6deg] opacity-[0.1] lg:block" />
-      <div className="relative mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
-        {crumbs.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-[11.5px] text-muted">
-            <Link href="/" className="transition-colors hover:text-sherwood-800">
-              Home
-            </Link>
-            {crumbs.map((c) => (
-              <span key={c.label} className="flex items-center gap-2">
-                <span aria-hidden="true">/</span>
-                {c.href ? (
-                  <Link href={c.href} className="transition-colors hover:text-sherwood-800">
-                    {c.label}
-                  </Link>
-                ) : (
-                  <span className="text-text">{c.label}</span>
-                )}
-              </span>
-            ))}
-          </nav>
-        )}
-        {eyebrow && (
-          <span className="mb-3 block text-[10.5px] font-medium uppercase tracking-[0.26em] text-meadow-700">
-            {eyebrow}
-          </span>
-        )}
-        <Display as="h1" className="display-caps max-w-3xl text-[27px] sm:text-[34px] lg:text-[40px]">
-          {title}
-        </Display>
-        {lede && <p className="mt-4 max-w-2xl text-[14.5px] leading-relaxed text-muted">{lede}</p>}
+    <section className="relative bg-bg px-3 pt-3 sm:px-5 sm:pt-4 lg:px-7 lg:pt-5">
+      <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface shadow-soft lg:rounded-[2.75rem]">
+        {/* A warm bloom and a dotted field keep the panel from reading as flat. */}
+        <div className="pointer-events-none absolute -right-20 -top-28 h-[320px] w-[320px] bloom-warm" />
+        <div className="pointer-events-none absolute inset-0 dotfield opacity-40" />
+        <TopoField className="pointer-events-none absolute -bottom-10 right-0 hidden h-[280px] w-[48%] text-sherwood-700/12 lg:block" />
+        <PencilCamera className="pointer-events-none absolute -right-6 -top-6 hidden w-[180px] rotate-[8deg] opacity-[0.13] text-sherwood-800 sm:block lg:-right-8 lg:w-[240px]" />
+        <CameraBadge className="pointer-events-none absolute right-[200px] top-8 hidden h-[110px] w-[130px] -rotate-6 text-sherwood-700/12 xl:block" />
+        <PencilPalm className="pointer-events-none absolute bottom-0 right-[150px] hidden w-[84px] -rotate-[6deg] opacity-[0.12] text-sherwood-800 lg:block" />
+        <BanyanTree className="pointer-events-none absolute -bottom-6 left-[3%] hidden h-[180px] w-[180px] text-sherwood-700/10 lg:block" />
+        <PineTree className="pointer-events-none absolute bottom-0 left-[16%] hidden h-[140px] w-[60px] text-sherwood-700/12 tree-breathe xl:block" />
+
+        <div className="relative mx-auto max-w-[1280px] px-6 py-14 md:px-10 lg:px-14 lg:py-18">
+          <Breadcrumbs crumbs={crumbs} tone="light" />
+          {eyebrow && (
+            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-meadow-300/70 bg-meadow-50 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-meadow-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-meadow-500" />
+              {eyebrow}
+            </span>
+          )}
+          <Display as="h1" className="display-caps max-w-3xl text-[30px] sm:text-[38px] lg:text-[46px]">
+            {title}
+          </Display>
+          {lede && <p className="mt-5 max-w-2xl text-[14.5px] leading-[1.8] text-muted">{lede}</p>}
+          {children && <div className="mt-8">{children}</div>}
+        </div>
       </div>
     </section>
   );

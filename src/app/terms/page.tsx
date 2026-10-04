@@ -25,7 +25,11 @@ export default async function TermsPage() {
     <>
       <PlainPageHero
         eyebrow={`Legal · Effective ${LEGAL_EFFECTIVE_DATE}`}
-        title="Terms & Conditions"
+        title={
+          <>
+            Terms &amp; <span className="flourish">Conditions</span>
+          </>
+        }
         lede="These terms govern every booking made with MK Tours, on this site or over WhatsApp."
         crumbs={[{ label: 'Terms & Conditions' }]}
       />

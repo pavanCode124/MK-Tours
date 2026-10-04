@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { PlainPageHero } from '@/components/PageHero';
 import { FaqList } from '@/components/sections';
-import { Button, Display, Icon } from '@/components/ui';
+import { Button, Display, Eyebrow, Icon } from '@/components/ui';
+import { CameraBadge, FlightPath, FlightTag, PineTree, SmokePlume, TopoField } from '@/components/Decor';
 import { AGENCY, FAQS } from '@/lib/content';
 import { formatPhone, telHref, whatsappLink } from '@/lib/mktours';
 
@@ -18,127 +19,186 @@ export default function ContactPage() {
     <>
       <PlainPageHero
         eyebrow="Get in touch"
-        title="Have questions? Let's talk."
+        title={
+          <>
+            Have questions? <span className="flourish">Let&apos;s talk.</span>
+          </>
+        }
         lede={`Our team is on WhatsApp and on the phone, ${AGENCY.hours.toLowerCase()}. We will help you pick the right departure, check dates, or answer anything you need before you book.`}
         crumbs={[{ label: 'Contact' }]}
-      />
+      >
+        <FlightTag from="You" to="Our desk" note="Replies same day" />
+      </PlainPageHero>
 
-      <div className="mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
-        {/* Channels */}
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          <Card
-            icon="phone"
-            title="Call us"
-            lines={[formatPhone(AGENCY.phonePrimary), formatPhone(AGENCY.phoneSecondary)]}
-            note={AGENCY.hours}
-            action={{ href: telHref(AGENCY.phonePrimary) ?? '#', label: 'Call now', external: true }}
-          />
-          <Card
-            icon="check"
-            title="WhatsApp"
-            lines={[formatPhone(AGENCY.phonePrimary)]}
-            note="Fastest way to reach us"
-            action={wa ? { href: wa, label: 'Chat on WhatsApp', external: true } : undefined}
-          />
-          <Card
-            icon="mail"
-            title="Email"
-            lines={[AGENCY.email]}
-            note="We reply the same day"
-            action={{ href: `mailto:${AGENCY.email}`, label: 'Send an email', external: true }}
-          />
-          <Card
-            icon="shield"
-            title="Emergency (on tour)"
-            lines={[formatPhone(AGENCY.emergencyPhone)]}
-            note="For travellers already on the road"
-            action={{ href: telHref(AGENCY.emergencyPhone) ?? '#', label: 'Call emergency line', external: true }}
-          />
-        </div>
+      <div className="relative overflow-hidden">
+        <FlightPath
+          variant="fall"
+          className="pointer-events-none absolute right-0 top-10 hidden h-[150px] w-[60%] text-meadow-500/18 lg:block"
+        />
+        <TopoField className="pointer-events-none absolute -left-12 top-[40%] hidden h-[320px] w-[40%] text-sherwood-700/8 lg:block" />
+        <SmokePlume
+          seed={4}
+          className="pointer-events-none absolute -right-4 bottom-[22%] hidden h-[250px] w-[190px] text-sherwood-600/12 lg:block"
+        />
 
-        {/* Where we are */}
-        <div className="mt-6 grid gap-5 lg:grid-cols-3">
-          <div className="border border-border bg-raised p-6 lg:col-span-2">
-            <Display className="text-[22px]">Where we are</Display>
-            <p className="mt-3 text-[14px] leading-relaxed text-muted">{AGENCY.address}</p>
-            <p className="mt-4 text-[13.5px] leading-relaxed text-muted">
-              Fixed departures leave by train from Mumbai, with boarding available at Pune on the same rake. Private
-              groups can start from any city — tell us where you are and we will price it.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Button href="/packages" variant="solid">
-                Browse departures
-              </Button>
-              <Button href={AGENCY.googleProfile} external variant="outline">
-                Find us on Google
-              </Button>
+        <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
+          {/* Channels */}
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <ChannelCard
+              icon="phone"
+              title="Call us"
+              lines={[formatPhone(AGENCY.phonePrimary), formatPhone(AGENCY.phoneSecondary)]}
+              note={AGENCY.hours}
+              action={{ href: telHref(AGENCY.phonePrimary) ?? '#', label: 'Call now', external: true }}
+            />
+            <ChannelCard
+              icon="check"
+              title="WhatsApp"
+              lines={[formatPhone(AGENCY.phonePrimary)]}
+              note="Fastest way to reach us"
+              highlight
+              action={wa ? { href: wa, label: 'Chat on WhatsApp', external: true } : undefined}
+            />
+            <ChannelCard
+              icon="mail"
+              title="Email"
+              lines={[AGENCY.email]}
+              note="We reply the same day"
+              action={{ href: `mailto:${AGENCY.email}`, label: 'Send an email', external: true }}
+            />
+            <ChannelCard
+              icon="shield"
+              title="Emergency (on tour)"
+              lines={[formatPhone(AGENCY.emergencyPhone)]}
+              note="For travellers already on the road"
+              action={{ href: telHref(AGENCY.emergencyPhone) ?? '#', label: 'Call emergency line', external: true }}
+            />
+          </div>
+
+          {/* Where we are */}
+          <div className="mt-6 grid gap-5 lg:grid-cols-3">
+            <div className="card relative overflow-hidden p-7 sm:p-9 lg:col-span-2">
+              <CameraBadge className="pointer-events-none absolute -right-6 -top-4 hidden h-[160px] w-[190px] text-sherwood-700/8 sm:block" />
+              <div className="relative">
+                <Eyebrow className="mb-4">Our base</Eyebrow>
+                <Display className="text-[24px]">Where we are</Display>
+                <p className="mt-4 flex items-start gap-2.5 text-[14px] leading-relaxed text-muted">
+                  <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-meadow-700" />
+                  {AGENCY.address}
+                </p>
+                <p className="mt-4 text-[13.5px] leading-[1.75] text-muted">
+                  Fixed departures leave by train from Mumbai, with boarding available at Pune on the same rake. Private
+                  groups can start from any city — tell us where you are and we will price it.
+                </p>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <Button href="/packages" variant="solid">
+                    Browse departures
+                  </Button>
+                  <Button href={AGENCY.googleProfile} external variant="outline">
+                    Find us on Google
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative overflow-hidden rounded-[1.5rem] bg-sherwood-900 p-7 text-on-dark shadow-float">
+              <PineTree className="pointer-events-none absolute -bottom-1 -right-3 h-[140px] w-[60px] text-black/25 tree-breathe" />
+              <div className="relative">
+                <Eyebrow tone="dark" className="mb-4">
+                  Plan with us
+                </Eyebrow>
+                <Display className="text-[21px] text-on-dark">What to send us</Display>
+                <p className="mt-3 text-[13px] leading-relaxed text-on-dark/75">
+                  Send us your dates, your group size and roughly where you want to go. We come back with the next
+                  departure that fits, or a private quotation.
+                </p>
+                <ul className="mt-6 space-y-2.5 text-[12.5px] text-on-dark/85">
+                  {[
+                    'Your travel dates',
+                    'How many travelling, and ages',
+                    'Train class and room sharing',
+                    'Anything you need us to plan around',
+                  ].map((l) => (
+                    <li key={l} className="flex items-start gap-2.5">
+                      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-meadow-500/20 text-meadow-300">
+                        <Icon name="check" className="h-3 w-3" />
+                      </span>
+                      {l}
+                    </li>
+                  ))}
+                </ul>
+                {wa && (
+                  <Button href={wa} external variant="meadow" className="mt-7 w-full">
+                    Start on WhatsApp
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
-          <div className="bg-sherwood-800 p-6 text-on-dark">
-            <Display className="text-[20px] text-on-dark">Plan with us</Display>
-            <p className="mt-3 text-[13px] leading-relaxed text-on-dark/75">
-              Send us your dates, your group size and roughly where you want to go. We come back with the next departure
-              that fits, or a private quotation.
-            </p>
-            <ul className="mt-5 space-y-2.5 text-[12.5px] text-on-dark/80">
-              {['Your travel dates', 'How many travelling, and ages', 'Train class and room sharing', 'Anything you need us to plan around'].map(
-                (l) => (
-                  <li key={l} className="flex items-start gap-2.5">
-                    <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-meadow-300" />
-                    {l}
-                  </li>
-                ),
-              )}
-            </ul>
-            {wa && (
-              <Button href={wa} external variant="meadow" className="mt-6 w-full">
-                Start on WhatsApp
-              </Button>
-            )}
-          </div>
-        </div>
 
-        {/* Full FAQ */}
-        <section id="faq" className="mt-16 scroll-mt-28 border-t border-border pt-12">
-          <Display className="text-[30px] sm:text-[36px]">Common Questions</Display>
-          <div className="mt-10 space-y-12">
-            {FAQS.map((group) => (
-              <div key={group.group}>
-                <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">
-                  {group.group}
-                </h3>
-                <FaqList items={group.items} />
-              </div>
-            ))}
-          </div>
-        </section>
+          {/* Full FAQ */}
+          <section id="faq" className="mt-20 scroll-mt-28">
+            <div className="text-center">
+              <Eyebrow className="mb-5">FAQ</Eyebrow>
+              <Display className="display-caps text-[30px] sm:text-[38px]">
+                Common <span className="flourish">questions</span>
+              </Display>
+            </div>
+            <div className="mt-12 space-y-12">
+              {FAQS.map((group) => (
+                <div key={group.group}>
+                  <div className="mb-5 flex items-center gap-3">
+                    <span className="h-px flex-1 bg-gradient-to-r from-transparent to-border-strong" />
+                    <h3 className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-meadow-700">
+                      {group.group}
+                    </h3>
+                    <span className="h-px flex-1 bg-gradient-to-l from-transparent to-border-strong" />
+                  </div>
+                  <FaqList items={group.items} />
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
       </div>
     </>
   );
 }
 
-function Card({
+function ChannelCard({
   icon,
   title,
   lines,
   note,
   action,
+  highlight = false,
 }: {
   icon: 'phone' | 'mail' | 'check' | 'shield';
   title: string;
   lines: string[];
   note: string;
   action?: { href: string; label: string; external?: boolean };
+  highlight?: boolean;
 }) {
   return (
-    <div className="flex flex-col border border-border bg-raised p-6">
-      <span className="mb-4 flex h-9 w-9 items-center justify-center bg-meadow-50 text-meadow-700">
-        <Icon name={icon} className="h-[18px] w-[18px]" />
+    <div
+      className={`group flex flex-col rounded-[1.5rem] border p-6 shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-float ${
+        highlight ? 'border-meadow-300 bg-meadow-50' : 'border-border bg-raised'
+      }`}
+    >
+      <span
+        className={`mb-4 flex h-11 w-11 items-center justify-center rounded-2xl transition-colors duration-500 ${
+          highlight
+            ? 'bg-meadow-500 text-sherwood-900 shadow-glow'
+            : 'bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50 group-hover:bg-meadow-500 group-hover:text-sherwood-900'
+        }`}
+      >
+        <Icon name={icon} className="h-5 w-5" />
       </span>
-      <h2 className="text-[10px] font-bold uppercase tracking-[0.14em] text-subtle">{title}</h2>
+      <h2 className="text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">{title}</h2>
       <div className="mt-2 space-y-0.5">
         {lines.map((l) => (
-          <p key={l} className="text-[14px] leading-snug text-text">
+          <p key={l} className="text-[14px] font-semibold leading-snug text-text">
             {l}
           </p>
         ))}
@@ -148,9 +208,10 @@ function Card({
         <a
           href={action.href}
           {...(action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          className="mt-auto pt-5 text-[12.5px] font-medium text-meadow-700 underline-offset-4 hover:underline"
+          className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[12.5px] font-bold text-meadow-700 underline-offset-4 hover:underline"
         >
-          {action.label} →
+          {action.label}
+          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </a>
       )}
     </div>

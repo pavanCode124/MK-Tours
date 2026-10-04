@@ -1,26 +1,31 @@
 import type { Metadata } from 'next';
-import { Manrope, Playfair_Display } from 'next/font/google';
+import { Fraunces, Manrope } from 'next/font/google';
 import './globals.css';
 import { FloatingContact } from '@/components/FloatingContact';
 import { RevealFallbackScript, RevealObserver } from '@/components/Motion';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 
-// Manrope carries body copy at light weights; Playfair Display stands in for
-// the high-contrast editorial serif the brief's reference site sets its
-// headings in. Both are loaded light-first — the design leans on thin strokes.
+// Manrope carries body copy; Fraunces carries every heading. Fraunces is a soft,
+// high-optical-size serif with a wedge-serif warmth — it sets tight and in mixed
+// case, which is what this design's headings want, and it reads nothing like the
+// wide uppercase didone treatment it replaced.
 const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['200', '300', '400', '500', '600'],
+  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-manrope',
   display: 'swap',
 });
 
-const playfair = Playfair_Display({
+// Loaded as a variable font: `axes` may only be set when the weight axis is
+// left variable, and the whole 100–900 range costs no more than a few static
+// cuts would. SOFT rounds the terminals; WONK enables the alternate glyphs.
+const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: 'variable',
   style: ['normal', 'italic'],
-  variable: '--font-playfair',
+  axes: ['SOFT', 'WONK'],
+  variable: '--font-fraunces',
   display: 'swap',
 });
 
@@ -43,10 +48,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${manrope.variable} ${playfair.variable}`}>
-      <body className="min-h-screen antialiased">
+    <html lang="en" className={`${manrope.variable} ${fraunces.variable}`}>
+      <body className="min-h-screen overflow-x-hidden antialiased">
         <SiteHeader />
-        <main>{children}</main>
+        <main id="top">{children}</main>
         <SiteFooter />
         <FloatingContact />
         <RevealObserver />

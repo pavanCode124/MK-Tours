@@ -19,7 +19,11 @@ export default function PrivacyPage() {
     <>
       <PlainPageHero
         eyebrow={`Legal · Effective ${LEGAL_EFFECTIVE_DATE}`}
-        title="Privacy Policy"
+        title={
+          <>
+            Privacy <span className="flourish">Policy</span>
+          </>
+        }
         lede="What we collect when you plan a trip with us, why we need it, and who it is shared with."
         crumbs={[{ label: 'Privacy Policy' }]}
       />

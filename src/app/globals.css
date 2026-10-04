@@ -1,59 +1,80 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens.
+   Design tokens — "Monsoon Pine & Marigold".
 
-   A warm alpine-resort palette: deep slate for dark panels and headings, a
-   burnished gold for eyebrows, links and primary accents, terracotta for the
-   warm CTA panels, all sitting on a warm off-white page. Outfit carries the
-   display type at light weights; Inter carries everything else.
+   The palette is built from three things you actually see on these routes: the
+   wet-season pine and backwater green that carries every dark panel, the
+   marigold of a temple garland for accents and primary buttons, and a terracotta
+   that stands in for Rajasthan sandstone on the warm panels. Everything sits on
+   a paper-cream page.
+
+   Shape language: nothing is square. Cards are generously rounded and lifted on
+   a soft two-stage shadow; photographs are clipped to the same curve; dark
+   panels meet the page on a drawn arc rather than a straight edge.
    --------------------------------------------------------------------------- */
 @theme {
   /* Surfaces */
-  --color-bg: #fbfaf7;
-  --color-surface: #f2f0ea;
+  --color-bg: #fdfbf5;
+  --color-surface: #f5efe2;
   --color-raised: #ffffff;
-  --color-border: #e4e0d6;
-  --color-border-strong: #cfc8b8;
+  --color-border: #ece4d3;
+  --color-border-strong: #d6c9ae;
 
   /* Ink */
-  --color-text: #1c2a35;
-  --color-muted: #5a6b78;
-  --color-subtle: #8b9aa5;
-  --color-on-dark: #faf8f3;
+  --color-text: #14302c;
+  --color-muted: #4e6b65;
+  --color-subtle: #86a09a;
+  --color-on-dark: #f4fbf7;
 
-  /* Sherwood — the brand slate, used for dark panels and headings */
-  --color-sherwood-900: #121e28;
-  --color-sherwood-800: #1c2e3d;
-  --color-sherwood-700: #2a4457;
-  --color-sherwood-600: #3c6079;
-  --color-sherwood-200: #b5cad9;
+  /* Sherwood — the brand pine, used for dark panels and headings */
+  --color-sherwood-900: #0b211f;
+  --color-sherwood-800: #113430;
+  --color-sherwood-700: #1a4f46;
+  --color-sherwood-600: #28705f;
+  --color-sherwood-500: #3b8d76;
+  --color-sherwood-200: #a7d6c5;
+  --color-sherwood-100: #d6ece3;
 
-  /* Meadow — the burnished-gold accent for links, eyebrows and primary buttons */
-  --color-meadow-700: #a9771f;
-  --color-meadow-600: #c8912b;
-  --color-meadow-500: #dfa63c;
-  --color-meadow-300: #f0ce8c;
-  --color-meadow-50: #fbf3e3;
+  /* Meadow — the marigold accent for links, eyebrows and primary buttons */
+  --color-meadow-800: #93590f;
+  --color-meadow-700: #b36f16;
+  --color-meadow-600: #d08a1e;
+  --color-meadow-500: #eca22c;
+  --color-meadow-400: #f4bb5c;
+  --color-meadow-300: #f9d292;
+  --color-meadow-100: #fdedd0;
+  --color-meadow-50: #fdf6e8;
 
-  /* Warm accents */
-  --color-clay: #a64e2e;
-  --color-clay-600: #8a3f24;
-  --color-amber: #dfa63c;
-  --color-amber-50: #fdf4e3;
+  /* Warm accents — sandstone terracotta and a rose for the odd highlight */
+  --color-clay: #b85538;
+  --color-clay-600: #97412a;
+  --color-clay-100: #f7e3da;
+  --color-rose: #a84465;
+  --color-amber: #eca22c;
+  --color-amber-50: #fdf6e8;
 
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-playfair), ui-serif, Georgia, 'Times New Roman', serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, 'Times New Roman', serif;
 
-  /* Square-cornered by default: the reference UI uses hairlines, not pills. */
-  --radius-none: 0px;
+  /* Curves. The old design was square-cornered; this one never is. */
+  --radius-card: 1.5rem;
+  --radius-pane: 2rem;
+  --radius-hero: 2.75rem;
+
+  /* Two-stage soft shadows: a tight contact shadow plus a wide ambient one. */
+  --shadow-soft: 0 1px 2px rgba(11, 33, 31, 0.04), 0 10px 26px -14px rgba(11, 33, 31, 0.16);
+  --shadow-lift: 0 2px 4px rgba(11, 33, 31, 0.05), 0 22px 44px -20px rgba(11, 33, 31, 0.26);
+  --shadow-float: 0 4px 10px rgba(11, 33, 31, 0.07), 0 36px 70px -28px rgba(11, 33, 31, 0.34);
+  --shadow-glow: 0 10px 34px -12px rgba(236, 162, 44, 0.5);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* Legacy aliases kept so older markup keeps rendering while pages migrate. */
 @theme {
-  --color-primary: #1c2e3d;
-  --color-accent: #a9771f;
-  --color-accent-bright: #dfa63c;
+  --color-primary: #113430;
+  --color-accent: #b36f16;
+  --color-accent-bright: #eca22c;
 }
 
 html {
@@ -65,28 +86,38 @@ body {
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: 16px;
-  font-weight: 300;
-  line-height: 1.75;
+  font-weight: 400;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Display type is a light serif set open — the reference site's signature. The
-   old sans-serif tracking was negative; a serif at these sizes wants the
-   opposite, and section titles are set in caps with wide tracking. */
+/* Display type is a soft modern serif, set tight and in mixed case — the
+   opposite of the wide uppercase treatment this design replaced. */
 .font-display {
-  letter-spacing: 0.005em;
-  font-weight: 400;
+  letter-spacing: -0.018em;
+  font-weight: 600;
 }
 
-/* The section-title treatment: light serif caps, widely tracked. */
+/* Section titles: mixed case, tight, with an optional drawn flourish. */
 .display-caps {
-  text-transform: uppercase;
-  letter-spacing: 0.055em;
-  line-height: 1.16;
+  letter-spacing: -0.022em;
+  line-height: 1.08;
 }
 
-/* Hairline rules carry the layout in place of boxes and shadows. */
+/* A hand-drawn marigold underline for the key word in a heading. Drawn as the
+   element's own background so it always paints under the glyphs, whatever
+   stacking context the heading happens to sit in. */
+.flourish {
+  display: inline-block;
+  padding-bottom: 0.06em;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 10c34-7 72-9 104-6 24 2 48 6 92 2' fill='none' stroke='%23f4bb5c' stroke-width='6' stroke-linecap='round' opacity='.85'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 0.3em;
+}
+
+/* Hairline rules carry secondary structure; the layout itself rests on cards. */
 .hairline {
   border-top: 1px solid var(--color-border);
 }
@@ -96,15 +127,81 @@ body {
   color: var(--color-sherwood-900);
 }
 
-/* Keyboard focus is gold, never removed. */
+/* Keyboard focus is marigold, never removed. */
 :focus-visible {
   outline: 2px solid var(--color-meadow-600);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 /* The page gutter: fluid between 20px and 96px. */
 @utility gutter {
   padding-inline: clamp(20px, 1px + 5.94vw, 96px);
+}
+
+/* ---------------------------------------------------------------------------
+   Card surfaces
+   --------------------------------------------------------------------------- */
+
+/* The standard raised card: curved, hairlined, lifted, and lifting further on
+   hover. Used for every package, review, guide and info card on the site. */
+@utility card {
+  border-radius: var(--radius-card);
+  background: var(--color-raised);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease;
+}
+
+@utility card-hover {
+  box-shadow: var(--shadow-float);
+  transform: translateY(-4px);
+  border-color: var(--color-border-strong);
+}
+
+/* A tinted glass card for use over photography. */
+@utility glass {
+  border-radius: var(--radius-pane);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: var(--shadow-float), var(--shadow-inset);
+  backdrop-filter: blur(14px) saturate(130%);
+}
+
+/* A dark glass variant for panels sitting on the pine sections. */
+@utility glass-dark {
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+}
+
+/* ---------------------------------------------------------------------------
+   Decorative backgrounds
+   --------------------------------------------------------------------------- */
+
+/* A faint dotted field, used behind light sections so they are never flat. */
+@utility dotfield {
+  background-image: radial-gradient(var(--color-border-strong) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Soft marigold / pine light blooms, placed behind content. */
+@utility bloom-warm {
+  background: radial-gradient(closest-side, rgba(236, 162, 44, 0.28), rgba(236, 162, 44, 0));
+}
+@utility bloom-cool {
+  background: radial-gradient(closest-side, rgba(40, 112, 95, 0.22), rgba(40, 112, 95, 0));
+}
+
+/* The drawn arc a dark section meets the page on. */
+@utility arc-top {
+  border-start-start-radius: 50% 2.5rem;
+  border-start-end-radius: 50% 2.5rem;
+}
+@utility arc-bottom {
+  border-end-start-radius: 50% 2.5rem;
+  border-end-end-radius: 50% 2.5rem;
 }
 
 /* ---------------------------------------------------------------------------
@@ -114,7 +211,7 @@ body {
 @keyframes hero-fade-rise {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(22px);
   }
   to {
     opacity: 1;
@@ -128,7 +225,10 @@ body {
   animation: hero-fade-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .hero-form-in {
-  animation-delay: 0.18s;
+  animation-delay: 0.22s;
+}
+.hero-side-in {
+  animation: hero-fade-rise 1s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
 }
 
 /* The rotating hero word crossfades between entries. */
@@ -138,7 +238,7 @@ body {
 }
 .hero-word[data-swapping='true'] {
   opacity: 0;
-  transform: translateY(-6px);
+  transform: translateY(-8px) rotate(-1.5deg);
 }
 
 /* Sections fade up as they enter the viewport (progressive enhancement: the
@@ -146,8 +246,8 @@ body {
    no-js fallback keeps everything visible). */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(26px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 .reveal.is-visible {
@@ -155,7 +255,7 @@ body {
   transform: none;
 }
 
-/* Ambient sway for the decorative palm-silhouette watermark. */
+/* Ambient sway for the decorative palm and tree watermarks. */
 @keyframes palm-sway {
   0%,
   100% {
@@ -173,25 +273,127 @@ body {
   animation-delay: 1.2s;
 }
 
+/* A slower, wider sway for the big tree-line silhouettes. */
+@keyframes tree-breathe {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.6deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(0.6deg);
+  }
+}
+.tree-breathe {
+  transform-origin: bottom center;
+  animation: tree-breathe 11s ease-in-out infinite;
+}
+.tree-breathe-slow {
+  animation-duration: 15s;
+  animation-delay: 2s;
+}
+
 /* The slow drift behind the home hero photographs. */
 @keyframes slow-pan {
   from {
-    transform: scale(1.04);
+    transform: scale(1.05);
   }
   to {
-    transform: scale(1.12);
+    transform: scale(1.14);
   }
 }
 .slow-pan {
-  animation: slow-pan 14s ease-out both;
+  animation: slow-pan 16s ease-out both;
+}
+
+/* The aeroplane tracks its dashed arc and fades at either end. */
+@keyframes plane-track {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+.plane-track {
+  animation: plane-track 15s linear infinite;
+}
+
+/* The dashed vapour trail draws itself in behind the aeroplane. */
+@keyframes trail-draw {
+  from {
+    stroke-dashoffset: 420;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.trail-draw {
+  stroke-dasharray: 7 11;
+  animation: trail-draw 22s linear infinite;
+}
+
+/* Smoke and vapour puffs drift up and dissolve. */
+@keyframes smoke-drift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.85);
+  }
+  35% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(26px, -34px, 0) scale(1.5);
+  }
+}
+.smoke-drift {
+  animation: smoke-drift 13s ease-out infinite;
+}
+
+/* A gentle float for badges and medallions that sit over photographs. */
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+.float-soft {
+  animation: float-soft 7s ease-in-out infinite;
+}
+.float-soft-delay {
+  animation-delay: 1.6s;
+}
+
+/* A one-pass sheen that crosses a card's photograph on hover. */
+@keyframes sheen-sweep {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(260%) skewX(-18deg);
+  }
+}
+.group:hover .sheen {
+  animation: sheen-sweep 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Header mega-panels: a short rise-and-fade, driven by the open state. */
 .nav-panel {
   opacity: 0;
-  transform: translateY(6px);
+  transform: translateY(10px) scale(0.99);
   visibility: hidden;
-  transition: opacity 170ms ease, transform 170ms cubic-bezier(0.16, 1, 0.3, 1), visibility 170ms;
+  transition: opacity 190ms ease, transform 190ms cubic-bezier(0.16, 1, 0.3, 1), visibility 190ms;
 }
 .nav-panel[data-open='true'] {
   opacity: 1;
@@ -202,10 +404,13 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .hero-copy-in,
   .hero-form-in,
+  .hero-side-in,
   .reveal,
   .hero-word,
   .slow-pan,
-  .nav-panel {
+  .nav-panel,
+  .float-soft,
+  .tree-breathe {
     animation: none !important;
     transition: none !important;
     opacity: 1 !important;
@@ -217,7 +422,10 @@ body {
   .nav-panel[data-open='true'] {
     opacity: 1 !important;
   }
-  .palm-sway {
+  .palm-sway,
+  .plane-track,
+  .trail-draw,
+  .smoke-drift {
     animation: none !important;
   }
   html {
@@ -232,6 +440,12 @@ body {
 }
 .rail::-webkit-scrollbar {
   display: none;
+}
+
+/* Vertical scroll areas inside nav panels keep a slim marigold thumb. */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
 }
 
 /* ---------------------------------------------------------------------------
@@ -250,6 +464,9 @@ body {
   margin: 0.4rem 0;
   line-height: 1.7;
 }
+.rich-text li::marker {
+  color: var(--color-meadow-600);
+}
 .rich-text p {
   margin: 0.6rem 0;
   line-height: 1.8;
@@ -257,8 +474,8 @@ body {
 .rich-text h2 {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  font-weight: 500;
-  letter-spacing: -0.015em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--color-text);
   margin: 2.25rem 0 0.65rem;
 }
@@ -268,7 +485,7 @@ body {
 .rich-text h3 {
   font-family: var(--font-display);
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text);
   margin-top: 1.25rem;
 }

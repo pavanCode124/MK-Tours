@@ -5,16 +5,53 @@ import type { ReactNode } from 'react';
 /* Type                                                                       */
 /* -------------------------------------------------------------------------- */
 
-/** The small uppercase gold label that sits above every section heading. */
-export function Eyebrow({ children, className = '' }: { children: ReactNode; className?: string }) {
+/**
+ * The small label above a section heading. It now sits in a soft marigold
+ * capsule with a leading dot rather than floating as bare tracked-out caps, so
+ * it reads as a tag on the section instead of a line of small print.
+ */
+export function Eyebrow({
+  children,
+  tone = 'warm',
+  className = '',
+}: {
+  children: ReactNode;
+  tone?: 'warm' | 'dark' | 'bare';
+  className?: string;
+}) {
+  if (tone === 'bare') {
+    return (
+      <span
+        className={`block text-[10.5px] font-bold uppercase tracking-[0.2em] text-meadow-700 ${className}`}
+      >
+        {children}
+      </span>
+    );
+  }
+  const skin =
+    tone === 'dark'
+      ? 'border-meadow-300/35 bg-white/8 text-meadow-300'
+      : 'border-meadow-300/70 bg-meadow-50 text-meadow-700';
   return (
-    <span className={`block text-[10.5px] font-medium uppercase tracking-[0.26em] text-meadow-700 ${className}`}>
+    <span
+      className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.16em] ${skin} ${className}`}
+    >
+      <span className="h-1.5 w-1.5 rounded-full bg-current" />
       {children}
     </span>
   );
 }
 
-/** Display heading: the editorial serif at a regular weight, open leading. */
+/**
+ * Display heading: the soft serif set tight, in mixed case.
+ *
+ * Deliberately sets no colour of its own. A base `text-text` here would win
+ * against a `text-on-dark` passed in `className` — Tailwind resolves same-property
+ * utilities by stylesheet order, not by the order they appear in the attribute —
+ * which silently painted dark headings onto the dark panels. Inheriting instead
+ * means a heading is the colour of whatever section it sits in, and a caller can
+ * still override it.
+ */
 export function Display({
   children,
   as: Tag = 'h2',
@@ -25,14 +62,13 @@ export function Display({
   className?: string;
 }) {
   return (
-    <Tag className={`font-display font-normal leading-[1.18] tracking-[0.01em] text-text ${className}`}>{children}</Tag>
+    <Tag className={`font-display font-semibold leading-[1.1] tracking-[-0.02em] ${className}`}>{children}</Tag>
   );
 }
 
 /**
  * Section header: eyebrow, display heading, optional lede and a trailing link.
- * `align` switches between the left-aligned and centred variants the reference
- * site alternates between.
+ * `align` switches between the left-aligned and centred variants.
  */
 export function SectionHeading({
   eyebrow,
@@ -40,6 +76,7 @@ export function SectionHeading({
   lede,
   link,
   align = 'left',
+  tone = 'light',
   className = '',
 }: {
   eyebrow?: string;
@@ -47,36 +84,37 @@ export function SectionHeading({
   lede?: ReactNode;
   link?: { href: string; label: string };
   align?: 'left' | 'center';
+  tone?: 'light' | 'dark';
   className?: string;
 }) {
   const centered = align === 'center';
+  const dark = tone === 'dark';
   return (
     <div
-      className={`${centered ? 'text-center' : 'flex flex-wrap items-end justify-between gap-x-6 gap-y-3'} ${className}`}
+      className={`${centered ? 'text-center' : 'flex flex-wrap items-end justify-between gap-x-8 gap-y-4'} ${className}`}
     >
       <div className={centered ? 'mx-auto max-w-2xl' : 'max-w-2xl'}>
-        {eyebrow && (
-          <Eyebrow className={centered ? 'mb-3' : 'mb-2.5'}>
-            {centered ? (
-              <span className="inline-flex items-center gap-3">
-                <span className="h-px w-10 bg-meadow-600/50" />
-                {eyebrow}
-                <span className="h-px w-10 bg-meadow-600/50" />
-              </span>
-            ) : (
-              eyebrow
-            )}
-          </Eyebrow>
+        {eyebrow && <Eyebrow tone={dark ? 'dark' : 'warm'} className="mb-4">{eyebrow}</Eyebrow>}
+        <Display
+          className={`display-caps text-[30px] sm:text-[38px] lg:text-[45px] ${dark ? 'text-on-dark' : ''}`}
+        >
+          {title}
+        </Display>
+        {lede && (
+          <p className={`mt-5 text-[15px] leading-[1.8] ${dark ? 'text-on-dark/75' : 'text-muted'}`}>{lede}</p>
         )}
-        <Display className="display-caps text-[27px] sm:text-[34px] lg:text-[40px]">{title}</Display>
-        {lede && <p className="mt-5 text-[15px] font-light leading-[1.85] text-muted">{lede}</p>}
       </div>
       {link && (
         <Link
           href={link.href}
-          className="shrink-0 rounded-full border border-border-strong px-6 py-3 text-[11px] font-medium uppercase tracking-[0.18em] text-text transition-colors hover:border-sherwood-800 hover:bg-sherwood-800 hover:text-on-dark"
+          className={`group/link inline-flex shrink-0 items-center gap-2 rounded-full border px-6 py-3 text-[11.5px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ${
+            dark
+              ? 'border-white/25 text-on-dark hover:border-meadow-400 hover:bg-meadow-500 hover:text-sherwood-900'
+              : 'border-border-strong bg-raised text-text shadow-soft hover:-translate-y-0.5 hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark hover:shadow-lift'
+          }`}
         >
-          {link.label} →
+          {link.label}
+          <span className="transition-transform duration-300 group-hover/link:translate-x-1">→</span>
         </Link>
       )}
     </div>
@@ -88,19 +126,21 @@ export function SectionHeading({
 /* -------------------------------------------------------------------------- */
 
 const BTN_BASE =
-  'inline-flex items-center justify-center gap-2 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] transition-colors duration-200';
+  'group/btn inline-flex items-center justify-center gap-2 rounded-full text-[11.5px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0';
 
 const BTN_VARIANTS = {
-  solid: 'bg-sherwood-900 text-on-dark hover:bg-sherwood-700',
-  meadow: 'bg-meadow-700 text-white hover:bg-sherwood-900',
-  outline: 'border border-border-strong bg-transparent text-text hover:border-sherwood-900 hover:bg-sherwood-900 hover:text-on-dark',
-  onDark: 'border border-on-dark/40 text-on-dark hover:border-on-dark hover:bg-on-dark hover:text-sherwood-900',
-  clay: 'bg-clay text-white hover:bg-clay-600',
+  solid: 'bg-sherwood-900 text-on-dark shadow-lift hover:bg-sherwood-700 hover:shadow-float',
+  meadow: 'bg-meadow-500 text-sherwood-900 shadow-glow hover:bg-meadow-400 hover:shadow-float',
+  outline:
+    'border border-border-strong bg-raised text-text shadow-soft hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark hover:shadow-lift',
+  onDark: 'border border-on-dark/35 text-on-dark backdrop-blur-sm hover:border-on-dark hover:bg-on-dark hover:text-sherwood-900',
+  clay: 'bg-clay text-white shadow-lift hover:bg-clay-600 hover:shadow-float',
+  ghost: 'text-meadow-700 hover:text-sherwood-800',
 } as const;
 
 const BTN_SIZES = {
   sm: 'px-6 py-3',
-  md: 'px-9 py-4',
+  md: 'px-8 py-4',
 } as const;
 
 export function Button({
@@ -109,6 +149,7 @@ export function Button({
   variant = 'solid',
   size = 'md',
   external,
+  arrow = true,
   className = '',
 }: {
   href: string;
@@ -116,19 +157,31 @@ export function Button({
   variant?: keyof typeof BTN_VARIANTS;
   size?: keyof typeof BTN_SIZES;
   external?: boolean;
+  /** The trailing arrow. Turn it off for buttons whose label is a count. */
+  arrow?: boolean;
   className?: string;
 }) {
   const classes = `${BTN_BASE} ${BTN_VARIANTS[variant]} ${BTN_SIZES[size]} ${className}`;
+  const inner = (
+    <>
+      {children}
+      {arrow && (
+        <span aria-hidden="true" className="transition-transform duration-300 group-hover/btn:translate-x-1">
+          →
+        </span>
+      )}
+    </>
+  );
   if (external) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
-        {children}
+        {inner}
       </a>
     );
   }
   return (
     <Link href={href} className={classes}>
-      {children}
+      {inner}
     </Link>
   );
 }
@@ -139,33 +192,95 @@ export function Button({
 
 export function Stars({ count = 5, className = '' }: { count?: number; className?: string }) {
   return (
-    <span className={`inline-flex text-amber ${className}`} aria-label={`${count} out of 5 stars`}>
+    <span className={`inline-flex gap-0.5 text-meadow-500 ${className}`} aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: 5 }, (_, i) => (
-        <svg key={i} viewBox="0 0 20 20" className="h-3.5 w-3.5" fill={i < count ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
-          <path d="M10 1.8l2.5 5.1 5.6.8-4 4 1 5.6-5.1-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z" />
+        <svg
+          key={i}
+          viewBox="0 0 20 20"
+          className="h-3.5 w-3.5"
+          fill={i < count ? 'currentColor' : 'none'}
+          stroke="currentColor"
+          strokeWidth="1.3"
+          aria-hidden="true"
+        >
+          <path d="M10 1.8l2.5 5.1 5.6.8-4 4 1 5.6-5.1-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z" strokeLinejoin="round" />
         </svg>
       ))}
     </span>
   );
 }
 
-/** A thin ruled divider in the warm border colour. */
+/** A thin ruled divider in the warm border colour, tapering at both ends. */
 export function Rule({ className = '' }: { className?: string }) {
-  return <div className={`h-px w-full bg-border ${className}`} />;
+  return (
+    <div
+      className={`h-px w-full bg-gradient-to-r from-transparent via-border-strong to-transparent ${className}`}
+    />
+  );
 }
 
 export function Pill({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full bg-text/75 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-on-dark backdrop-blur-sm ${className}`}
+      className={`inline-flex items-center rounded-full bg-sherwood-900/75 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-on-dark shadow-soft backdrop-blur-md ${className}`}
     >
       {children}
     </span>
   );
 }
 
+/**
+ * A rounded tile with an icon in a tinted roundel — the small unit that carries
+ * contact details, facts and notes throughout the site.
+ */
+export function IconTile({
+  icon,
+  children,
+  className = '',
+}: {
+  icon: IconName;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`card flex flex-col p-6 hover:card-hover ${className}`}>
+      <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50">
+        <Icon name={icon} className="h-5 w-5" />
+      </span>
+      {children}
+    </div>
+  );
+}
+
+/** A number + label stat, used in the trust strips. */
+export function Stat({
+  top,
+  label,
+  note,
+  highlight = false,
+}: {
+  top: string;
+  label: string;
+  note?: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="group/stat rounded-2xl px-4 py-5 text-center transition-colors duration-300 hover:bg-meadow-50/70">
+      <div
+        className={`font-display text-[20px] font-semibold leading-none ${
+          highlight ? 'text-meadow-500' : 'text-sherwood-700'
+        }`}
+      >
+        {top}
+      </div>
+      <div className="mt-1.5 text-[12.5px] font-bold text-text">{label}</div>
+      {note && <div className="mt-0.5 text-[11px] text-subtle">{note}</div>}
+    </div>
+  );
+}
+
 /* -------------------------------------------------------------------------- */
-/* Icons — thin line set, matching the reference's stroke weight              */
+/* Icons — rounded line set                                                   */
 /* -------------------------------------------------------------------------- */
 
 const ICON_PATHS = {
@@ -185,6 +300,14 @@ const ICON_PATHS = {
   compass: 'M12 21a9 9 0 100-18 9 9 0 000 18z M15.5 8.5l-2 5-5 2 2-5z',
   check: 'M4.5 12.5l5 5 10-11',
   arrow: 'M4 12h15 M13 6l6 6-6 6',
+  plane: 'M21 15.5v-2l-8-2.8V6a1.5 1.5 0 00-3 0v4.7L2 13.5v2l8-1.6v3.6l-2.5 1.6V21l4-1.2 4 1.2v-1.9L13 17.5v-3.6z',
+  camera: 'M3.5 8.5h3l1.5-2.5h8L17.5 8.5h3v11h-17z M12 17.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z',
+  tree: 'M12 21v-5 M12 3l5 7h-3.5l3.5 5H7l3.5-5H7z',
+  leaf: 'M20 4C10 4 4 9 4 17c0 1 .2 2 .5 3 6-9 10-11 15.5-16z M7 17c3-6 7-8 11-10',
+  heart: 'M12 20C7 16.5 3.5 13.5 3.5 10a4 4 0 017.1-2.5L12 9l1.4-1.5A4 4 0 0120.5 10c0 3.5-3.5 6.5-8.5 10z',
+  sparkle: 'M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6z M18 16l.8 2.2L21 19l-2.2.8L18 22l-.8-2.2L15 19l2.2-.8z',
+  wallet: 'M3.5 7.5h17v11h-17z M3.5 7.5l12-3 1 3 M16 13h2',
+  clock: 'M12 21a9 9 0 100-18 9 9 0 000 18z M12 7.5V12l3.2 2',
 } as const;
 
 export type IconName = keyof typeof ICON_PATHS;
@@ -196,7 +319,7 @@ export function Icon({ name, className = 'h-5 w-5' }: { name: IconName; classNam
       className={className}
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.4"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
