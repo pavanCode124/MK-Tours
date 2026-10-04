@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Sampled from the reference site's computed styles so the two
+   sites share one visual language: a warm paper background, deep sherwood
+   greens, a single bright meadow accent, and Cormorant Garamond for display.
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Surfaces */
+  --color-bg: #fdfbf7;
+  --color-surface: #f7f2e9;
+  --color-raised: #ffffff;
+  --color-border: #ede5d6;
+  --color-border-strong: #dcd1bd;
+
+  /* Ink */
+  --color-text: #302c25;
+  --color-muted: #6b6355;
+  --color-subtle: #8f8574;
+  --color-on-dark: #fdfbf7;
+
+  /* Sherwood — the brand green, used for dark panels and headings */
+  --color-sherwood-900: #00301f;
+  --color-sherwood-800: #004a36;
+  --color-sherwood-700: #005c43;
+  --color-sherwood-600: #016e51;
+  --color-sherwood-200: #a8d5c5;
+
+  /* Meadow — the bright accent for links, eyebrows and primary buttons */
+  --color-meadow-700: #007f46;
+  --color-meadow-600: #00a85c;
+  --color-meadow-500: #00c46c;
+  --color-meadow-300: #5fe0a0;
+  --color-meadow-50: #e8f8f0;
+
+  /* Warm accents */
+  --color-clay: #a45c00;
+  --color-clay-600: #8d4e00;
+  --color-amber: #e39a0c;
+  --color-amber-50: #fdf3e0;
+
+  --font-sans: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+}
+
+/* Legacy aliases kept so older markup keeps rendering while pages migrate. */
+@theme {
+  --color-primary: #004a36;
+  --color-accent: #007f46;
+  --color-accent-bright: #00c46c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The page gutter the reference site uses: fluid between 20px and 96px. */
+@utility gutter {
+  padding-inline: clamp(20px, 1px + 5.94vw, 96px);
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+   --------------------------------------------------------------------------- */
+
+@keyframes hero-fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero copy and the search card rise in on load, the card a beat later. */
+.hero-copy-in,
+.hero-form-in {
+  animation: hero-fade-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-form-in {
+  animation-delay: 0.15s;
+}
+
+/* The rotating hero word crossfades between entries. */
+.hero-word {
+  display: inline-block;
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+.hero-word[data-swapping='true'] {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+/* Sections fade up as they enter the viewport (progressive enhancement: the
+   .is-visible class is added by an IntersectionObserver; without JS the
+   no-js fallback below keeps everything visible). */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy-in,
+  .hero-form-in,
+  .reveal,
+  .hero-word {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Horizontal rails (destinations, gallery) hide their scrollbar. */
+.rail {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   CRM-authored rich text (inclusions, policies, itinerary points)
+   --------------------------------------------------------------------------- */
+.rich-text ul,
+.rich-text ol {
+  padding-left: 1.15rem;
+  margin: 0.5rem 0;
+  list-style: disc;
+}
+.rich-text ol {
+  list-style: decimal;
+}
+.rich-text li {
+  margin: 0.4rem 0;
+  line-height: 1.65;
+}
+.rich-text p {
+  margin: 0.5rem 0;
+  line-height: 1.7;
+}
+.rich-text h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 1rem;
+}
+.rich-text strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Native details markers are replaced by our own +/− affordance. */
+summary::-webkit-details-marker {
+  display: none;
+}
+summary {
+  list-style: none;
+}
