@@ -12,6 +12,7 @@ import {
   Pillar,
   ReviewCard,
 } from '@/components/sections';
+import { PalmTrees } from '@/components/PalmTrees';
 import { Button, Display, Eyebrow, Icon, SectionHeading, Stars } from '@/components/ui';
 import {
   allDestinations,
@@ -58,7 +59,7 @@ export default async function HomePage() {
   return (
     <>
       <Hero
-        headline={`${host?.name ?? AGENCY.name} — Private & Group Tours Across India & Nepal`}
+        headline="Fixed-departure group tours and private trips across India and Nepal — train, hotels, meals, transport and sightseeing in one honest price."
         states={byState.map((g) => ({ value: g.state, label: g.state }))}
         destinations={destinations.map((d) => ({ value: d.slug, label: d.label }))}
         cities={DEPARTURE_CITIES.map((c) => ({ value: c.slug, label: c.label }))}
@@ -80,29 +81,33 @@ export default async function HomePage() {
       </section>
 
       {/* Where are you travelling from */}
-      <Section>
-        <div className="reveal">
-          <SectionHeading
-            align="center"
-            eyebrow="Select your city"
-            title="Where Are You Travelling From?"
-            lede="Every fixed departure leaves by train from Mumbai, with boarding available at Pune — so you reach the start of the trip without a connecting flight."
-          />
-        </div>
-        <div className="reveal mt-10 grid gap-5 md:grid-cols-2">
-          {DEPARTURE_CITIES.map((c) => (
-            <CityCard
-              key={c.slug}
-              label={c.label}
-              state={c.state}
-              note={c.note}
-              image={c.image}
-              count={packages.length}
-              href={`/packages?city=${c.slug}`}
+      <section className="relative overflow-hidden py-20 lg:py-28">
+        <PalmTrees className="pointer-events-none absolute -bottom-2 -left-2 hidden h-40 opacity-[0.07] sm:block lg:h-52" />
+        <PalmTrees className="palm-sway-delay pointer-events-none absolute -bottom-4 -right-4 hidden h-32 scale-x-[-1] opacity-[0.07] md:block lg:h-44" />
+        <div className="relative mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
+          <div className="reveal">
+            <SectionHeading
+              align="center"
+              eyebrow="Select your city"
+              title="Where Are You Travelling From?"
+              lede="Every fixed departure leaves by train from Mumbai, with boarding available at Pune — so you reach the start of the trip without a connecting flight."
             />
-          ))}
+          </div>
+          <div className="reveal mt-10 grid gap-5 md:grid-cols-2">
+            {DEPARTURE_CITIES.map((c) => (
+              <CityCard
+                key={c.slug}
+                label={c.label}
+                state={c.state}
+                note={c.note}
+                image={c.image}
+                count={packages.length}
+                href={`/packages?city=${c.slug}`}
+              />
+            ))}
+          </div>
         </div>
-      </Section>
+      </section>
 
       {/* Top destinations */}
       <Section>
@@ -118,16 +123,16 @@ export default async function HomePage() {
         </div>
         <div className="reveal mt-9 text-center">
           <Button href="/destinations" variant="solid">
-            View All Destinations →
+            View All Destinations
           </Button>
         </div>
       </Section>
 
       {/* Who we are */}
-      <Section>
+      <Section tone="warm">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="reveal relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-md sm:aspect-[4/3] lg:aspect-[4/5]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl sm:aspect-[4/3] lg:aspect-[4/5]">
               <Image
                 src="/images/about-group.jpg"
                 alt="Travellers above Phewa Lake with the Annapurna range behind"
@@ -136,8 +141,8 @@ export default async function HomePage() {
                 className="object-cover"
               />
             </div>
-            <div className="absolute -bottom-5 right-5 rounded-md bg-sherwood-800 px-6 py-4 text-center shadow-lg sm:right-10">
-              <div className="font-display text-[26px] font-medium leading-none text-on-dark">Since {AGENCY.since}</div>
+            <div className="absolute -bottom-5 right-5 rounded-2xl bg-sherwood-900 px-6 py-4 text-center shadow-xl sm:right-10">
+              <div className="font-display text-[26px] font-normal leading-none text-on-dark">Since {AGENCY.since}</div>
               <div className="mt-1 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-meadow-300">
                 Group departures
               </div>
@@ -145,11 +150,11 @@ export default async function HomePage() {
           </div>
 
           <div className="reveal">
-            <Eyebrow className="mb-3">Who we are</Eyebrow>
-            <Display className="text-[30px] sm:text-[36px] lg:text-[42px]">
+            <Eyebrow className="mb-3 !text-meadow-300">Who we are</Eyebrow>
+            <Display className="text-[32px] text-on-dark sm:text-[38px] lg:text-[46px]">
               A Trusted Travel Partner for Private &amp; Group Journeys
             </Display>
-            <div className="mt-6 space-y-4 text-[14.5px] leading-[1.75] text-muted">
+            <div className="mt-7 space-y-4 text-[14.5px] leading-[1.8] text-on-dark/85">
               <p>
                 MK Tours has been running group journeys across India since {AGENCY.since}. More than {AGENCY.travellers}{' '}
                 travellers have gone out with us since — on pilgrimage circuits through the Ganga plain, up into the
@@ -171,15 +176,15 @@ export default async function HomePage() {
                 who chose the same trip for the same reasons. Either way, you travel with someone who answers the phone.
               </p>
             </div>
-            <Button href="/about" variant="outline" className="mt-8">
-              Learn More About How We Work →
+            <Button href="/about" variant="onDark" className="mt-9">
+              Learn More About How We Work
             </Button>
           </div>
         </div>
       </Section>
 
       {/* Packages */}
-      <section className="bg-surface py-16 lg:py-20">
+      <section className="bg-surface py-20 lg:py-28">
         <div className="mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
           <div className="reveal">
             <SectionHeading
@@ -193,7 +198,7 @@ export default async function HomePage() {
           </div>
           <div className="reveal mt-12 text-center">
             <Button href="/packages" variant="solid">
-              View All Packages →
+              View All Packages
             </Button>
           </div>
         </div>
@@ -211,14 +216,14 @@ export default async function HomePage() {
         </div>
 
         <div className="reveal mt-10 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-md border border-border bg-raised p-6">
+          <div className="rounded-2xl border border-border bg-raised p-6">
             <div className="mb-5 flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-sm bg-meadow-50 text-meadow-700">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
                 <Icon name="calendar" className="h-[18px] w-[18px]" />
               </span>
               <div className="flex-1">
                 <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-meadow-700">By duration</div>
-                <div className="font-display text-[20px] font-medium leading-tight text-text">Trip Length</div>
+                <div className="font-display text-[20px] font-normal leading-tight text-text">Trip Length</div>
               </div>
               <span className="text-[11px] text-subtle">{durations.length} lengths</span>
             </div>
@@ -227,9 +232,9 @@ export default async function HomePage() {
                 <Link
                   key={d.days}
                   href={`/packages?duration=${d.days}`}
-                  className="rounded-sm border border-border p-4 transition-colors hover:border-sherwood-800 hover:bg-surface"
+                  className="rounded-xl border border-border p-4 transition-colors hover:border-sherwood-800 hover:bg-surface"
                 >
-                  <div className="font-display text-[22px] font-medium leading-none text-text">{d.days}D</div>
+                  <div className="font-display text-[22px] font-normal leading-none text-text">{d.days}D</div>
                   <div className="mt-1.5 text-[12px] text-muted">{d.nights} Nights</div>
                   <div className="mt-0.5 text-[11px] text-subtle">
                     {d.count} {d.count === 1 ? 'tour' : 'tours'}
@@ -239,14 +244,14 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-md border border-border bg-raised p-6">
+          <div className="rounded-2xl border border-border bg-raised p-6">
             <div className="mb-5 flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-sm bg-meadow-50 text-meadow-700">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
                 <Icon name="compass" className="h-[18px] w-[18px]" />
               </span>
               <div className="flex-1">
                 <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-meadow-700">By season</div>
-                <div className="font-display text-[20px] font-medium leading-tight text-text">Travel Window</div>
+                <div className="font-display text-[20px] font-normal leading-tight text-text">Travel Window</div>
               </div>
               <span className="text-[11px] text-subtle">{SEASONS.length} seasons</span>
             </div>
@@ -257,9 +262,9 @@ export default async function HomePage() {
                   <Link
                     key={s.slug}
                     href={`/packages?season=${s.slug}`}
-                    className={`rounded-sm border p-4 transition-shadow hover:shadow-sm ${s.tone}`}
+                    className={`rounded-xl border p-4 transition-shadow hover:shadow-sm ${s.tone}`}
                   >
-                    <div className="font-display text-[19px] font-medium leading-tight text-text">{s.label}</div>
+                    <div className="font-display text-[19px] font-normal leading-tight text-text">{s.label}</div>
                     <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-meadow-700">
                       {s.window}
                     </div>
@@ -274,14 +279,14 @@ export default async function HomePage() {
         </div>
 
         {/* Themes */}
-        <div className="reveal mt-5 rounded-md border border-border bg-raised p-6">
+        <div className="reveal mt-5 rounded-2xl border border-border bg-raised p-6">
           <div className="mb-5 flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-sm bg-meadow-50 text-meadow-700">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
               <Icon name="star" className="h-[18px] w-[18px]" />
             </span>
             <div className="flex-1">
               <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-meadow-700">By theme</div>
-              <div className="font-display text-[20px] font-medium leading-tight text-text">What the trip is for</div>
+              <div className="font-display text-[20px] font-normal leading-tight text-text">What the trip is for</div>
             </div>
             <span className="text-[11px] text-subtle">{themes.length} themes</span>
           </div>
@@ -290,7 +295,7 @@ export default async function HomePage() {
               <Link
                 key={t.slug}
                 href={`/themes/${t.slug}`}
-                className="rounded-sm border border-border px-4 py-2.5 text-[12.5px] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
+                className="rounded-xl border border-border px-4 py-2.5 text-[12.5px] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
               >
                 {t.label} <span className="text-subtle">({t.count})</span>
               </Link>
@@ -300,25 +305,23 @@ export default async function HomePage() {
       </Section>
 
       {/* Why us */}
-      <section className="pb-16 lg:pb-20">
-        <div className="mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
-          <div className="reveal rounded-md bg-sherwood-800 px-6 py-12 lg:px-10 lg:py-14">
-            <div className="text-center">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-meadow-300">
-                Why MK Tours
-              </span>
-              <Display className="mt-3 text-[28px] text-on-dark sm:text-[34px] lg:text-[38px]">
-                Travel the Way It Was Meant to Be
-              </Display>
-            </div>
-            <div className="mt-11 grid divide-y divide-white/10 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x">
-              {PILLARS.map((p) => (
-                <Pillar key={p.title} icon={p.icon} title={p.title} text={p.text} />
-              ))}
-            </div>
-          </div>
+      <Section tone="dark">
+        <div className="reveal text-center">
+          <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-meadow-300">
+            <span className="h-px w-10 bg-meadow-300/50" />
+            Why MK Tours
+            <span className="h-px w-10 bg-meadow-300/50" />
+          </span>
+          <Display className="mx-auto mt-4 max-w-3xl text-[32px] text-on-dark sm:text-[40px] lg:text-[46px]">
+            Travel the Way It Was Meant to Be
+          </Display>
         </div>
-      </section>
+        <div className="reveal mt-14 grid divide-y divide-white/10 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x lg:divide-white/10">
+          {PILLARS.map((p) => (
+            <Pillar key={p.title} icon={p.icon} title={p.title} text={p.text} />
+          ))}
+        </div>
+      </Section>
 
       {/* Reviews */}
       <Section>
@@ -327,8 +330,8 @@ export default async function HomePage() {
             <Eyebrow className="mb-2.5">Reviews</Eyebrow>
             <Display className="text-[30px] sm:text-[36px] lg:text-[40px]">What Our Travellers Say</Display>
           </div>
-          <div className="flex items-center gap-3 rounded-md border border-border bg-amber-50 px-5 py-3">
-            <span className="font-display text-[26px] font-medium leading-none text-sherwood-800">4.9</span>
+          <div className="flex items-center gap-3 rounded-2xl border border-border bg-amber-50 px-5 py-3">
+            <span className="font-display text-[26px] font-normal leading-none text-sherwood-800">4.9</span>
             <span>
               <Stars />
               <span className="mt-0.5 block text-[11px] text-muted">Google rating</span>
@@ -343,7 +346,7 @@ export default async function HomePage() {
       </Section>
 
       {/* Gallery strip */}
-      <section className="reveal pb-16 lg:pb-20">
+      <section className="reveal pb-20 lg:pb-28">
         <div className="mx-auto max-w-[1280px] md:px-8 lg:px-12">
           <GalleryStrip items={gallery} />
         </div>
@@ -353,7 +356,7 @@ export default async function HomePage() {
       <Section>
         <div className="reveal flex flex-wrap items-end justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-sm bg-surface text-sherwood-800">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-surface text-sherwood-800">
               <Icon name="book" className="h-[18px] w-[18px]" />
             </span>
             <Display className="text-[28px] sm:text-[34px]">Read Before You Go</Display>
@@ -392,9 +395,9 @@ export default async function HomePage() {
       </Section>
 
       {/* Talk to us */}
-      <section className="pb-16 lg:pb-20">
+      <section className="pb-20 lg:pb-28">
         <div className="mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
-          <div className="reveal flex flex-col gap-7 rounded-md bg-clay px-7 py-9 text-on-dark sm:px-10 lg:flex-row lg:items-center lg:justify-between">
+          <div className="reveal flex flex-col gap-7 rounded-[28px] bg-sherwood-800 px-7 py-11 text-on-dark sm:px-12 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
               <Display className="text-[26px] text-on-dark sm:text-[30px]">Have questions? Let&apos;s talk.</Display>
               <p className="mt-2.5 text-[13.5px] leading-relaxed text-on-dark/85">
@@ -423,9 +426,24 @@ export default async function HomePage() {
 
 /* -------------------------------------------------------------------------- */
 
-function Section({ children }: { children: React.ReactNode }) {
+const SECTION_TONES = {
+  light: 'bg-bg',
+  surface: 'bg-surface',
+  dark: 'bg-sherwood-900 text-on-dark',
+  warm: 'bg-clay text-on-dark',
+} as const;
+
+function Section({
+  children,
+  tone = 'light',
+  className = '',
+}: {
+  children: React.ReactNode;
+  tone?: keyof typeof SECTION_TONES;
+  className?: string;
+}) {
   return (
-    <section className="py-16 lg:py-20">
+    <section className={`${SECTION_TONES[tone]} py-20 lg:py-28 ${className}`}>
       <div className="mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">{children}</div>
     </section>
   );

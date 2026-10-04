@@ -41,7 +41,7 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
   const tagline = packageTagline(pkg);
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-md border border-border bg-raised transition-shadow duration-300 hover:shadow-[0_10px_30px_rgba(48,44,37,.12)]">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-raised transition-shadow duration-300 hover:shadow-[0_10px_30px_rgba(48,44,37,.12)]">
       <Link href={href} className="relative block aspect-[16/10] overflow-hidden bg-surface">
         <Image
           src={image.src}
@@ -52,7 +52,7 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
           className="object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.04]"
         />
         {duration && (
-          <span className="absolute right-3 top-3 rounded-sm bg-text/75 px-2.5 py-1 text-[10px] font-semibold text-on-dark backdrop-blur-sm">
+          <span className="absolute right-3 top-3 rounded-xl bg-text/75 px-2.5 py-1 text-[10px] font-semibold text-on-dark backdrop-blur-sm">
             {duration}
           </span>
         )}
@@ -61,7 +61,7 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
       <div className="flex flex-1 flex-col p-5">
         <span className="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-subtle">{contextLine(pkg)}</span>
         <Link href={href} className="mt-1.5">
-          <h3 className="font-display text-[21px] font-medium leading-tight text-text transition-colors group-hover:text-meadow-700">
+          <h3 className="font-display text-[21px] font-normal leading-tight text-text transition-colors group-hover:text-meadow-700">
             {pkg.package_name.replace(/ Group Tour$/, '')}
           </h3>
         </Link>
@@ -91,13 +91,13 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
             <div className="flex shrink-0 gap-2">
               <Link
                 href={href}
-                className="rounded-sm border border-border-strong px-3.5 py-2 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
+                className="rounded-xl border border-border-strong px-3.5 py-2 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
               >
                 Details
               </Link>
               <Link
                 href={`${href}#book`}
-                className="rounded-sm bg-sherwood-800 px-3.5 py-2 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-on-dark transition-colors hover:bg-sherwood-900"
+                className="rounded-xl bg-sherwood-800 px-3.5 py-2 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-on-dark transition-colors hover:bg-sherwood-900"
               >
                 Book Now
               </Link>

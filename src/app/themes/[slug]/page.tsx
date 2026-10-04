@@ -62,7 +62,7 @@ export default async function ThemePage({ params }: Props) {
             ))}
           </div>
         ) : (
-          <div className="rounded-md border border-border bg-surface px-6 py-14 text-center">
+          <div className="rounded-2xl border border-border bg-surface px-6 py-14 text-center">
             <p className="text-[14px] text-muted">Nothing scheduled under this theme at the moment.</p>
             {wa && (
               <Button href={wa} external variant="solid" className="mt-6">
@@ -80,7 +80,7 @@ export default async function ThemePage({ params }: Props) {
                 <Link
                   key={t.slug}
                   href={`/themes/${t.slug}`}
-                  className="rounded-sm border border-border-strong bg-raised px-4 py-2.5 text-[12.5px] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
+                  className="rounded-xl border border-border-strong bg-raised px-4 py-2.5 text-[12.5px] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
                 >
                   {t.label} <span className="text-subtle">({t.count})</span>
                 </Link>

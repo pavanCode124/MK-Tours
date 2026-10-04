@@ -17,7 +17,7 @@ export function DestinationCard({
   return (
     <Link
       href={`/destinations/${destination.slug}`}
-      className={`group relative block overflow-hidden rounded-t-[999px] rounded-b-md bg-surface ${className}`}
+      className={`group relative block overflow-hidden rounded-t-[999px] rounded-b-2xl bg-surface ${className}`}
     >
       <div className="relative aspect-[3/4]">
         <Image
@@ -32,7 +32,7 @@ export function DestinationCard({
           <span className="block text-[9.5px] font-semibold uppercase tracking-[0.14em] text-on-dark/75">
             {destination.state}
           </span>
-          <span className="mt-0.5 block font-display text-[21px] font-medium leading-tight text-on-dark">
+          <span className="mt-0.5 block font-display text-[21px] font-normal leading-tight text-on-dark">
             {destination.label}
           </span>
         </div>
@@ -72,7 +72,7 @@ export function CityCard({
   href: string;
 }) {
   return (
-    <Link href={href} className="group relative block overflow-hidden rounded-md bg-surface">
+    <Link href={href} className="group relative block overflow-hidden rounded-2xl bg-surface">
       <div className="relative aspect-[16/9]">
         <Image
           src={image}
@@ -83,7 +83,7 @@ export function CityCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-text/85 via-text/25 to-transparent" />
         <div className="absolute left-5 top-5">
-          <span className="rounded-sm bg-text/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-on-dark backdrop-blur-sm">
+          <span className="rounded-xl bg-text/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-on-dark backdrop-blur-sm">
             {count} {count === 1 ? 'trip' : 'trips'}
           </span>
         </div>
@@ -91,7 +91,7 @@ export function CityCard({
           <span className="block text-[10px] font-semibold uppercase tracking-[0.14em] text-on-dark/75">
             From {label}
           </span>
-          <span className="mt-1 block font-display text-[30px] font-medium leading-none text-on-dark sm:text-[36px]">
+          <span className="mt-1 block font-display text-[30px] font-normal leading-none text-on-dark sm:text-[36px]">
             {label}
           </span>
           <span className="mt-1.5 block text-[12px] text-on-dark/70">
@@ -113,7 +113,7 @@ export function Pillar({ icon, title, text }: { icon: IconName; title: string; t
       <span className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-meadow-300/40 text-meadow-300">
         <Icon name={icon} className="h-5 w-5" />
       </span>
-      <h3 className="font-display text-[22px] font-medium leading-tight text-on-dark">{title}</h3>
+      <h3 className="font-display text-[22px] font-normal leading-tight text-on-dark">{title}</h3>
       <p className="mx-auto mt-3 max-w-[16rem] text-[13px] leading-relaxed text-on-dark/65">{text}</p>
     </div>
   );
@@ -141,7 +141,7 @@ export function ReviewCard({
     .join('');
 
   return (
-    <figure className="flex h-full flex-col rounded-md border border-border bg-raised p-6">
+    <figure className="flex h-full flex-col rounded-2xl border border-border bg-raised p-6">
       <Stars count={stars} />
       <blockquote className="mt-4 flex-1 text-[13.5px] leading-relaxed text-muted">“{quote}”</blockquote>
       <figcaption className="mt-5 flex items-center gap-3">
@@ -168,10 +168,10 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
       {items.map((item) => (
         <details key={item.q} className="group/faq">
           <summary className="flex cursor-pointer items-center justify-between gap-6 py-4 text-left">
-            <span className="font-display text-[17px] font-medium leading-snug text-text transition-colors group-hover/faq:text-meadow-700 sm:text-[18px]">
+            <span className="font-display text-[17px] font-normal leading-snug text-text transition-colors group-hover/faq:text-meadow-700 sm:text-[18px]">
               {item.q}
             </span>
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-sm border border-border-strong text-muted transition-colors group-open/faq:border-sherwood-800 group-open/faq:text-sherwood-800">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-xl border border-border-strong text-muted transition-colors group-open/faq:border-sherwood-800 group-open/faq:text-sherwood-800">
               <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
                 <path d="M8 3v10" className="origin-center transition-transform duration-200 group-open/faq:rotate-90 group-open/faq:opacity-0" />
                 <path d="M3 8h10" />
@@ -228,7 +228,7 @@ export function GuideCard({
   image: string;
 }) {
   return (
-    <Link href={`/blog/${slug}`} className="group flex flex-col overflow-hidden rounded-md border border-border bg-raised">
+    <Link href={`/blog/${slug}`} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-raised">
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
           src={image}
@@ -242,7 +242,7 @@ export function GuideCard({
         </div>
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-[18px] font-medium leading-snug text-text transition-colors group-hover:text-meadow-700">
+        <h3 className="font-display text-[18px] font-normal leading-snug text-text transition-colors group-hover:text-meadow-700">
           {title}
         </h3>
         <span className="mt-auto pt-4 text-[11.5px] text-subtle">{readMinutes} min read</span>

@@ -61,7 +61,7 @@ export function CollectionPage({
               ))}
             </div>
           ) : (
-            <div className="rounded-md border border-border bg-surface px-6 py-14 text-center">
+            <div className="rounded-2xl border border-border bg-surface px-6 py-14 text-center">
               <Display className="text-[24px]">{emptyTitle}</Display>
               <p className="mx-auto mt-3 max-w-lg text-[13.5px] leading-relaxed text-muted">{emptyBody}</p>
               <div className="mt-7 flex flex-wrap justify-center gap-3">
@@ -100,8 +100,8 @@ export function CollectionPage({
         {notes && notes.length > 0 && (
           <section className="mt-16 grid gap-6 border-t border-border pt-12 md:grid-cols-3">
             {notes.map((n) => (
-              <div key={n.title} className="rounded-md border border-border bg-raised p-6">
-                <h3 className="font-display text-[19px] font-medium leading-snug text-text">{n.title}</h3>
+              <div key={n.title} className="rounded-2xl border border-border bg-raised p-6">
+                <h3 className="font-display text-[19px] font-normal leading-snug text-text">{n.title}</h3>
                 <p className="mt-2.5 text-[13px] leading-relaxed text-muted">{n.body}</p>
               </div>
             ))}

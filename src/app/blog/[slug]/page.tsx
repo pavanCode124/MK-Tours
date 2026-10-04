@@ -49,7 +49,7 @@ export default async function GuidePage({ params }: Props) {
           ))}
         </div>
 
-        <div className="mt-12 rounded-md border border-border bg-surface p-7">
+        <div className="mt-12 rounded-2xl border border-border bg-surface p-7">
           <Display className="text-[22px]">Planning this trip?</Display>
           <p className="mt-2.5 text-[13.5px] leading-relaxed text-muted">
             We run this route as a fixed departure from Mumbai, and privately on your own dates. Tell us what you have in

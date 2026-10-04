@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 /* Type                                                                       */
 /* -------------------------------------------------------------------------- */
 
-/** The small uppercase green label that sits above every section heading. */
+/** The small uppercase gold label that sits above every section heading. */
 export function Eyebrow({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
     <span className={`block text-[11px] font-semibold uppercase tracking-[0.14em] text-meadow-700 ${className}`}>
@@ -14,7 +14,7 @@ export function Eyebrow({ children, className = '' }: { children: ReactNode; cla
   );
 }
 
-/** Display heading: Cormorant Garamond, medium weight, tight leading. */
+/** Display heading: Outfit at a light-to-regular weight, tight leading. */
 export function Display({
   children,
   as: Tag = 'h2',
@@ -25,7 +25,7 @@ export function Display({
   className?: string;
 }) {
   return (
-    <Tag className={`font-display font-medium leading-[1.1] tracking-tight text-text ${className}`}>{children}</Tag>
+    <Tag className={`font-display font-normal leading-[1.14] tracking-[-0.02em] text-text ${className}`}>{children}</Tag>
   );
 }
 
@@ -59,22 +59,22 @@ export function SectionHeading({
           <Eyebrow className={centered ? 'mb-3' : 'mb-2.5'}>
             {centered ? (
               <span className="inline-flex items-center gap-3">
-                <span className="h-px w-8 bg-meadow-700/40" />
+                <span className="h-px w-10 bg-meadow-600/50" />
                 {eyebrow}
-                <span className="h-px w-8 bg-meadow-700/40" />
+                <span className="h-px w-10 bg-meadow-600/50" />
               </span>
             ) : (
               eyebrow
             )}
           </Eyebrow>
         )}
-        <Display className="text-[30px] sm:text-[36px] lg:text-[40px]">{title}</Display>
-        {lede && <p className="mt-3 text-[15px] leading-relaxed text-muted">{lede}</p>}
+        <Display className="text-[32px] sm:text-[40px] lg:text-[46px]">{title}</Display>
+        {lede && <p className="mt-4 text-[15.5px] leading-[1.75] text-muted">{lede}</p>}
       </div>
       {link && (
         <Link
           href={link.href}
-          className="shrink-0 text-[13px] font-medium text-meadow-700 underline-offset-4 transition-colors hover:text-sherwood-800 hover:underline"
+          className="shrink-0 rounded-full border border-border-strong px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-text transition-colors hover:border-meadow-600 hover:bg-meadow-600 hover:text-white"
         >
           {link.label} →
         </Link>
@@ -88,19 +88,19 @@ export function SectionHeading({
 /* -------------------------------------------------------------------------- */
 
 const BTN_BASE =
-  'inline-flex items-center justify-center gap-2 rounded-sm text-[11px] font-semibold uppercase tracking-[0.1em] transition-colors duration-200';
+  'inline-flex items-center justify-center gap-2 rounded-full text-[11.5px] font-semibold uppercase tracking-[0.1em] transition-all duration-200';
 
 const BTN_VARIANTS = {
-  solid: 'bg-sherwood-800 text-on-dark hover:bg-sherwood-900',
-  meadow: 'bg-meadow-700 text-white hover:bg-sherwood-800',
-  outline: 'border border-border-strong bg-transparent text-text hover:border-sherwood-800 hover:text-sherwood-800',
+  solid: 'bg-sherwood-800 text-on-dark hover:bg-sherwood-900 hover:shadow-[0_10px_24px_-10px_rgba(18,30,40,0.8)]',
+  meadow: 'bg-meadow-600 text-white hover:bg-meadow-700 hover:shadow-[0_10px_24px_-10px_rgba(169,119,31,0.9)]',
+  outline: 'border border-border-strong bg-transparent text-text hover:border-sherwood-800 hover:bg-sherwood-800 hover:text-on-dark',
   onDark: 'border border-on-dark/35 text-on-dark hover:border-on-dark hover:bg-on-dark/10',
   clay: 'bg-clay text-white hover:bg-clay-600',
 } as const;
 
 const BTN_SIZES = {
-  sm: 'px-4 py-2.5',
-  md: 'px-6 py-3.5',
+  sm: 'px-5 py-2.5',
+  md: 'px-7 py-3.5',
 } as const;
 
 export function Button({
@@ -157,7 +157,7 @@ export function Rule({ className = '' }: { className?: string }) {
 export function Pill({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
     <span
-      className={`inline-flex items-center rounded-sm bg-text/75 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-on-dark backdrop-blur-sm ${className}`}
+      className={`inline-flex items-center rounded-full bg-text/75 px-3 py-1 text-[10px] font-semibold tracking-wide text-on-dark backdrop-blur-sm ${className}`}
     >
       {children}
     </span>

@@ -132,7 +132,7 @@ function Chip({ href, active, label, count }: { href: string; active: boolean; l
   return (
     <Link
       href={href}
-      className={`shrink-0 rounded-sm border px-3.5 py-2 text-[12px] font-medium transition-colors duration-200 ${
+      className={`shrink-0 rounded-xl border px-3.5 py-2 text-[12px] font-medium transition-colors duration-200 ${
         active
           ? 'border-sherwood-800 bg-sherwood-800 text-on-dark'
           : 'border-border-strong bg-raised text-text hover:border-sherwood-800 hover:text-sherwood-800'

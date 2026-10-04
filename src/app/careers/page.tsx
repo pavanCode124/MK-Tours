@@ -42,9 +42,9 @@ export default function CareersPage() {
       <div className="mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
         <div className="grid gap-5 lg:grid-cols-3">
           {ROLES.map((r) => (
-            <div key={r.title} className="flex flex-col rounded-md border border-border bg-raised p-6">
+            <div key={r.title} className="flex flex-col rounded-2xl border border-border bg-raised p-6">
               <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">{r.type}</span>
-              <h2 className="mt-2 font-display text-[22px] font-medium leading-snug text-text">{r.title}</h2>
+              <h2 className="mt-2 font-display text-[22px] font-normal leading-snug text-text">{r.title}</h2>
               <p className="mt-3 flex-1 text-[13.5px] leading-relaxed text-muted">{r.body}</p>
               <a
                 href={`mailto:${AGENCY.email}?subject=${encodeURIComponent(`Application: ${r.title}`)}`}
@@ -56,7 +56,7 @@ export default function CareersPage() {
           ))}
         </div>
 
-        <div className="mt-14 rounded-md border border-border bg-surface px-6 py-10 text-center">
+        <div className="mt-14 rounded-2xl border border-border bg-surface px-6 py-10 text-center">
           <Display className="text-[24px]">Nothing here that fits?</Display>
           <p className="mx-auto mt-3 max-w-lg text-[13.5px] leading-relaxed text-muted">
             Send us your CV anyway. We hire when the right person turns up, not only when a role is posted.

@@ -62,7 +62,7 @@ export default async function AboutPage() {
             { v: String(states.size), l: 'States & countries' },
           ].map((s) => (
             <div key={s.l} className="px-4 py-7 text-center">
-              <div className="font-display text-[30px] font-medium leading-none text-sherwood-800">{s.v}</div>
+              <div className="font-display text-[30px] font-normal leading-none text-sherwood-800">{s.v}</div>
               <div className="mt-2 text-[11.5px] text-muted">{s.l}</div>
             </div>
           ))}
@@ -113,7 +113,7 @@ export default async function AboutPage() {
               (src, i) => (
                 <div
                   key={src}
-                  className={`relative overflow-hidden rounded-md ${i % 3 === 0 ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}
+                  className={`relative overflow-hidden rounded-2xl ${i % 3 === 0 ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}
                 >
                   <Image src={src} alt="" fill sizes="(min-width: 1024px) 260px, 50vw" className="object-cover" />
                 </div>
@@ -130,9 +130,9 @@ export default async function AboutPage() {
           <Display className="text-[30px] sm:text-[36px]">From enquiry to platform</Display>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map((s) => (
-              <div key={s.n} className="rounded-md border border-border bg-raised p-6">
-                <span className="font-display text-[28px] font-medium leading-none text-meadow-600">{s.n}</span>
-                <h3 className="mt-3 font-display text-[19px] font-medium leading-snug text-text">{s.title}</h3>
+              <div key={s.n} className="rounded-2xl border border-border bg-raised p-6">
+                <span className="font-display text-[28px] font-normal leading-none text-meadow-600">{s.n}</span>
+                <h3 className="mt-3 font-display text-[19px] font-normal leading-snug text-text">{s.title}</h3>
                 <p className="mt-2.5 text-[13px] leading-relaxed text-muted">{s.body}</p>
               </div>
             ))}
@@ -143,7 +143,7 @@ export default async function AboutPage() {
       {/* Pillars */}
       <section className="py-16 lg:py-20">
         <div className="mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
-          <div className="rounded-md bg-sherwood-800 px-6 py-12 lg:px-10 lg:py-14">
+          <div className="rounded-2xl bg-sherwood-800 px-6 py-12 lg:px-10 lg:py-14">
             <div className="text-center">
               <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-meadow-300">
                 What you can count on
@@ -170,8 +170,8 @@ export default async function AboutPage() {
               { icon: 'mail' as const, title: 'Email us', body: AGENCY.email, note: 'We reply the same day' },
               { icon: 'pin' as const, title: 'Find us', body: AGENCY.address, note: 'Departures from Mumbai' },
             ].map((c) => (
-              <div key={c.title} className="rounded-md border border-border bg-raised p-6">
-                <span className="mb-4 flex h-9 w-9 items-center justify-center rounded-sm bg-meadow-50 text-meadow-700">
+              <div key={c.title} className="rounded-2xl border border-border bg-raised p-6">
+                <span className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
                   <Icon name={c.icon} className="h-[18px] w-[18px]" />
                 </span>
                 <h3 className="text-[10px] font-bold uppercase tracking-[0.14em] text-subtle">{c.title}</h3>

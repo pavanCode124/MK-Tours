@@ -8,10 +8,19 @@ import {
   themesWithCounts,
 } from '@/lib/catalog';
 import { AGENCY } from '@/lib/content';
+import { NavBar, NavMenu } from '@/components/NavMenu';
 import { durationPhrase, getHost, getPackages, mediaUrl, telHref, whatsappLink, type Package } from '@/lib/mktours';
 
 const NAV_LINK =
-  'whitespace-nowrap border-b-2 border-transparent py-[11px] text-[13.5px] font-medium capitalize tracking-[0.05em] text-text transition-colors hover:border-meadow-700 hover:text-meadow-700';
+  'whitespace-nowrap py-2 text-[13.5px] font-medium tracking-[0.01em] text-text transition-colors hover:text-meadow-700';
+
+/** The regional collections that used to sit as their own tabs in the bar. */
+const COLLECTIONS = [
+  { href: '/south-india-tours', label: 'South India Tours', note: 'Kerala, Tamil Nadu & the coast' },
+  { href: '/north-india-tours', label: 'North India Tours', note: 'Himalaya, Rajasthan & the plains' },
+  { href: '/weekend-getaways', label: 'Weekend Getaways', note: 'Short trips, two to three days' },
+  { href: '/destinations', label: 'All Destinations', note: 'Browse every place we travel to' },
+];
 
 export async function SiteHeader() {
   const [host, packages] = await Promise.all([getHost().catch(() => null), getPackages().catch(() => [])]);
@@ -25,77 +34,85 @@ export async function SiteHeader() {
   const durations = durationBuckets(packages);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-bg">
+    <header className="sticky top-0 z-40 border-b border-border bg-bg/95 backdrop-blur-sm">
       {/* Utility bar */}
-      <div className="hidden border-b border-border/60 bg-sherwood-900 lg:block">
-        <div className="mx-auto flex h-9 max-w-[1280px] items-center justify-between gap-4 px-5 text-xs text-on-dark/70 lg:px-12">
+      <div className="hidden bg-sherwood-900 lg:block">
+        <div className="mx-auto flex h-9 max-w-[1320px] items-center justify-between gap-4 px-6 text-xs text-on-dark/70 lg:px-10">
           <div className="flex items-center gap-4">
             {tel && (
-              <a href={tel} className="flex items-center gap-1.5 font-semibold text-sherwood-200 transition-colors hover:text-on-dark">
+              <a
+                href={tel}
+                className="flex items-center gap-1.5 font-medium text-sherwood-200 transition-colors hover:text-on-dark"
+              >
                 <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
                   <path d="M6.6 3h3l1.5 4-2 1.4a12 12 0 005.5 5.5l1.4-2 4 1.5v3A2 2 0 0118 18.4 16 16 0 015.6 6 2 2 0 016.6 3z" />
                 </svg>
                 +91 {AGENCY.phonePrimary}
               </a>
             )}
-            <div className="h-4 w-px bg-white/[.15]" />
-            {wa && (
-              <a href={wa} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 font-semibold text-sherwood-200 transition-colors hover:text-on-dark">
-                WhatsApp us
-              </a>
-            )}
-            <div className="h-4 w-px bg-white/[.15]" />
-            <span className="text-sherwood-200">{AGENCY.hours}</span>
-          </div>
-          <div className="flex items-stretch">
-            <Link
-              href="/packages"
-              className="flex items-center border-l border-white/[.15] px-[18px] text-xs font-semibold uppercase tracking-wide text-on-dark transition-colors hover:text-meadow-300"
-            >
-              Book a Tour
-            </Link>
+            <span className="h-3.5 w-px bg-white/15" />
             {wa && (
               <a
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center border-l border-white/[.15] px-[18px] text-xs font-semibold uppercase tracking-wide text-meadow-300 transition-colors hover:text-on-dark"
+                className="font-medium text-sherwood-200 transition-colors hover:text-on-dark"
               >
-                Customize Your Trip
+                WhatsApp us
+              </a>
+            )}
+            <span className="h-3.5 w-px bg-white/15" />
+            <span className="text-sherwood-200/80">{AGENCY.hours}</span>
+          </div>
+          <div className="flex items-center gap-5">
+            <span className="text-sherwood-200/80">Fixed departures from Mumbai & Pune</span>
+            {wa && (
+              <a
+                href={wa}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold tracking-[0.04em] text-meadow-300 transition-colors hover:text-on-dark"
+              >
+                Customise your trip →
               </a>
             )}
           </div>
         </div>
       </div>
 
-      {/* Main bar */}
-      <div className="mx-auto flex h-[68px] max-w-[1280px] items-center justify-between gap-4 px-5 md:px-8 lg:h-[62px] lg:px-12">
-        <Link href="/" className="flex flex-shrink-0 items-center gap-2.5" aria-label={`${AGENCY.name} home`}>
+      {/* Main bar — logo, then a generous gap, the links, another gap, the CTA. */}
+      <div className="mx-auto flex h-[72px] max-w-[1320px] items-center gap-6 px-5 md:px-8 lg:h-[78px] lg:gap-12 lg:px-10">
+        <Link href="/" className="flex flex-shrink-0 items-center gap-3" aria-label={`${AGENCY.name} home`}>
           {logo ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={logo} alt="" aria-hidden="true" className="h-[36px] w-auto" />
+            <img src={logo} alt="" aria-hidden="true" className="h-11 w-auto" />
           ) : (
-            <span className="font-display text-2xl font-semibold tracking-tight text-sherwood-800">MK</span>
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-sherwood-800 font-display text-lg font-medium text-on-dark">
+              MK
+            </span>
           )}
-          <span className="font-display text-[22px] font-semibold leading-none tracking-tight text-sherwood-800">
-            MK Tours
+          <span className="flex flex-col leading-none">
+            <span className="font-display text-[21px] font-medium tracking-tight text-sherwood-900">MK Tours</span>
+            <span className="mt-1 text-[9.5px] font-semibold uppercase tracking-[0.26em] text-meadow-700">
+              India & Nepal
+            </span>
           </span>
         </Link>
 
-        <nav className="hidden flex-1 items-center justify-center gap-[14px] xl:flex" aria-label="Primary">
-          {/* Destinations */}
-          <MegaGroup label="Destinations" width="w-[920px]" align="left">
-            <div className="grid grid-cols-[1.45fr_1fr] gap-7 p-6">
+        <NavBar className="hidden flex-1 items-center justify-center gap-7 xl:flex 2xl:gap-9">
+          {/* Destinations — states, regions and the regional collections */}
+          <NavMenu label="Destinations" width="w-[940px]" align="left">
+            <div className="grid grid-cols-[1.4fr_1fr] gap-8 p-7">
               <div>
-                <PanelTitle>States</PanelTitle>
-                <div className="grid grid-cols-3 gap-x-6 gap-y-5">
+                <PanelTitle>Browse by state</PanelTitle>
+                <div className="grid grid-cols-3 gap-x-7 gap-y-5">
                   {byState.slice(0, 9).map((g) => (
                     <div key={g.state}>
-                      <div className="mb-1.5 flex items-baseline gap-1.5">
-                        <span className="text-[12px] font-semibold text-text">{g.state}</span>
+                      <div className="mb-2 flex items-baseline gap-1.5">
+                        <span className="text-[12.5px] font-semibold text-text">{g.state}</span>
                         <span className="text-[10px] text-subtle">{g.items.length}</span>
                       </div>
-                      <ul className="space-y-1">
+                      <ul className="space-y-1.5">
                         {g.items.slice(0, 5).map((d) => (
                           <li key={d.slug}>
                             <Link
@@ -111,8 +128,23 @@ export async function SiteHeader() {
                   ))}
                 </div>
               </div>
-              <div className="border-l border-border pl-7">
-                <PanelTitle>Region</PanelTitle>
+
+              <div className="rounded-xl bg-surface p-6">
+                <PanelTitle>Collections</PanelTitle>
+                <ul className="space-y-3">
+                  {COLLECTIONS.map((c) => (
+                    <li key={c.href}>
+                      <Link href={c.href} className="group/i block">
+                        <span className="block text-[13px] font-semibold text-text transition-colors group-hover/i:text-meadow-700">
+                          {c.label}
+                        </span>
+                        <span className="mt-0.5 block text-[11.5px] leading-snug text-subtle">{c.note}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                <PanelTitle className="mt-6">By region</PanelTitle>
                 <ul className="space-y-1.5">
                   {byRegion.map((r) => (
                     <li key={r.region} className="flex items-baseline justify-between gap-3">
@@ -126,49 +158,18 @@ export async function SiteHeader() {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href="/destinations"
-                  className="mt-5 inline-flex text-[12px] font-semibold uppercase tracking-[0.1em] text-meadow-700 hover:text-sherwood-800"
-                >
-                  View all destinations →
-                </Link>
               </div>
             </div>
-          </MegaGroup>
+          </NavMenu>
 
-          {/* Explore trips */}
-          <MegaGroup label="Explore Trips" width="w-[860px]" align="center">
-            <div className="grid grid-cols-3 gap-7 p-6">
+          <Link href="/packages" className={NAV_LINK}>
+            Tour Packages
+          </Link>
+
+          {/* Experiences — theme, duration, season and departure city */}
+          <NavMenu label="Experiences" width="w-[900px]" align="center">
+            <div className="grid grid-cols-3 gap-8 p-7">
               <div>
-                <PanelTitle>By departure city</PanelTitle>
-                <ul className="space-y-2">
-                  {DEPARTURE_CITIES.map((c) => (
-                    <li key={c.slug}>
-                      <Link href={`/packages?city=${c.slug}`} className="group/i block">
-                        <span className="block text-[12.5px] font-medium text-text transition-colors group-hover/i:text-meadow-700">
-                          From {c.label}
-                        </span>
-                        <span className="block text-[11px] text-subtle">{c.note}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <PanelTitle className="mt-6">Popular trips</PanelTitle>
-                <ul className="space-y-1.5">
-                  {packages.slice(0, 4).map((p: Package) => (
-                    <li key={p.id}>
-                      <Link href={`/packages/${p.slug ?? p.id}`} className="group/i block">
-                        <span className="block text-[12.5px] text-muted transition-colors group-hover/i:text-meadow-700">
-                          {p.package_name.replace(/ Group Tour$/, '')}
-                        </span>
-                        <span className="block text-[10.5px] text-subtle">{durationPhrase(p)}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="border-l border-border pl-7">
                 <PanelTitle>By theme</PanelTitle>
                 <ul className="space-y-1.5">
                   {themes.map((t) => (
@@ -184,7 +185,7 @@ export async function SiteHeader() {
                 </ul>
               </div>
 
-              <div className="border-l border-border pl-7">
+              <div>
                 <PanelTitle>By duration</PanelTitle>
                 <ul className="space-y-1.5">
                   {durations.map((d) => (
@@ -198,6 +199,7 @@ export async function SiteHeader() {
                     </li>
                   ))}
                 </ul>
+
                 <PanelTitle className="mt-6">By season</PanelTitle>
                 <ul className="space-y-1.5">
                   {SEASONS.map((s) => (
@@ -210,57 +212,74 @@ export async function SiteHeader() {
                   ))}
                 </ul>
               </div>
+
+              <div className="rounded-xl bg-surface p-6">
+                <PanelTitle>Departing from</PanelTitle>
+                <ul className="space-y-2.5">
+                  {DEPARTURE_CITIES.map((c) => (
+                    <li key={c.slug}>
+                      <Link href={`/packages?city=${c.slug}`} className="group/i block">
+                        <span className="block text-[12.5px] font-semibold text-text transition-colors group-hover/i:text-meadow-700">
+                          From {c.label}
+                        </span>
+                        <span className="block text-[11px] text-subtle">{c.note}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                <PanelTitle className="mt-6">Popular right now</PanelTitle>
+                <ul className="space-y-2">
+                  {packages.slice(0, 4).map((p: Package) => (
+                    <li key={p.id}>
+                      <Link href={`/packages/${p.slug ?? p.id}`} className="group/i block">
+                        <span className="block text-[12.5px] text-muted transition-colors group-hover/i:text-meadow-700">
+                          {p.package_name.replace(/ Group Tour$/, '')}
+                        </span>
+                        <span className="block text-[10.5px] text-subtle">{durationPhrase(p)}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </MegaGroup>
+          </NavMenu>
 
-          <Link href="/packages" className={NAV_LINK}>
-            Tour Packages
-          </Link>
-          <Link href="/weekend-getaways" className={NAV_LINK}>
-            Weekend Getaways
-          </Link>
-          <Link href="/south-india-tours" className={NAV_LINK}>
-            South India Tour
-          </Link>
-          <Link href="/north-india-tours" className={NAV_LINK}>
-            North India Tour
-          </Link>
-
-          <MegaGroup label="Resources" width="w-52" align="left">
+          <NavMenu label="About" width="w-60" align="center">
             <ul className="p-3">
               {[
-                { href: '/about', label: 'About' },
-                { href: '/blog', label: 'Blog' },
+                { href: '/about', label: 'About MK Tours' },
+                { href: '/reviews', label: 'Guest Reviews' },
                 { href: '/gallery', label: 'Gallery' },
-                { href: '/reviews', label: 'Reviews' },
+                { href: '/blog', label: 'Travel Journal' },
                 { href: '/careers', label: 'Careers' },
               ].map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="block rounded-sm px-3 py-2 text-[12.5px] text-muted transition-colors hover:bg-surface hover:text-meadow-700"
+                    className="block rounded-lg px-3.5 py-2.5 text-[13px] text-muted transition-colors hover:bg-surface hover:text-meadow-700"
                   >
                     {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </MegaGroup>
+          </NavMenu>
 
           <Link href="/contact" className={NAV_LINK}>
             Contact
           </Link>
-        </nav>
+        </NavBar>
 
         {/* Right-hand controls */}
-        <div className="flex flex-shrink-0 items-center gap-3">
+        <div className="ml-auto flex flex-shrink-0 items-center gap-3">
           {wa && (
             <a
               href={wa}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp us"
-              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-sm bg-meadow-700 text-white xl:hidden"
+              className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-meadow-600 text-white transition-colors hover:bg-meadow-700 xl:hidden"
             >
               <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor" aria-hidden="true">
                 <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.38a9.86 9.86 0 004.74 1.21c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0012.04 2zm4.52 12.07c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.53.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.1-.5.11-.11.25-.29.37-.44.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.55-.43h-.47c-.16 0-.43.06-.65.3-.23.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.13.17 1.74 2.65 4.21 3.72.59.25 1.05.4 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.46-.6 1.67-1.18.2-.57.2-1.07.14-1.17-.06-.11-.22-.17-.47-.29z" />
@@ -269,22 +288,19 @@ export async function SiteHeader() {
           )}
           <Link
             href="/packages"
-            className="hidden rounded-sm bg-sherwood-800 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-on-dark transition-colors hover:bg-sherwood-900 xl:inline-flex"
+            className="hidden items-center rounded-full bg-meadow-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.1em] text-white shadow-[0_8px_20px_-8px_rgba(169,119,31,0.8)] transition-colors hover:bg-meadow-700 xl:inline-flex"
           >
             Book a Tour
           </Link>
 
           {/* Mobile drawer — CSS only, no client JS */}
           <details className="group/menu relative xl:hidden">
-            <summary
-              className="flex cursor-pointer flex-col items-end gap-1.5 p-1.5"
-              aria-label="Open menu"
-            >
+            <summary className="flex cursor-pointer flex-col items-end gap-1.5 p-1.5" aria-label="Open menu">
               <span className="block h-0.5 w-[22px] rounded-full bg-text transition-all" />
               <span className="block h-0.5 w-[22px] rounded-full bg-text transition-all" />
               <span className="block h-0.5 w-3.5 rounded-full bg-text transition-all group-open/menu:w-[22px]" />
             </summary>
-            <div className="fixed inset-x-0 top-[68px] z-50 max-h-[calc(100vh-68px)] overflow-y-auto border-t border-border bg-bg px-5 pb-10 pt-4 shadow-xl">
+            <div className="fixed inset-x-0 top-[72px] z-50 max-h-[calc(100vh-72px)] overflow-y-auto border-t border-border bg-bg px-5 pb-10 pt-4 shadow-xl">
               <MobileLinks
                 states={byState.map((s) => s.state)}
                 themes={themes.map((t) => ({ slug: t.slug, label: t.label }))}
@@ -301,42 +317,8 @@ export async function SiteHeader() {
 
 function PanelTitle({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700 ${className}`}>
+    <div className={`mb-3.5 text-[10px] font-bold uppercase tracking-[0.16em] text-meadow-700 ${className}`}>
       {children}
-    </div>
-  );
-}
-
-/**
- * A hover/focus mega-menu. CSS-only: the panel shows on `group-hover` and
- * `group-focus-within`, so it is reachable by keyboard without any JavaScript.
- */
-function MegaGroup({
-  label,
-  children,
-  width,
-  align,
-}: {
-  label: string;
-  children: React.ReactNode;
-  width: string;
-  align: 'left' | 'center';
-}) {
-  return (
-    <div className="group relative">
-      <button type="button" className={`${NAV_LINK} flex items-center gap-1`} aria-haspopup="true">
-        {label}
-        <svg viewBox="0 0 20 20" className="h-3 w-3 text-subtle transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-          <path d="M5 7.5l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-      <div
-        className={`invisible absolute top-full z-30 ${width} ${
-          align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-0'
-        } translate-y-1 rounded-md border border-border bg-raised opacity-0 shadow-xl transition-[opacity,transform] duration-150 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100`}
-      >
-        {children}
-      </div>
     </div>
   );
 }
@@ -345,13 +327,11 @@ function MobileLinks({ states, themes }: { states: string[]; themes: { slug: str
   const primary = [
     { href: '/packages', label: 'Tour Packages' },
     { href: '/destinations', label: 'Destinations' },
-    { href: '/weekend-getaways', label: 'Weekend Getaways' },
-    { href: '/south-india-tours', label: 'South India Tour' },
-    { href: '/north-india-tours', label: 'North India Tour' },
+    ...COLLECTIONS.slice(0, 3),
     { href: '/about', label: 'About' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/gallery', label: 'Gallery' },
     { href: '/reviews', label: 'Reviews' },
+    { href: '/gallery', label: 'Gallery' },
+    { href: '/blog', label: 'Travel Journal' },
     { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact' },
   ];
@@ -360,33 +340,33 @@ function MobileLinks({ states, themes }: { states: string[]; themes: { slug: str
       <ul className="divide-y divide-border">
         {primary.map((l) => (
           <li key={l.href}>
-            <Link href={l.href} className="block py-3 text-[15px] font-medium text-text">
+            <Link href={l.href} className="block py-3.5 text-[15px] font-medium text-text">
               {l.label}
             </Link>
           </li>
         ))}
       </ul>
 
-      <div className="mt-6 text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">By theme</div>
+      <div className="mt-7 text-[10px] font-bold uppercase tracking-[0.16em] text-meadow-700">By theme</div>
       <div className="mt-3 flex flex-wrap gap-2">
         {themes.map((t) => (
           <Link
             key={t.slug}
             href={`/themes/${t.slug}`}
-            className="rounded-sm border border-border-strong px-3 py-1.5 text-[12.5px] text-muted"
+            className="rounded-full border border-border-strong px-3.5 py-1.5 text-[12.5px] text-muted"
           >
             {t.label}
           </Link>
         ))}
       </div>
 
-      <div className="mt-6 text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">By state</div>
+      <div className="mt-6 text-[10px] font-bold uppercase tracking-[0.16em] text-meadow-700">By state</div>
       <div className="mt-3 flex flex-wrap gap-2">
         {states.map((s) => (
           <Link
             key={s}
             href={`/destinations?state=${encodeURIComponent(s)}`}
-            className="rounded-sm border border-border-strong px-3 py-1.5 text-[12.5px] text-muted"
+            className="rounded-full border border-border-strong px-3.5 py-1.5 text-[12.5px] text-muted"
           >
             {s}
           </Link>

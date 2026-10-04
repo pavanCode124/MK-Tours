@@ -23,7 +23,7 @@ export function FloatingContact() {
               <path d="M6.6 3h3l1.5 4-2 1.4a12 12 0 005.5 5.5l1.4-2 4 1.5v3A2 2 0 0118 18.4 16 16 0 015.6 6 2 2 0 016.6 3z" />
             </svg>
           </a>
-          <span className="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-sm bg-text/85 px-3 py-1.5 text-xs font-semibold text-on-dark opacity-0 transition-opacity duration-200 group-hover/call:opacity-100 lg:block">
+          <span className="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-xl bg-text/85 px-3 py-1.5 text-xs font-semibold text-on-dark opacity-0 transition-opacity duration-200 group-hover/call:opacity-100 lg:block">
             Call Us
           </span>
         </div>
@@ -42,7 +42,7 @@ export function FloatingContact() {
               <path d="M16.56 14.07c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.53.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.1-.5.11-.11.25-.29.37-.44.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.55-.43h-.47c-.16 0-.43.06-.65.3-.23.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.13.17 1.74 2.65 4.21 3.72.59.25 1.05.4 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.46-.6 1.67-1.18.2-.57.2-1.07.14-1.17-.06-.11-.22-.17-.47-.29z" />
             </svg>
           </a>
-          <span className="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-sm bg-text/85 px-3 py-1.5 text-xs font-semibold text-on-dark opacity-0 transition-opacity duration-200 group-hover/wa:opacity-100 lg:block">
+          <span className="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-xl bg-text/85 px-3 py-1.5 text-xs font-semibold text-on-dark opacity-0 transition-opacity duration-200 group-hover/wa:opacity-100 lg:block">
             WhatsApp
           </span>
         </div>

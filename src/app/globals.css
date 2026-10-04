@@ -1,53 +1,56 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens. Sampled from the reference site's computed styles so the two
-   sites share one visual language: a warm paper background, deep sherwood
-   greens, a single bright meadow accent, and Cormorant Garamond for display.
+   Design tokens.
+
+   A warm alpine-resort palette: deep slate for dark panels and headings, a
+   burnished gold for eyebrows, links and primary accents, terracotta for the
+   warm CTA panels, all sitting on a warm off-white page. Outfit carries the
+   display type at light weights; Inter carries everything else.
    --------------------------------------------------------------------------- */
 @theme {
   /* Surfaces */
-  --color-bg: #fdfbf7;
-  --color-surface: #f7f2e9;
+  --color-bg: #fcfbf8;
+  --color-surface: #f4f1ea;
   --color-raised: #ffffff;
-  --color-border: #ede5d6;
-  --color-border-strong: #dcd1bd;
+  --color-border: #e8e3d8;
+  --color-border-strong: #d5cebe;
 
   /* Ink */
-  --color-text: #302c25;
-  --color-muted: #6b6355;
-  --color-subtle: #8f8574;
-  --color-on-dark: #fdfbf7;
+  --color-text: #1c2a35;
+  --color-muted: #5a6b78;
+  --color-subtle: #8b9aa5;
+  --color-on-dark: #faf8f3;
 
-  /* Sherwood — the brand green, used for dark panels and headings */
-  --color-sherwood-900: #00301f;
-  --color-sherwood-800: #004a36;
-  --color-sherwood-700: #005c43;
-  --color-sherwood-600: #016e51;
-  --color-sherwood-200: #a8d5c5;
+  /* Sherwood — the brand slate, used for dark panels and headings */
+  --color-sherwood-900: #121e28;
+  --color-sherwood-800: #1c2e3d;
+  --color-sherwood-700: #2a4457;
+  --color-sherwood-600: #3c6079;
+  --color-sherwood-200: #b5cad9;
 
-  /* Meadow — the bright accent for links, eyebrows and primary buttons */
-  --color-meadow-700: #007f46;
-  --color-meadow-600: #00a85c;
-  --color-meadow-500: #00c46c;
-  --color-meadow-300: #5fe0a0;
-  --color-meadow-50: #e8f8f0;
+  /* Meadow — the burnished-gold accent for links, eyebrows and primary buttons */
+  --color-meadow-700: #a9771f;
+  --color-meadow-600: #c8912b;
+  --color-meadow-500: #dfa63c;
+  --color-meadow-300: #f0ce8c;
+  --color-meadow-50: #fbf3e3;
 
   /* Warm accents */
-  --color-clay: #a45c00;
-  --color-clay-600: #8d4e00;
-  --color-amber: #e39a0c;
-  --color-amber-50: #fdf3e0;
+  --color-clay: #a64e2e;
+  --color-clay-600: #8a3f24;
+  --color-amber: #dfa63c;
+  --color-amber-50: #fdf4e3;
 
-  --font-sans: var(--font-jakarta), system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Legacy aliases kept so older markup keeps rendering while pages migrate. */
 @theme {
-  --color-primary: #004a36;
-  --color-accent: #007f46;
-  --color-accent-bright: #00c46c;
+  --color-primary: #1c2e3d;
+  --color-accent: #a9771f;
+  --color-accent-bright: #dfa63c;
 }
 
 html {
@@ -60,9 +63,26 @@ body {
   font-family: var(--font-sans);
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* The page gutter the reference site uses: fluid between 20px and 96px. */
+/* Display type is set light and open — the reference template's signature. */
+.font-display {
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background: var(--color-meadow-300);
+  color: var(--color-sherwood-900);
+}
+
+/* Keyboard focus is gold, never removed. */
+:focus-visible {
+  outline: 2px solid var(--color-meadow-600);
+  outline-offset: 2px;
+}
+
+/* The page gutter: fluid between 20px and 96px. */
 @utility gutter {
   padding-inline: clamp(20px, 1px + 5.94vw, 96px);
 }
@@ -85,10 +105,10 @@ body {
 /* Hero copy and the search card rise in on load, the card a beat later. */
 .hero-copy-in,
 .hero-form-in {
-  animation: hero-fade-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: hero-fade-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .hero-form-in {
-  animation-delay: 0.15s;
+  animation-delay: 0.18s;
 }
 
 /* The rotating hero word crossfades between entries. */
@@ -103,7 +123,7 @@ body {
 
 /* Sections fade up as they enter the viewport (progressive enhancement: the
    .is-visible class is added by an IntersectionObserver; without JS the
-   no-js fallback below keeps everything visible). */
+   no-js fallback keeps everything visible). */
 .reveal {
   opacity: 0;
   transform: translateY(22px);
@@ -115,15 +135,70 @@ body {
   transform: none;
 }
 
+/* Ambient sway for the decorative palm-silhouette watermark. */
+@keyframes palm-sway {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+.palm-sway {
+  transform-origin: bottom center;
+  animation: palm-sway 6.5s ease-in-out infinite;
+}
+.palm-sway-delay {
+  animation-delay: 1.2s;
+}
+
+/* The slow drift behind the home hero photographs. */
+@keyframes slow-pan {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+.slow-pan {
+  animation: slow-pan 14s ease-out both;
+}
+
+/* Header mega-panels: a short rise-and-fade, driven by the open state. */
+.nav-panel {
+  opacity: 0;
+  transform: translateY(6px);
+  visibility: hidden;
+  transition: opacity 170ms ease, transform 170ms cubic-bezier(0.16, 1, 0.3, 1), visibility 170ms;
+}
+.nav-panel[data-open='true'] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-copy-in,
   .hero-form-in,
   .reveal,
-  .hero-word {
+  .hero-word,
+  .slow-pan,
+  .nav-panel {
     animation: none !important;
     transition: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+  .nav-panel {
+    opacity: 0 !important;
+  }
+  .nav-panel[data-open='true'] {
+    opacity: 1 !important;
+  }
+  .palm-sway {
+    animation: none !important;
   }
   html {
     scroll-behavior: auto;
@@ -153,22 +228,38 @@ body {
 }
 .rich-text li {
   margin: 0.4rem 0;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 .rich-text p {
-  margin: 0.5rem 0;
-  line-height: 1.7;
+  margin: 0.6rem 0;
+  line-height: 1.8;
+}
+.rich-text h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--color-text);
+  margin: 2.25rem 0 0.65rem;
+}
+.rich-text section:first-of-type h2 {
+  margin-top: 1.5rem;
 }
 .rich-text h3 {
   font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 500;
   color: var(--color-text);
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 .rich-text strong {
   font-weight: 600;
   color: var(--color-text);
+}
+.rich-text a {
+  color: var(--color-meadow-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Native details markers are replaced by our own +/− affordance. */

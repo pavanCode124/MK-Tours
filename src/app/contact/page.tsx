@@ -58,7 +58,7 @@ export default function ContactPage() {
 
         {/* Where we are */}
         <div className="mt-6 grid gap-5 lg:grid-cols-3">
-          <div className="rounded-md border border-border bg-raised p-6 lg:col-span-2">
+          <div className="rounded-2xl border border-border bg-raised p-6 lg:col-span-2">
             <Display className="text-[22px]">Where we are</Display>
             <p className="mt-3 text-[14px] leading-relaxed text-muted">{AGENCY.address}</p>
             <p className="mt-4 text-[13.5px] leading-relaxed text-muted">
@@ -74,7 +74,7 @@ export default function ContactPage() {
               </Button>
             </div>
           </div>
-          <div className="rounded-md bg-sherwood-800 p-6 text-on-dark">
+          <div className="rounded-2xl bg-sherwood-800 p-6 text-on-dark">
             <Display className="text-[20px] text-on-dark">Plan with us</Display>
             <p className="mt-3 text-[13px] leading-relaxed text-on-dark/75">
               Send us your dates, your group size and roughly where you want to go. We come back with the next departure
@@ -131,8 +131,8 @@ function Card({
   action?: { href: string; label: string; external?: boolean };
 }) {
   return (
-    <div className="flex flex-col rounded-md border border-border bg-raised p-6">
-      <span className="mb-4 flex h-9 w-9 items-center justify-center rounded-sm bg-meadow-50 text-meadow-700">
+    <div className="flex flex-col rounded-2xl border border-border bg-raised p-6">
+      <span className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
         <Icon name={icon} className="h-[18px] w-[18px]" />
       </span>
       <h2 className="text-[10px] font-bold uppercase tracking-[0.14em] text-subtle">{title}</h2>

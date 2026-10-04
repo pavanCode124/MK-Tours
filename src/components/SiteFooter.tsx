@@ -32,10 +32,10 @@ export async function SiteFooter() {
     <footer id="contact" className="scroll-mt-24 bg-sherwood-900 text-on-dark/75">
       <div className="mx-auto max-w-[1280px] px-5 pt-14 md:px-8 lg:px-12">
         {/* Newsletter */}
-        <div className="rounded-md bg-sherwood-800 p-7 sm:p-9">
+        <div className="rounded-[28px] bg-sherwood-800 p-8 sm:p-11">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
-              <h2 className="font-display text-[22px] font-medium uppercase tracking-[0.06em] text-on-dark sm:text-[26px]">
+              <h2 className="font-display text-[26px] font-normal leading-tight tracking-tight text-on-dark sm:text-[32px]">
                 Travel Dispatches from MK Tours
               </h2>
               <p className="mt-2.5 text-[13.5px] leading-relaxed text-on-dark/70">
@@ -46,7 +46,7 @@ export async function SiteFooter() {
             <form
               action={wa}
               target="_blank"
-              className="flex w-full max-w-md shrink-0 overflow-hidden rounded-sm bg-raised"
+              className="flex w-full max-w-md shrink-0 overflow-hidden rounded-full bg-raised p-1.5"
             >
               <input
                 type="email"
@@ -58,7 +58,7 @@ export async function SiteFooter() {
               />
               <button
                 type="submit"
-                className="shrink-0 bg-meadow-600 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:bg-meadow-700"
+                className="shrink-0 rounded-full bg-meadow-600 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:bg-meadow-700"
               >
                 Subscribe
               </button>
@@ -72,7 +72,7 @@ export async function SiteFooter() {
             <div className="flex items-center gap-2.5">
               {logo && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={logo} alt="" aria-hidden="true" className="h-10 w-auto rounded-sm bg-bg/95 p-1" />
+                <img src={logo} alt="" aria-hidden="true" className="h-10 w-auto rounded-xl bg-bg/95 p-1" />
               )}
               <span className="font-display text-[26px] font-semibold uppercase tracking-tight text-on-dark">
                 MK Tours
@@ -128,7 +128,7 @@ export async function SiteFooter() {
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex rounded-sm border border-amber/70 px-4 py-2.5 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-amber transition-colors hover:bg-amber hover:text-sherwood-900"
+                className="mt-5 inline-flex rounded-full border border-amber/70 px-5 py-2.5 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-amber transition-colors hover:bg-amber hover:text-sherwood-900"
               >
                 Customize Your Trip
               </a>
@@ -190,7 +190,7 @@ function Social({ href, label, children }: { href?: string; label: string; child
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/20 text-[10px] font-bold tracking-wide text-on-dark/80 transition-colors hover:border-meadow-300 hover:text-meadow-300"
+      className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/20 text-[10px] font-bold tracking-wide text-on-dark/80 transition-colors hover:border-meadow-300 hover:text-meadow-300"
     >
       {children}
     </a>
