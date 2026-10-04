@@ -4,7 +4,7 @@ import type { Destination } from '@/lib/catalog';
 import { Icon, type IconName, Stars } from './ui';
 
 /* -------------------------------------------------------------------------- */
-/* Destination card — the arched tile from the reference site                 */
+/* Destination card — a circular photo medallion with the caption beneath     */
 /* -------------------------------------------------------------------------- */
 
 export function DestinationCard({
@@ -15,28 +15,25 @@ export function DestinationCard({
   className?: string;
 }) {
   return (
-    <Link
-      href={`/destinations/${destination.slug}`}
-      className={`group relative block overflow-hidden rounded-t-[999px] rounded-b-2xl bg-surface ${className}`}
-    >
-      <div className="relative aspect-[3/4]">
+    <Link href={`/destinations/${destination.slug}`} className={`group block text-center ${className}`}>
+      {/* The medallion. A caption inside a circle gets clipped by the curve, so
+          the label sits below the photograph rather than over it. */}
+      <div className="relative aspect-square overflow-hidden rounded-full bg-surface">
         <Image
           src={destination.image}
           alt={destination.label}
           fill
-          sizes="(min-width: 1024px) 220px, (min-width: 640px) 33vw, 60vw"
-          className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.06]"
+          sizes="(min-width: 1024px) 220px, (min-width: 640px) 33vw, 45vw"
+          className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-text/85 via-text/15 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-4">
-          <span className="block text-[9.5px] font-semibold uppercase tracking-[0.14em] text-on-dark/75">
-            {destination.state}
-          </span>
-          <span className="mt-0.5 block font-display text-[21px] font-normal leading-tight text-on-dark">
-            {destination.label}
-          </span>
-        </div>
+        <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-text/10 transition-colors duration-500 group-hover:ring-text/25" />
       </div>
+      <span className="mt-5 block text-[9.5px] font-medium uppercase tracking-[0.22em] text-subtle">
+        {destination.state}
+      </span>
+      <span className="mt-1.5 block font-display text-[19px] font-normal leading-tight text-text transition-colors duration-300 group-hover:text-meadow-700">
+        {destination.label}
+      </span>
     </Link>
   );
 }
@@ -47,6 +44,21 @@ export function DestinationRail({ destinations }: { destinations: Destination[] 
     <div className="rail -mx-5 flex gap-4 overflow-x-auto px-5 pb-2 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0 lg:grid-cols-5">
       {destinations.map((d) => (
         <DestinationCard key={d.slug} destination={d} className="w-[62vw] shrink-0 sm:w-[40vw] md:w-auto" />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Destination tiles on a true grid — two up on phones, three on tablets, five
+ * across on desktop. No horizontal scrolling at any width, so every tile is
+ * the same size and the rows line up with the section gutter.
+ */
+export function DestinationGrid({ destinations }: { destinations: Destination[] }) {
+  return (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
+      {destinations.map((d) => (
+        <DestinationCard key={d.slug} destination={d} />
       ))}
     </div>
   );
@@ -72,7 +84,7 @@ export function CityCard({
   href: string;
 }) {
   return (
-    <Link href={href} className="group relative block overflow-hidden rounded-2xl bg-surface">
+    <Link href={href} className="group relative block overflow-hidden bg-surface">
       <div className="relative aspect-[16/9]">
         <Image
           src={image}
@@ -83,7 +95,7 @@ export function CityCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-text/85 via-text/25 to-transparent" />
         <div className="absolute left-5 top-5">
-          <span className="rounded-xl bg-text/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-on-dark backdrop-blur-sm">
+          <span className="bg-text/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-on-dark backdrop-blur-sm">
             {count} {count === 1 ? 'trip' : 'trips'}
           </span>
         </div>
@@ -141,7 +153,7 @@ export function ReviewCard({
     .join('');
 
   return (
-    <figure className="flex h-full flex-col rounded-2xl border border-border bg-raised p-6">
+    <figure className="flex h-full flex-col border border-border bg-raised p-6">
       <Stars count={stars} />
       <blockquote className="mt-4 flex-1 text-[13.5px] leading-relaxed text-muted">“{quote}”</blockquote>
       <figcaption className="mt-5 flex items-center gap-3">
@@ -171,7 +183,7 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
             <span className="font-display text-[17px] font-normal leading-snug text-text transition-colors group-hover/faq:text-meadow-700 sm:text-[18px]">
               {item.q}
             </span>
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-xl border border-border-strong text-muted transition-colors group-open/faq:border-sherwood-800 group-open/faq:text-sherwood-800">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center border border-border-strong text-muted transition-colors group-open/faq:border-sherwood-800 group-open/faq:text-sherwood-800">
               <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
                 <path d="M8 3v10" className="origin-center transition-transform duration-200 group-open/faq:rotate-90 group-open/faq:opacity-0" />
                 <path d="M3 8h10" />
@@ -228,7 +240,7 @@ export function GuideCard({
   image: string;
 }) {
   return (
-    <Link href={`/blog/${slug}`} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-raised">
+    <Link href={`/blog/${slug}`} className="group flex flex-col overflow-hidden border border-border bg-raised">
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
           src={image}

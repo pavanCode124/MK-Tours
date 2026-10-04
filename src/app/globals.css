@@ -10,11 +10,11 @@
    --------------------------------------------------------------------------- */
 @theme {
   /* Surfaces */
-  --color-bg: #fcfbf8;
-  --color-surface: #f4f1ea;
+  --color-bg: #fbfaf7;
+  --color-surface: #f2f0ea;
   --color-raised: #ffffff;
-  --color-border: #e8e3d8;
-  --color-border-strong: #d5cebe;
+  --color-border: #e4e0d6;
+  --color-border-strong: #cfc8b8;
 
   /* Ink */
   --color-text: #1c2a35;
@@ -42,8 +42,11 @@
   --color-amber: #dfa63c;
   --color-amber-50: #fdf4e3;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, 'Times New Roman', serif;
+
+  /* Square-cornered by default: the reference UI uses hairlines, not pills. */
+  --radius-none: 0px;
 }
 
 /* Legacy aliases kept so older markup keeps rendering while pages migrate. */
@@ -62,13 +65,30 @@ body {
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Display type is set light and open — the reference template's signature. */
+/* Display type is a light serif set open — the reference site's signature. The
+   old sans-serif tracking was negative; a serif at these sizes wants the
+   opposite, and section titles are set in caps with wide tracking. */
 .font-display {
-  letter-spacing: -0.015em;
+  letter-spacing: 0.005em;
+  font-weight: 400;
+}
+
+/* The section-title treatment: light serif caps, widely tracked. */
+.display-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.055em;
+  line-height: 1.16;
+}
+
+/* Hairline rules carry the layout in place of boxes and shadows. */
+.hairline {
+  border-top: 1px solid var(--color-border);
 }
 
 ::selection {

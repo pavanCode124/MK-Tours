@@ -157,7 +157,7 @@ export function NavMenu({
         data-open={isOpen}
         aria-hidden={!isOpen}
         onClick={close}
-        className={`nav-panel absolute top-[calc(100%+14px)] z-40 ${width} ${alignment} max-w-[min(94vw,1120px)] overflow-hidden rounded-2xl border border-border bg-raised shadow-[0_24px_60px_-18px_rgba(28,46,61,0.3)]`}
+        className={`nav-panel absolute top-[calc(100%+14px)] z-40 ${width} ${alignment} max-w-[min(94vw,1120px)] overflow-hidden border border-border bg-raised shadow-[0_24px_60px_-18px_rgba(28,46,61,0.3)]`}
       >
         {children}
       </div>

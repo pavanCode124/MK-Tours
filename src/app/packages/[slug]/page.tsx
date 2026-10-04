@@ -131,7 +131,7 @@ export default async function TourPage({ params }: Props) {
                     <Link
                       key={p.slug}
                       href={`/destinations/${p.slug}`}
-                      className="rounded-xl border border-border-strong bg-raised px-3.5 py-2 text-[12.5px] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
+                      className="border border-border-strong bg-raised px-3.5 py-2 text-[12.5px] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
                     >
                       {p.label}
                       <span className="text-subtle"> · {p.state}</span>
@@ -179,7 +179,7 @@ export default async function TourPage({ params }: Props) {
             {poster && (
               <section className="mt-12 border-t border-border pt-10">
                 <Display className="text-[26px]">Tour Flyer</Display>
-                <div className="mt-5 overflow-hidden rounded-2xl border border-border bg-surface">
+                <div className="mt-5 overflow-hidden border border-border bg-surface">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={poster} alt={`${pkg.package_name} flyer`} loading="lazy" className="w-full" />
                 </div>
@@ -197,7 +197,7 @@ export default async function TourPage({ params }: Props) {
 
           {/* Booking rail */}
           <aside className="lg:sticky lg:top-28 lg:self-start">
-            <div id="book" className="scroll-mt-28 rounded-2xl border border-border bg-raised p-6 shadow-[0_8px_28px_rgba(48,44,37,.1)]">
+            <div id="book" className="scroll-mt-28 border border-border bg-raised p-6 shadow-[0_8px_28px_rgba(48,44,37,.1)]">
               {from !== null && (
                 <>
                   <span className="block text-[10.5px] font-semibold uppercase tracking-[0.12em] text-subtle">
@@ -221,7 +221,7 @@ export default async function TourPage({ params }: Props) {
                   <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-subtle">
                     Price options
                   </div>
-                  <div className="divide-y divide-border rounded-xl border border-border">
+                  <div className="divide-y divide-border border border-border">
                     {(pkg.pricing ?? []).map((o) => (
                       <div key={o.label} className="flex items-center justify-between gap-4 px-4 py-3">
                         <span className="text-[12.5px] leading-snug text-muted">{o.label}</span>
@@ -272,7 +272,7 @@ export default async function TourPage({ params }: Props) {
                   <div className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-subtle">Best season</div>
                   <div className="flex flex-wrap gap-2">
                     {seasons.map((s) => (
-                      <span key={s!.slug} className={`rounded-xl border px-3 py-1.5 text-[11.5px] ${s!.tone}`}>
+                      <span key={s!.slug} className={`border px-3 py-1.5 text-[11.5px] ${s!.tone}`}>
                         {s!.label} · {s!.window}
                       </span>
                     ))}

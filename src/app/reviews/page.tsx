@@ -23,7 +23,7 @@ export default function ReviewsPage() {
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
-        <div className="flex flex-wrap items-center gap-6 rounded-2xl border border-border bg-amber-50 px-7 py-6">
+        <div className="flex flex-wrap items-center gap-6 border border-border bg-amber-50 px-7 py-6">
           <div>
             <span className="font-display text-[40px] font-normal leading-none text-sherwood-800">4.9</span>
           </div>
@@ -47,7 +47,7 @@ export default function ReviewsPage() {
           ))}
         </div>
 
-        <div className="mt-14 rounded-2xl border border-border bg-surface px-6 py-10 text-center">
+        <div className="mt-14 border border-border bg-surface px-6 py-10 text-center">
           <Display className="text-[24px]">Travelled with us?</Display>
           <p className="mx-auto mt-3 max-w-lg text-[13.5px] leading-relaxed text-muted">
             Leave a review on our Google profile, or send it to us directly. We read the critical ones too — it is how

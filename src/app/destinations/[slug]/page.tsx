@@ -83,7 +83,7 @@ export default async function DestinationPage({ params }: Props) {
               ))}
             </div>
           ) : (
-            <div className="mt-8 rounded-2xl border border-border bg-surface px-6 py-12 text-center">
+            <div className="mt-8 border border-border bg-surface px-6 py-12 text-center">
               <p className="text-[14px] text-muted">
                 No fixed departure covers {destination.label} right now — but we build private itineraries to order.
               </p>

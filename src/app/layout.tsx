@@ -1,22 +1,26 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Manrope, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { FloatingContact } from '@/components/FloatingContact';
 import { RevealFallbackScript, RevealObserver } from '@/components/Motion';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 
-const inter = Inter({
+// Manrope carries body copy at light weights; Playfair Display stands in for
+// the high-contrast editorial serif the brief's reference site sets its
+// headings in. Both are loaded light-first — the design leans on thin strokes.
+const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-inter',
+  weight: ['200', '300', '400', '500', '600'],
+  variable: '--font-manrope',
   display: 'swap',
 });
 
-const outfit = Outfit({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-outfit',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-playfair',
   display: 'swap',
 });
 
@@ -39,7 +43,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${playfair.variable}`}>
       <body className="min-h-screen antialiased">
         <SiteHeader />
         <main>{children}</main>

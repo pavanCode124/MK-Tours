@@ -3,19 +3,17 @@ import { PlainPageHero } from '@/components/PageHero';
 import { LegalBody } from '@/components/LegalBody';
 import { AGENCY } from '@/lib/content';
 import { LEGAL_EFFECTIVE_DATE, PRIVACY_HTML } from '@/lib/legal-content';
-import { getLegal, getPackages } from '@/lib/mktours';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'How MK Tours collects, uses and protects the information you give us when you book a tour.',
 };
 
-export default async function PrivacyPage() {
-  const [legal, packages] = await Promise.all([getLegal().catch(() => null), getPackages().catch(() => [])]);
-
-  // The agency maintains one policy, published on every package in the CRM.
-  const html =
-    legal?.privacy_html?.trim() || packages.find((p) => p.privacy_policy?.trim())?.privacy_policy?.trim() || PRIVACY_HTML;
+export default function PrivacyPage() {
+  // The published policy at tripzocrm.com/privacy-policy/mk-tours is the
+  // authoritative one. The CRM's per-package `privacy_policy` field carries a
+  // short booking summary, not the policy, so it is deliberately not used here.
+  const html = PRIVACY_HTML;
 
   return (
     <>

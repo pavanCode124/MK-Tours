@@ -21,7 +21,7 @@ export function PackageTabs({ groups }: { groups: { label: string; content: Reac
               type="button"
               onClick={() => setActive(i)}
               aria-pressed={i === active}
-              className={`shrink-0 rounded-xl border px-5 py-2.5 text-[12px] font-semibold transition-colors duration-200 ${
+              className={`shrink-0 rounded-full border px-5 py-2.5 text-[12px] font-semibold transition-colors duration-200 ${
                 i === active
                   ? 'border-sherwood-800 bg-sherwood-800 text-on-dark'
                   : 'border-border-strong bg-raised text-text hover:border-sherwood-800 hover:text-sherwood-800'

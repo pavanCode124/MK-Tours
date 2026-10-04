@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
+import { PencilCamera } from '@/components/PencilCamera';
 import { Button } from '@/components/ui';
 import {
   allDestinations,
@@ -61,7 +62,9 @@ export default async function PackagesPage({ searchParams }: Props) {
         crumbs={[{ label: 'Tour Packages' }]}
       />
 
-      <div className="mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
+      <div className="relative overflow-hidden">
+        <PencilCamera className="pointer-events-none absolute -left-16 top-40 hidden w-[240px] -rotate-[9deg] opacity-[0.07] xl:block" />
+        <div className="mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
         {/* Filter rails */}
         <div className="space-y-5">
           <FilterRow label="Destination">
@@ -144,7 +147,7 @@ export default async function PackagesPage({ searchParams }: Props) {
             ))}
           </div>
         ) : (
-          <div className="mt-14 rounded-2xl border border-border bg-surface px-6 py-14 text-center">
+          <div className="mt-14 border border-border bg-surface px-6 py-14 text-center">
             <p className="font-display text-[22px] text-text">No tours match these filters yet.</p>
             <p className="mx-auto mt-3 max-w-md text-[13.5px] leading-relaxed text-muted">
               Our catalogue grows every season, and we build itineraries to order. Tell us where you want to go and when,
@@ -164,7 +167,7 @@ export default async function PackagesPage({ searchParams }: Props) {
         )}
 
         {/* Departure cities footnote */}
-        <div className="mt-14 rounded-2xl border border-border bg-surface p-6">
+        <div className="mt-14 border border-border bg-surface p-6">
           <h2 className="font-display text-[20px] font-normal text-text">Departing from</h2>
           <p className="mt-2 max-w-2xl text-[13.5px] leading-relaxed text-muted">
             Every fixed departure leaves by train from Mumbai, with boarding available at Pune on the same rake. Private
@@ -176,6 +179,7 @@ export default async function PackagesPage({ searchParams }: Props) {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </>
   );
@@ -250,7 +254,7 @@ function Chip({ href, active, label, count }: { href: string; active: boolean; l
   return (
     <Link
       href={href}
-      className={`shrink-0 rounded-xl border px-3.5 py-2 text-[12px] font-medium transition-colors duration-200 ${
+      className={`shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-medium transition-colors duration-200 ${
         active
           ? 'border-sherwood-800 bg-sherwood-800 text-on-dark'
           : 'border-border-strong bg-raised text-text hover:border-sherwood-800 hover:text-sherwood-800'

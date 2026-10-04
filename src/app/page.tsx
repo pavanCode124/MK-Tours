@@ -4,15 +4,14 @@ import { Hero } from '@/components/Hero';
 import { PackageCard } from '@/components/PackageCard';
 import { PackageTabs } from '@/components/PackageTabs';
 import {
-  CityCard,
-  DestinationRail,
+  DestinationGrid,
   FaqList,
-  GalleryStrip,
   GuideCard,
   Pillar,
   ReviewCard,
 } from '@/components/sections';
-import { PalmTrees } from '@/components/PalmTrees';
+import { PencilCamera } from '@/components/PencilCamera';
+import { PencilPalm } from '@/components/PencilPalm';
 import { Button, Display, Eyebrow, Icon, SectionHeading, Stars } from '@/components/ui';
 import {
   allDestinations,
@@ -47,15 +46,6 @@ export default async function HomePage() {
     })),
   ];
 
-  const gallery = [
-    { src: '/images/dest-munnar.jpg', label: 'Munnar tea gardens' },
-    { src: '/images/dest-varanasi.jpg', label: 'Varanasi ghats' },
-    { src: '/images/dest-gulmarg.jpg', label: 'Gulmarg, Kashmir' },
-    { src: '/images/dest-alleppey.jpg', label: 'Alleppey backwaters' },
-    { src: '/images/dest-jaisalmer.jpg', label: 'Jaisalmer fort' },
-    { src: '/images/dest-pokhara.jpg', label: 'Phewa Lake, Pokhara' },
-  ];
-
   return (
     <>
       <Hero
@@ -80,51 +70,25 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Where are you travelling from */}
-      <section className="relative overflow-hidden py-20 lg:py-28">
-        <PalmTrees className="pointer-events-none absolute -bottom-2 -left-2 hidden h-40 opacity-[0.07] sm:block lg:h-52" />
-        <PalmTrees className="palm-sway-delay pointer-events-none absolute -bottom-4 -right-4 hidden h-32 scale-x-[-1] opacity-[0.07] md:block lg:h-44" />
-        <div className="relative mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
+      {/* Top destinations */}
+      <Section className="relative overflow-hidden">
+        <PencilCamera className="absolute -right-10 -top-6 hidden w-[200px] rotate-[9deg] opacity-[0.12] sm:block md:w-[260px] lg:-right-14 lg:-top-8 lg:w-[340px]" />
+        <div className="relative">
           <div className="reveal">
             <SectionHeading
-              align="center"
-              eyebrow="Select your city"
-              title="Where Are You Travelling From?"
-              lede="Every fixed departure leaves by train from Mumbai, with boarding available at Pune — so you reach the start of the trip without a connecting flight."
+              eyebrow="Explore"
+              title="Top Destinations"
+              link={{ href: '/destinations', label: 'View all destinations' }}
             />
           </div>
-          <div className="reveal mt-10 grid gap-5 md:grid-cols-2">
-            {DEPARTURE_CITIES.map((c) => (
-              <CityCard
-                key={c.slug}
-                label={c.label}
-                state={c.state}
-                note={c.note}
-                image={c.image}
-                count={packages.length}
-                href={`/packages?city=${c.slug}`}
-              />
-            ))}
+          <div className="reveal mt-9">
+            <DestinationGrid destinations={destinations.slice(0, 5)} />
           </div>
-        </div>
-      </section>
-
-      {/* Top destinations */}
-      <Section>
-        <div className="reveal">
-          <SectionHeading
-            eyebrow="Explore"
-            title="Top Destinations"
-            link={{ href: '/destinations', label: 'View all destinations' }}
-          />
-        </div>
-        <div className="reveal mt-9">
-          <DestinationRail destinations={destinations.slice(0, 5)} />
-        </div>
-        <div className="reveal mt-9 text-center">
-          <Button href="/destinations" variant="solid">
-            View All Destinations
-          </Button>
+          <div className="reveal mt-9 text-center">
+            <Button href="/destinations" variant="solid">
+              View All Destinations
+            </Button>
+          </div>
         </div>
       </Section>
 
@@ -132,7 +96,7 @@ export default async function HomePage() {
       <Section tone="warm">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="reveal relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl sm:aspect-[4/3] lg:aspect-[4/5]">
+            <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[4/3] lg:aspect-[4/5]">
               <Image
                 src="/images/about-group.jpg"
                 alt="Travellers above Phewa Lake with the Annapurna range behind"
@@ -141,7 +105,7 @@ export default async function HomePage() {
                 className="object-cover"
               />
             </div>
-            <div className="absolute -bottom-5 right-5 rounded-2xl bg-sherwood-900 px-6 py-4 text-center shadow-xl sm:right-10">
+            <div className="absolute -bottom-5 right-5 bg-sherwood-900 px-6 py-4 text-center shadow-xl sm:right-10">
               <div className="font-display text-[26px] font-normal leading-none text-on-dark">Since {AGENCY.since}</div>
               <div className="mt-1 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-meadow-300">
                 Group departures
@@ -216,9 +180,9 @@ export default async function HomePage() {
         </div>
 
         <div className="reveal mt-10 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-2xl border border-border bg-raised p-6">
+          <div className="border border-border bg-raised p-6">
             <div className="mb-5 flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
+              <span className="flex h-9 w-9 items-center justify-center bg-meadow-50 text-meadow-700">
                 <Icon name="calendar" className="h-[18px] w-[18px]" />
               </span>
               <div className="flex-1">
@@ -232,7 +196,7 @@ export default async function HomePage() {
                 <Link
                   key={d.days}
                   href={`/packages?duration=${d.days}`}
-                  className="rounded-xl border border-border p-4 transition-colors hover:border-sherwood-800 hover:bg-surface"
+                  className="border border-border p-4 transition-colors hover:border-sherwood-800 hover:bg-surface"
                 >
                   <div className="font-display text-[22px] font-normal leading-none text-text">{d.days}D</div>
                   <div className="mt-1.5 text-[12px] text-muted">{d.nights} Nights</div>
@@ -244,9 +208,9 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-raised p-6">
+          <div className="border border-border bg-raised p-6">
             <div className="mb-5 flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
+              <span className="flex h-9 w-9 items-center justify-center bg-meadow-50 text-meadow-700">
                 <Icon name="compass" className="h-[18px] w-[18px]" />
               </span>
               <div className="flex-1">
@@ -262,7 +226,7 @@ export default async function HomePage() {
                   <Link
                     key={s.slug}
                     href={`/packages?season=${s.slug}`}
-                    className={`rounded-xl border p-4 transition-shadow hover:shadow-sm ${s.tone}`}
+                    className={`border p-4 transition-shadow hover:shadow-sm ${s.tone}`}
                   >
                     <div className="font-display text-[19px] font-normal leading-tight text-text">{s.label}</div>
                     <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-meadow-700">
@@ -279,9 +243,9 @@ export default async function HomePage() {
         </div>
 
         {/* Themes */}
-        <div className="reveal mt-5 rounded-2xl border border-border bg-raised p-6">
+        <div className="reveal mt-5 border border-border bg-raised p-6">
           <div className="mb-5 flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
+            <span className="flex h-9 w-9 items-center justify-center bg-meadow-50 text-meadow-700">
               <Icon name="star" className="h-[18px] w-[18px]" />
             </span>
             <div className="flex-1">
@@ -295,7 +259,7 @@ export default async function HomePage() {
               <Link
                 key={t.slug}
                 href={`/themes/${t.slug}`}
-                className="rounded-xl border border-border px-4 py-2.5 text-[12.5px] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
+                className="border border-border px-4 py-2.5 text-[12.5px] text-text transition-colors hover:border-sherwood-800 hover:text-sherwood-800"
               >
                 {t.label} <span className="text-subtle">({t.count})</span>
               </Link>
@@ -324,13 +288,14 @@ export default async function HomePage() {
       </Section>
 
       {/* Reviews */}
-      <Section>
-        <div className="reveal flex flex-wrap items-end justify-between gap-6">
+      <Section className="relative overflow-hidden">
+        <PencilPalm className="absolute -bottom-12 -left-14 hidden w-[180px] -rotate-[7deg] opacity-[0.07] lg:block" />
+        <div className="reveal relative flex flex-wrap items-end justify-between gap-6">
           <div>
             <Eyebrow className="mb-2.5">Reviews</Eyebrow>
-            <Display className="text-[30px] sm:text-[36px] lg:text-[40px]">What Our Travellers Say</Display>
+            <Display className="display-caps text-[26px] sm:text-[31px] lg:text-[35px]">What Our Travellers Say</Display>
           </div>
-          <div className="flex items-center gap-3 rounded-2xl border border-border bg-amber-50 px-5 py-3">
+          <div className="flex items-center gap-3 border border-border bg-amber-50 px-5 py-3">
             <span className="font-display text-[26px] font-normal leading-none text-sherwood-800">4.9</span>
             <span>
               <Stars />
@@ -345,21 +310,14 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* Gallery strip */}
-      <section className="reveal pb-20 lg:pb-28">
-        <div className="mx-auto max-w-[1280px] md:px-8 lg:px-12">
-          <GalleryStrip items={gallery} />
-        </div>
-      </section>
-
       {/* Guides */}
       <Section>
         <div className="reveal flex flex-wrap items-end justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-surface text-sherwood-800">
+            <span className="flex h-9 w-9 items-center justify-center bg-surface text-sherwood-800">
               <Icon name="book" className="h-[18px] w-[18px]" />
             </span>
-            <Display className="text-[28px] sm:text-[34px]">Read Before You Go</Display>
+            <Display className="display-caps text-[24px] sm:text-[29px]">Read Before You Go</Display>
           </div>
           <Link
             href="/blog"
@@ -376,10 +334,11 @@ export default async function HomePage() {
       </Section>
 
       {/* FAQ */}
-      <Section>
-        <div className="reveal">
+      <Section className="relative overflow-hidden">
+        <PencilCamera className="absolute -right-14 top-6 hidden w-[230px] rotate-[12deg] opacity-[0.07] lg:block" />
+        <div className="reveal relative">
           <Eyebrow className="mb-2.5">FAQ</Eyebrow>
-          <Display className="text-[30px] sm:text-[36px] lg:text-[40px]">Common Questions</Display>
+          <Display className="display-caps text-[26px] sm:text-[31px] lg:text-[35px]">Common Questions</Display>
         </div>
         <div className="reveal mt-8">
           <FaqList items={ALL_FAQS.slice(0, 14)} />
@@ -397,7 +356,7 @@ export default async function HomePage() {
       {/* Talk to us */}
       <section className="pb-20 lg:pb-28">
         <div className="mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
-          <div className="reveal flex flex-col gap-7 rounded-[28px] bg-sherwood-800 px-7 py-11 text-on-dark sm:px-12 lg:flex-row lg:items-center lg:justify-between">
+          <div className="reveal flex flex-col gap-7 bg-sherwood-800 px-7 py-11 text-on-dark sm:px-12 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
               <Display className="text-[26px] text-on-dark sm:text-[30px]">Have questions? Let&apos;s talk.</Display>
               <p className="mt-2.5 text-[13.5px] leading-relaxed text-on-dark/85">

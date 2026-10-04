@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { PencilCamera } from './PencilCamera';
+import { PencilPalm } from './PencilPalm';
 import { Display } from './ui';
 
 export interface Crumb {
@@ -53,9 +55,9 @@ export function PageHero({
           </nav>
         )}
         {eyebrow && (
-          <span className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-meadow-300">{eyebrow}</span>
+          <span className="mb-3 text-[10.5px] font-medium uppercase tracking-[0.26em] text-meadow-300">{eyebrow}</span>
         )}
-        <Display as="h1" className="max-w-3xl text-[34px] text-on-dark sm:text-[44px] lg:text-[52px]">
+        <Display as="h1" className="display-caps max-w-3xl text-[29px] text-on-dark sm:text-[38px] lg:text-[46px]">
           {title}
         </Display>
         {lede && <p className="mt-4 max-w-2xl text-[14.5px] leading-relaxed text-on-dark/80">{lede}</p>}
@@ -78,8 +80,10 @@ export function PlainPageHero({
   crumbs?: Crumb[];
 }) {
   return (
-    <section className="border-b border-border bg-surface">
-      <div className="mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
+    <section className="relative overflow-hidden border-b border-border bg-surface">
+      <PencilCamera className="absolute -right-8 -top-4 hidden w-[190px] rotate-[7deg] opacity-[0.11] sm:block lg:-right-10 lg:w-[250px]" />
+      <PencilPalm className="absolute bottom-2 right-[240px] hidden w-[86px] -rotate-[6deg] opacity-[0.1] lg:block" />
+      <div className="relative mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
         {crumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-[11.5px] text-muted">
             <Link href="/" className="transition-colors hover:text-sherwood-800">
@@ -100,11 +104,11 @@ export function PlainPageHero({
           </nav>
         )}
         {eyebrow && (
-          <span className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.14em] text-meadow-700">
+          <span className="mb-3 block text-[10.5px] font-medium uppercase tracking-[0.26em] text-meadow-700">
             {eyebrow}
           </span>
         )}
-        <Display as="h1" className="max-w-3xl text-[32px] sm:text-[40px] lg:text-[46px]">
+        <Display as="h1" className="display-caps max-w-3xl text-[27px] sm:text-[34px] lg:text-[40px]">
           {title}
         </Display>
         {lede && <p className="mt-4 max-w-2xl text-[14.5px] leading-relaxed text-muted">{lede}</p>}

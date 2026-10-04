@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { PageHero } from '@/components/PageHero';
+import { PencilCamera } from '@/components/PencilCamera';
+import { PencilPalm } from '@/components/PencilPalm';
 import { Pillar } from '@/components/sections';
 import { Button, Display, Eyebrow, Icon } from '@/components/ui';
 import { allDestinations } from '@/lib/catalog';
@@ -70,8 +72,9 @@ export default async function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="py-16 lg:py-20">
-        <div className="mx-auto grid max-w-[1280px] items-start gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
+      <section className="relative overflow-hidden py-16 lg:py-20">
+        <PencilPalm className="absolute -bottom-8 -left-10 hidden w-[150px] -rotate-[7deg] opacity-[0.08] lg:block" />
+        <div className="relative mx-auto grid max-w-[1280px] items-start gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
           <div>
             <Eyebrow className="mb-3">Who we are</Eyebrow>
             <Display className="text-[30px] sm:text-[36px]">We started with one coach and one route</Display>
@@ -113,7 +116,7 @@ export default async function AboutPage() {
               (src, i) => (
                 <div
                   key={src}
-                  className={`relative overflow-hidden rounded-2xl ${i % 3 === 0 ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}
+                  className={`relative overflow-hidden ${i % 3 === 0 ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}
                 >
                   <Image src={src} alt="" fill sizes="(min-width: 1024px) 260px, 50vw" className="object-cover" />
                 </div>
@@ -124,13 +127,14 @@ export default async function AboutPage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-surface py-16 lg:py-20">
-        <div className="mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
+      <section className="relative overflow-hidden bg-surface py-16 lg:py-20">
+        <PencilCamera className="absolute -right-12 -top-8 hidden w-[230px] rotate-[10deg] opacity-[0.1] md:block lg:w-[300px]" />
+        <div className="relative mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
           <Eyebrow className="mb-3">How we work</Eyebrow>
           <Display className="text-[30px] sm:text-[36px]">From enquiry to platform</Display>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map((s) => (
-              <div key={s.n} className="rounded-2xl border border-border bg-raised p-6">
+              <div key={s.n} className="border border-border bg-raised p-6">
                 <span className="font-display text-[28px] font-normal leading-none text-meadow-600">{s.n}</span>
                 <h3 className="mt-3 font-display text-[19px] font-normal leading-snug text-text">{s.title}</h3>
                 <p className="mt-2.5 text-[13px] leading-relaxed text-muted">{s.body}</p>
@@ -143,7 +147,7 @@ export default async function AboutPage() {
       {/* Pillars */}
       <section className="py-16 lg:py-20">
         <div className="mx-auto max-w-[1280px] px-5 md:px-8 lg:px-12">
-          <div className="rounded-2xl bg-sherwood-800 px-6 py-12 lg:px-10 lg:py-14">
+          <div className="bg-sherwood-800 px-6 py-12 lg:px-10 lg:py-14">
             <div className="text-center">
               <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-meadow-300">
                 What you can count on
@@ -170,8 +174,8 @@ export default async function AboutPage() {
               { icon: 'mail' as const, title: 'Email us', body: AGENCY.email, note: 'We reply the same day' },
               { icon: 'pin' as const, title: 'Find us', body: AGENCY.address, note: 'Departures from Mumbai' },
             ].map((c) => (
-              <div key={c.title} className="rounded-2xl border border-border bg-raised p-6">
-                <span className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl bg-meadow-50 text-meadow-700">
+              <div key={c.title} className="border border-border bg-raised p-6">
+                <span className="mb-4 flex h-9 w-9 items-center justify-center bg-meadow-50 text-meadow-700">
                   <Icon name={c.icon} className="h-[18px] w-[18px]" />
                 </span>
                 <h3 className="text-[10px] font-bold uppercase tracking-[0.14em] text-subtle">{c.title}</h3>

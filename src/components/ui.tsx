@@ -8,13 +8,13 @@ import type { ReactNode } from 'react';
 /** The small uppercase gold label that sits above every section heading. */
 export function Eyebrow({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
-    <span className={`block text-[11px] font-semibold uppercase tracking-[0.14em] text-meadow-700 ${className}`}>
+    <span className={`block text-[10.5px] font-medium uppercase tracking-[0.26em] text-meadow-700 ${className}`}>
       {children}
     </span>
   );
 }
 
-/** Display heading: Outfit at a light-to-regular weight, tight leading. */
+/** Display heading: the editorial serif at a regular weight, open leading. */
 export function Display({
   children,
   as: Tag = 'h2',
@@ -25,7 +25,7 @@ export function Display({
   className?: string;
 }) {
   return (
-    <Tag className={`font-display font-normal leading-[1.14] tracking-[-0.02em] text-text ${className}`}>{children}</Tag>
+    <Tag className={`font-display font-normal leading-[1.18] tracking-[0.01em] text-text ${className}`}>{children}</Tag>
   );
 }
 
@@ -68,13 +68,13 @@ export function SectionHeading({
             )}
           </Eyebrow>
         )}
-        <Display className="text-[32px] sm:text-[40px] lg:text-[46px]">{title}</Display>
-        {lede && <p className="mt-4 text-[15.5px] leading-[1.75] text-muted">{lede}</p>}
+        <Display className="display-caps text-[27px] sm:text-[34px] lg:text-[40px]">{title}</Display>
+        {lede && <p className="mt-5 text-[15px] font-light leading-[1.85] text-muted">{lede}</p>}
       </div>
       {link && (
         <Link
           href={link.href}
-          className="shrink-0 rounded-full border border-border-strong px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-text transition-colors hover:border-meadow-600 hover:bg-meadow-600 hover:text-white"
+          className="shrink-0 rounded-full border border-border-strong px-6 py-3 text-[11px] font-medium uppercase tracking-[0.18em] text-text transition-colors hover:border-sherwood-800 hover:bg-sherwood-800 hover:text-on-dark"
         >
           {link.label} →
         </Link>
@@ -88,19 +88,19 @@ export function SectionHeading({
 /* -------------------------------------------------------------------------- */
 
 const BTN_BASE =
-  'inline-flex items-center justify-center gap-2 rounded-full text-[11.5px] font-semibold uppercase tracking-[0.1em] transition-all duration-200';
+  'inline-flex items-center justify-center gap-2 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] transition-colors duration-200';
 
 const BTN_VARIANTS = {
-  solid: 'bg-sherwood-800 text-on-dark hover:bg-sherwood-900 hover:shadow-[0_10px_24px_-10px_rgba(18,30,40,0.8)]',
-  meadow: 'bg-meadow-600 text-white hover:bg-meadow-700 hover:shadow-[0_10px_24px_-10px_rgba(169,119,31,0.9)]',
-  outline: 'border border-border-strong bg-transparent text-text hover:border-sherwood-800 hover:bg-sherwood-800 hover:text-on-dark',
-  onDark: 'border border-on-dark/35 text-on-dark hover:border-on-dark hover:bg-on-dark/10',
+  solid: 'bg-sherwood-900 text-on-dark hover:bg-sherwood-700',
+  meadow: 'bg-meadow-700 text-white hover:bg-sherwood-900',
+  outline: 'border border-border-strong bg-transparent text-text hover:border-sherwood-900 hover:bg-sherwood-900 hover:text-on-dark',
+  onDark: 'border border-on-dark/40 text-on-dark hover:border-on-dark hover:bg-on-dark hover:text-sherwood-900',
   clay: 'bg-clay text-white hover:bg-clay-600',
 } as const;
 
 const BTN_SIZES = {
-  sm: 'px-5 py-2.5',
-  md: 'px-7 py-3.5',
+  sm: 'px-6 py-3',
+  md: 'px-9 py-4',
 } as const;
 
 export function Button({
@@ -157,7 +157,7 @@ export function Rule({ className = '' }: { className?: string }) {
 export function Pill({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full bg-text/75 px-3 py-1 text-[10px] font-semibold tracking-wide text-on-dark backdrop-blur-sm ${className}`}
+      className={`inline-flex items-center rounded-full bg-text/75 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-on-dark backdrop-blur-sm ${className}`}
     >
       {children}
     </span>

@@ -33,7 +33,7 @@ export default function GalleryPage() {
           {items.map((d, i) => (
             <figure
               key={d.slug}
-              className={`group relative overflow-hidden rounded-2xl bg-surface ${
+              className={`group relative overflow-hidden  bg-surface ${
                 i % 7 === 0 ? 'row-span-2 aspect-[3/4] sm:aspect-[3/5]' : 'aspect-[4/3]'
               }`}
             >
@@ -55,7 +55,7 @@ export default function GalleryPage() {
           ))}
         </div>
 
-        <div className="mt-14 rounded-2xl border border-border bg-surface px-6 py-10 text-center">
+        <div className="mt-14 border border-border bg-surface px-6 py-10 text-center">
           <p className="mx-auto max-w-lg text-[14px] leading-relaxed text-muted">
             Every photograph here is a place one of our departures actually visits. Pick the one you want to stand in.
           </p>

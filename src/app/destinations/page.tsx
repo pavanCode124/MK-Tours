@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHero } from '@/components/PageHero';
+import { PencilPalm } from '@/components/PencilPalm';
 import { DestinationCard } from '@/components/sections';
 import { Display } from '@/components/ui';
 import { allDestinations, destinationsByRegion, destinationsByState } from '@/lib/catalog';
@@ -42,7 +43,9 @@ export default async function DestinationsPage({ searchParams }: Props) {
         crumbs={[{ label: 'Destinations' }]}
       />
 
-      <div className="mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
+      <div className="relative overflow-hidden">
+        <PencilPalm className="pointer-events-none absolute -right-12 top-24 hidden w-[170px] rotate-[8deg] opacity-[0.07] xl:block" />
+        <div className="mx-auto max-w-[1280px] px-5 py-12 md:px-8 lg:px-12 lg:py-16">
         {/* Region / state filters */}
         <div className="space-y-4">
           <Row label="Region">
@@ -114,6 +117,7 @@ export default async function DestinationsPage({ searchParams }: Props) {
             .
           </p>
         )}
+        </div>
       </div>
     </>
   );
@@ -132,7 +136,7 @@ function Chip({ href, active, label, count }: { href: string; active: boolean; l
   return (
     <Link
       href={href}
-      className={`shrink-0 rounded-xl border px-3.5 py-2 text-[12px] font-medium transition-colors duration-200 ${
+      className={`shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-medium transition-colors duration-200 ${
         active
           ? 'border-sherwood-800 bg-sherwood-800 text-on-dark'
           : 'border-border-strong bg-raised text-text hover:border-sherwood-800 hover:text-sherwood-800'

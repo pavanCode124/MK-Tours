@@ -76,14 +76,14 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
 
       <div className="relative mx-auto flex min-h-[calc(100vh-110px)] max-w-[1280px] flex-col items-center justify-center px-5 pb-40 pt-16 md:px-8 lg:px-12">
         {/* Headline card, centred on the photograph — the reference's signature block */}
-        <div className="hero-copy-in w-full max-w-[760px] rounded-[26px] border border-white/25 bg-white/[0.14] px-7 py-11 text-center shadow-[0_30px_80px_-30px_rgba(10,20,28,0.65)] backdrop-blur-md sm:px-12 sm:py-14">
-          <span className="inline-flex items-center gap-3 text-[10.5px] font-semibold uppercase tracking-[0.3em] text-on-dark/85">
+        <div className="hero-copy-in w-full max-w-[760px] border border-white/25 bg-white/[0.14] px-7 py-11 text-center shadow-[0_30px_80px_-30px_rgba(10,20,28,0.65)] backdrop-blur-md sm:px-12 sm:py-14">
+          <span className="inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.34em] text-on-dark/85">
             <span className="h-px w-8 bg-meadow-300/70" />
             Since 2012 · Mumbai
             <span className="h-px w-8 bg-meadow-300/70" />
           </span>
 
-          <h1 className="mt-5 font-display text-[36px] font-light leading-[1.08] tracking-[-0.025em] text-on-dark sm:text-[52px] lg:text-[62px]">
+          <h1 className="mt-5 font-display text-[33px] font-normal leading-[1.14] tracking-[0.01em] text-on-dark sm:text-[46px] lg:text-[56px]">
             Journeys made for
             <br className="hidden sm:block" />{' '}
             <Link
@@ -105,13 +105,13 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/packages"
-              className="inline-flex items-center gap-2 rounded-full bg-meadow-600 px-8 py-4 text-[12px] font-semibold uppercase tracking-[0.1em] text-white shadow-[0_14px_34px_-14px_rgba(169,119,31,1)] transition-colors hover:bg-meadow-700"
+              className="inline-flex items-center gap-2 rounded-full bg-on-dark px-9 py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-sherwood-900 transition-colors hover:bg-meadow-300"
             >
               Explore tours
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-white/45 px-8 py-4 text-[12px] font-semibold uppercase tracking-[0.1em] text-on-dark transition-colors hover:border-white hover:bg-white/15"
+              className="inline-flex items-center gap-2 rounded-full border border-white/45 px-9 py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-on-dark transition-colors hover:border-white hover:bg-white/15"
             >
               Plan a private trip
             </Link>
@@ -124,7 +124,7 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
         <form
           action="/packages"
           method="get"
-          className="hero-form-in grid grid-cols-1 gap-3 rounded-2xl border border-border bg-raised p-5 shadow-[0_24px_60px_-24px_rgba(28,46,61,0.45)] md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end lg:gap-4 lg:p-6"
+          className="hero-form-in grid grid-cols-1 gap-3 border border-border bg-raised p-5 shadow-[0_24px_60px_-24px_rgba(28,46,61,0.45)] md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end lg:gap-4 lg:p-6"
         >
           <Field label="State" name="state" options={states} placeholder="All States" />
           <Field label="Destination" name="destination" options={destinations} placeholder="All Destinations" />
@@ -137,7 +137,7 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
           />
           <button
             type="submit"
-            className="mt-1 inline-flex items-center justify-center rounded-full bg-sherwood-800 px-8 py-[14px] text-[11.5px] font-semibold uppercase tracking-[0.1em] text-on-dark transition-colors duration-200 hover:bg-sherwood-900 lg:mt-0"
+            className="mt-1 inline-flex items-center justify-center rounded-full bg-sherwood-900 px-9 py-[15px] text-[11px] font-medium uppercase tracking-[0.18em] text-on-dark transition-colors duration-200 hover:bg-meadow-700 lg:mt-0"
           >
             Find Tours
           </button>
@@ -166,7 +166,7 @@ function Field({
           name={name}
           defaultValue=""
           aria-label={label}
-          className="w-full cursor-pointer appearance-none rounded-xl border border-border-strong bg-bg px-4 py-[12px] pr-9 text-sm text-text outline-none transition-colors duration-200 hover:bg-surface focus-visible:ring-2 focus-visible:ring-meadow-700"
+          className="w-full cursor-pointer appearance-none border border-border-strong bg-bg px-4 py-[12px] pr-9 text-sm text-text outline-none transition-colors duration-200 hover:bg-surface focus-visible:ring-2 focus-visible:ring-meadow-700"
         >
           <option value="">{placeholder}</option>
           {options.map((o) => (
