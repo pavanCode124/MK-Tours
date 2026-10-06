@@ -65,7 +65,7 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
   const current = HERO_WORDS[wordIndex];
 
   return (
-    <section className="relative bg-sherwood-900">
+    <section className="relative bg-azure-900">
       {/* Crossfading background photographs */}
       <div className="absolute inset-0 overflow-hidden">
         {HERO_SLIDES.map((s, i) => (
@@ -84,22 +84,22 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
 
       {/* Grading: dark from the left so left-aligned copy always holds, plus a
           vignette at the foot that hands over to the page background. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-sherwood-900/88 via-sherwood-900/55 to-sherwood-900/20" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sherwood-900/85 via-transparent to-sherwood-900/45" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-azure-900/88 via-azure-900/55 to-azure-900/20" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-azure-900/85 via-transparent to-azure-900/45" />
 
       {/* Ornament: the flight arc, a drifting plume, and the tree line */}
       <FlightPath
         variant="rise"
-        className="pointer-events-none absolute left-[6%] top-[14%] hidden h-[180px] w-[70%] text-meadow-300/55 md:block"
+        className="pointer-events-none absolute left-[6%] top-[14%] hidden h-[180px] w-[70%] text-vermilion-300/55 md:block"
       />
       <SmokePlume className="pointer-events-none absolute -bottom-6 left-[2%] hidden h-[260px] w-[200px] text-white/30 lg:block" />
-      <TreeLine className="pointer-events-none absolute inset-x-0 bottom-0 h-[110px] text-sherwood-900/70" />
+      <TreeLine className="pointer-events-none absolute inset-x-0 bottom-0 h-[110px] text-azure-900/70" />
 
       <div className="relative mx-auto grid min-h-[calc(100vh-120px)] max-w-[1320px] items-center gap-12 px-5 pb-48 pt-20 md:px-8 lg:grid-cols-[1.25fr_0.75fr] lg:px-12">
         {/* Copy — left aligned, no card behind it */}
         <div className="hero-copy-in max-w-[640px]">
-          <span className="inline-flex items-center gap-2.5 rounded-full border border-meadow-300/40 bg-sherwood-900/35 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-meadow-300 backdrop-blur-md">
-            <span className="h-1.5 w-1.5 rounded-full bg-meadow-400" />
+          <span className="inline-flex items-center gap-2.5 rounded-full border border-vermilion-300/40 bg-azure-900/35 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-vermilion-300 backdrop-blur-md">
+            <span className="h-1.5 w-1.5 rounded-full bg-vermilion-400" />
             Since 2012 · Departures from Mumbai
           </span>
 
@@ -112,11 +112,11 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
             >
               <span
                 data-swapping={swapping}
-                className="hero-word bg-gradient-to-r from-meadow-300 via-meadow-400 to-meadow-500 bg-clip-text font-semibold italic text-transparent"
+                className="hero-word bg-gradient-to-r from-vermilion-300 via-vermilion-400 to-vermilion-500 bg-clip-text font-semibold italic text-transparent"
               >
                 {current.word}
               </span>
-              <span className="absolute inset-x-0 -bottom-1.5 h-[3px] origin-left rounded-full bg-meadow-500/80 transition-transform duration-500 group-hover/word:scale-x-110" />
+              <span className="absolute inset-x-0 -bottom-1.5 h-[3px] origin-left rounded-full bg-vermilion-500/80 transition-transform duration-500 group-hover/word:scale-x-110" />
             </Link>
           </h1>
 
@@ -125,7 +125,7 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link
               href="/packages"
-              className="group/cta inline-flex items-center gap-2 rounded-full bg-meadow-500 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-sherwood-900 shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-meadow-400"
+              className="group/cta inline-flex items-center gap-2 rounded-full bg-vermilion-500 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-white shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-vermilion-400"
             >
               Explore tours
               <span className="transition-transform duration-300 group-hover/cta:translate-x-1">→</span>
@@ -146,7 +146,7 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
               'Support 24×7',
             ].map((t) => (
               <span key={t} className="flex items-center gap-2">
-                <svg viewBox="0 0 24 24" className="h-4 w-4 text-meadow-400" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 text-vermilion-400" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                   <path d="M4.5 12.5l5 5 10-11" />
                 </svg>
                 {t}
@@ -159,10 +159,10 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
         <div className="hero-side-in hidden lg:flex lg:flex-col lg:items-end lg:gap-4">
           <div className="float-soft glass w-[260px] p-5 text-on-dark">
             <div className="flex items-baseline gap-2">
-              <span className="font-display text-[40px] font-bold leading-none text-meadow-300">4.9</span>
+              <span className="font-display text-[40px] font-bold leading-none text-vermilion-300">4.9</span>
               <span className="text-[11.5px] uppercase tracking-[0.14em] text-on-dark/70">/ 5</span>
             </div>
-            <div className="mt-2 flex gap-0.5 text-meadow-400">
+            <div className="mt-2 flex gap-0.5 text-vermilion-400">
               {Array.from({ length: 5 }, (_, i) => (
                 <svg key={i} viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="currentColor" aria-hidden="true">
                   <path d="M10 1.8l2.5 5.1 5.6.8-4 4 1 5.6-5.1-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z" />
@@ -175,12 +175,12 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
           </div>
 
           <div className="float-soft float-soft-delay glass w-[230px] p-5 text-on-dark">
-            <span className="text-[9.5px] font-bold uppercase tracking-[0.2em] text-meadow-300">Next up</span>
+            <span className="text-[9.5px] font-bold uppercase tracking-[0.2em] text-vermilion-300">Next up</span>
             <p className="mt-1.5 font-display text-[19px] font-semibold leading-tight">
               {HERO_SLIDES[slide]?.alt.split(',')[0] ?? 'Kashmir valleys'}
             </p>
             <div className="mt-3 flex items-center gap-2 text-[11.5px] text-on-dark/70">
-              <svg viewBox="0 0 24 24" className="h-4 w-4 text-meadow-400" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+              <svg viewBox="0 0 24 24" className="h-4 w-4 text-vermilion-400" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
                 <path d="M6 3.5h12v11H6zM6 14.5l-2 6M18 14.5l2 6M6 9h12" />
               </svg>
               Group rail booking from Mumbai
@@ -197,7 +197,7 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
                 aria-label={`Show ${s.alt}`}
                 aria-current={i === slide}
                 className={`h-1.5 rounded-full transition-all duration-500 ${
-                  i === slide ? 'w-9 bg-meadow-400' : 'w-4 bg-white/40 hover:bg-white/70'
+                  i === slide ? 'w-9 bg-vermilion-400' : 'w-4 bg-white/40 hover:bg-white/70'
                 }`}
               />
             ))}
@@ -231,7 +231,7 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
             />
             <button
               type="submit"
-              className="group/find mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-sherwood-900 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark shadow-lift transition-all duration-300 hover:-translate-y-0.5 hover:bg-meadow-500 hover:text-sherwood-900 lg:mt-0"
+              className="group/find mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-azure-900 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark shadow-lift transition-all duration-300 hover:-translate-y-0.5 hover:bg-vermilion-500 hover:text-white lg:mt-0"
             >
               Find Tours
               <span className="transition-transform duration-300 group-hover/find:translate-x-1">→</span>
@@ -264,8 +264,8 @@ function Field({
   icon: keyof typeof FIELD_ICONS;
 }) {
   return (
-    <label className="group/field relative flex items-center gap-3 rounded-full border border-border bg-bg px-4 py-2.5 transition-colors duration-300 focus-within:border-meadow-500 hover:border-border-strong">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-meadow-50 text-meadow-700">
+    <label className="group/field relative flex items-center gap-3 rounded-full border border-border bg-bg px-4 py-2.5 transition-colors duration-300 focus-within:border-vermilion-500 hover:border-border-strong">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-vermilion-50 text-vermilion-700">
         <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d={FIELD_ICONS[icon]} />
         </svg>

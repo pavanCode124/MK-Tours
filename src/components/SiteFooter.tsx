@@ -31,23 +31,23 @@ export async function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer id="contact" className="relative scroll-mt-24 overflow-hidden bg-sherwood-900 text-on-dark/75">
+    <footer id="contact" className="relative scroll-mt-24 overflow-hidden bg-azure-900 text-on-dark/75">
       {/* The footer opens on a tree line and carries a flight arc and a soft
           smoke mass behind the columns, so it is never a flat slab of colour. */}
       <WaveDivider flip className="pointer-events-none absolute inset-x-0 top-0 h-[72px] text-bg" />
       <FlightPath
         variant="fall"
-        className="pointer-events-none absolute right-0 top-[120px] hidden h-[160px] w-[60%] text-meadow-300/25 lg:block"
+        className="pointer-events-none absolute right-0 top-[120px] hidden h-[160px] w-[60%] text-vermilion-300/25 lg:block"
       />
-      <SmokeShadow className="pointer-events-none absolute -bottom-10 left-[10%] h-[280px] w-[55%] text-sherwood-500/25" />
-      <CompassRose className="pointer-events-none absolute -right-14 bottom-24 hidden h-[260px] w-[260px] text-meadow-300/10 lg:block" />
+      <SmokeShadow className="pointer-events-none absolute -bottom-10 left-[10%] h-[280px] w-[55%] text-azure-500/25" />
+      <CompassRose className="pointer-events-none absolute -right-14 bottom-24 hidden h-[260px] w-[260px] text-vermilion-300/10 lg:block" />
 
       <div className="relative mx-auto max-w-[1320px] px-5 pt-24 md:px-8 lg:px-12">
-        {/* Newsletter — a raised card floating on the pine rather than a slab */}
+        {/* Newsletter — a raised card floating on the indigo rather than a slab */}
         <div className="glass-dark overflow-hidden p-8 shadow-float sm:p-11">
           <div className="flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
-              <span className="inline-flex items-center gap-2 rounded-full border border-meadow-300/35 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-meadow-300">
+              <span className="inline-flex items-center gap-2 rounded-full border border-vermilion-300/35 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-vermilion-300">
                 <Icon name="mail" className="h-3.5 w-3.5" />
                 Newsletter
               </span>
@@ -74,7 +74,7 @@ export async function SiteFooter() {
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-full bg-meadow-500 px-6 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-sherwood-900 transition-colors hover:bg-meadow-400"
+                className="shrink-0 rounded-full bg-vermilion-500 px-6 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-vermilion-400"
               >
                 Subscribe
               </button>
@@ -90,7 +90,7 @@ export async function SiteFooter() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={logo} alt="" aria-hidden="true" className="h-11 w-auto rounded-xl bg-bg/95 p-1" />
               ) : (
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-meadow-500 font-display text-base font-bold text-sherwood-900">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-vermilion-500 font-display text-base font-bold text-white">
                   MK
                 </span>
               )}
@@ -102,18 +102,14 @@ export async function SiteFooter() {
             </p>
             <div className="mt-6 flex gap-2.5">
               <Social href={AGENCY.instagram} label="Instagram">
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                  <path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 1.8.25 2.2.42.6.23 1 .5 1.4.94.44.43.71.83.94 1.4.17.42.36 1.02.42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 1.8-.42 2.2-.23.6-.5 1-.94 1.4-.43.44-.83.71-1.4.94-.42.17-1.02.36-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-1.8-.25-2.2-.42-.6-.23-1-.5-1.4-.94-.44-.43-.71-.83-.94-1.4-.17-.42-.36-1.02-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.25-1.8.42-2.2.23-.6.5-1 .94-1.4.43-.44.83-.71 1.4-.94.42-.17 1.02-.36 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.4a6.4 6.4 0 100 12.8 6.4 6.4 0 000-12.8zm0 10.56a4.16 4.16 0 110-8.32 4.16 4.16 0 010 8.32zm8.14-10.81a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-                </svg>
+                <InstagramIcon />
               </Social>
               <Social href={AGENCY.googleProfile} label="Google profile">
-                <span className="text-[11px] font-bold">G</span>
+                <GoogleIcon />
               </Social>
               {wa && (
                 <Social href={wa} label="WhatsApp">
-                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                    <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.38a9.86 9.86 0 004.74 1.21c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0012.04 2zm4.52 12.07c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.53.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.1-.5.11-.11.25-.29.37-.44.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.55-.43h-.47c-.16 0-.43.06-.65.3-.23.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.13.17 1.74 2.65 4.21 3.72.59.25 1.05.4 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.46-.6 1.67-1.18.2-.57.2-1.07.14-1.17-.06-.11-.22-.17-.47-.29z" />
-                  </svg>
+                  <WhatsAppIcon />
                 </Social>
               )}
             </div>
@@ -129,9 +125,9 @@ export async function SiteFooter() {
                 {tel ? (
                   <a
                     href={tel}
-                    className="inline-flex items-center gap-2 font-bold text-on-dark transition-colors hover:text-meadow-300"
+                    className="inline-flex items-center gap-2 font-bold text-on-dark transition-colors hover:text-vermilion-300"
                   >
-                    <Icon name="phone" className="h-4 w-4 text-meadow-400" />
+                    <Icon name="phone" className="h-4 w-4 text-vermilion-400" />
                     {formatPhone(AGENCY.phonePrimary)}
                   </a>
                 ) : (
@@ -141,31 +137,31 @@ export async function SiteFooter() {
               <li>
                 <a
                   href={telHref(AGENCY.phoneSecondary)}
-                  className="inline-flex items-center gap-2 text-on-dark/70 transition-colors hover:text-meadow-300"
+                  className="inline-flex items-center gap-2 text-on-dark/70 transition-colors hover:text-vermilion-300"
                 >
-                  <Icon name="phone" className="h-4 w-4 text-meadow-400/60" />
+                  <Icon name="phone" className="h-4 w-4 text-vermilion-400/60" />
                   {formatPhone(AGENCY.phoneSecondary)}
                 </a>
               </li>
               <li className="flex items-center gap-2 pb-1 text-[12px] text-on-dark/50">
-                <Icon name="clock" className="h-4 w-4 text-meadow-400/60" />
+                <Icon name="clock" className="h-4 w-4 text-vermilion-400/60" />
                 {AGENCY.hours}
               </li>
               <li>
                 <a
                   href={`mailto:${AGENCY.email}`}
-                  className="inline-flex items-center gap-2 text-on-dark/70 transition-colors hover:text-meadow-300"
+                  className="inline-flex items-center gap-2 text-on-dark/70 transition-colors hover:text-vermilion-300"
                 >
-                  <Icon name="mail" className="h-4 w-4 text-meadow-400/60" />
+                  <Icon name="mail" className="h-4 w-4 text-vermilion-400/60" />
                   {AGENCY.email}
                 </a>
               </li>
               <li className="flex items-start gap-2 pt-2 text-[12.5px] leading-relaxed text-on-dark/55">
-                <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-meadow-400/60" />
+                <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-vermilion-400/60" />
                 {AGENCY.address}
               </li>
               <li className="flex items-center gap-2 pt-2 text-[12px] text-on-dark/50">
-                <Icon name="train" className="h-4 w-4 text-meadow-400/60" />
+                <Icon name="train" className="h-4 w-4 text-vermilion-400/60" />
                 Fixed departures from Mumbai &amp; Pune
               </li>
             </ul>
@@ -174,7 +170,7 @@ export async function SiteFooter() {
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/wa mt-6 inline-flex items-center gap-2 rounded-full bg-meadow-500 px-6 py-3 text-[10.5px] font-bold uppercase tracking-[0.14em] text-sherwood-900 shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-meadow-400"
+                className="group/wa mt-6 inline-flex items-center gap-2 rounded-full bg-vermilion-500 px-6 py-3 text-[10.5px] font-bold uppercase tracking-[0.14em] text-white shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-vermilion-400"
               >
                 Customize Your Trip
                 <span className="transition-transform duration-300 group-hover/wa:translate-x-1">→</span>
@@ -190,16 +186,16 @@ export async function SiteFooter() {
             © {year} {host?.name ?? AGENCY.name}. All rights reserved.
           </span>
           <div className="flex flex-wrap gap-x-5 gap-y-1">
-            <Link href="/privacy" className="transition-colors hover:text-meadow-300">
+            <Link href="/privacy" className="transition-colors hover:text-vermilion-300">
               Privacy
             </Link>
-            <Link href="/terms" className="transition-colors hover:text-meadow-300">
+            <Link href="/terms" className="transition-colors hover:text-vermilion-300">
               Terms
             </Link>
-            <Link href="/terms#cancellation" className="transition-colors hover:text-meadow-300">
+            <Link href="/terms#cancellation" className="transition-colors hover:text-vermilion-300">
               Refunds
             </Link>
-            <Link href="/destinations" className="transition-colors hover:text-meadow-300">
+            <Link href="/destinations" className="transition-colors hover:text-vermilion-300">
               Sitemap
             </Link>
           </div>
@@ -211,8 +207,8 @@ export async function SiteFooter() {
 
 function ColumnTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-meadow-400">
-      <span className="h-1.5 w-1.5 rounded-full bg-meadow-500" />
+    <div className="mb-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-vermilion-400">
+      <span className="h-1.5 w-1.5 rounded-full bg-vermilion-500" />
       {children}
     </div>
   );
@@ -227,9 +223,9 @@ function FooterColumn({ title, links }: { title: string; links: { href: string; 
           <li key={l.href}>
             <Link
               href={l.href}
-              className="group/l inline-flex items-center gap-1.5 text-on-dark/70 transition-colors hover:text-meadow-300"
+              className="group/l inline-flex items-center gap-1.5 text-on-dark/70 transition-colors hover:text-vermilion-300"
             >
-              <span className="h-px w-0 bg-meadow-400 transition-all duration-300 group-hover/l:w-3" />
+              <span className="h-px w-0 bg-vermilion-400 transition-all duration-300 group-hover/l:w-3" />
               {l.label}
             </Link>
           </li>
@@ -247,9 +243,47 @@ function Social({ href, label, children }: { href?: string; label: string; child
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/20 text-on-dark/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-meadow-400 hover:bg-meadow-500 hover:text-sherwood-900"
+      className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/20 text-on-dark/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-vermilion-400 hover:bg-vermilion-500 hover:text-white"
     >
       {children}
     </a>
+  );
+}
+
+/* --------------------------------------------------------------------------
+   Brand marks.
+
+   These are drawn rather than pulled from the line-icon set: a social row wants
+   each service's own mark, and the Instagram glyph in particular has to be a
+   stroked outline — filled as one path, its lens and flash holes close up and
+   it reads as a plain rounded square.
+   -------------------------------------------------------------------------- */
+
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5.2" />
+      <circle cx="12" cy="12" r="4.1" />
+      <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+/** The Google "G", monochrome so the row reads as one set and picks up the
+    hover colour like its neighbours. */
+function GoogleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="currentColor" aria-hidden="true">
+      <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+    </svg>
+  );
+}
+
+function WhatsAppIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor" aria-hidden="true">
+      <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.57-.49-.5-.67-.5-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z" />
+      <path d="M12.04 2C6.58 2 2.14 6.44 2.14 11.9c0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.38a9.86 9.86 0 004.74 1.21h.01c5.45 0 9.89-4.44 9.89-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0012.04 2zm0 18.08h-.01a8.2 8.2 0 01-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.37c0-4.53 3.7-8.22 8.23-8.22a8.18 8.18 0 015.81 2.41 8.17 8.17 0 012.41 5.82c0 4.53-3.69 8.22-8.22 8.22z" />
+    </svg>
   );
 }

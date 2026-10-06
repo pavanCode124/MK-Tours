@@ -76,21 +76,21 @@ export default async function PackagesPage({ searchParams }: Props) {
         <PencilCamera className="pointer-events-none absolute -left-16 top-56 hidden w-[230px] -rotate-[9deg] opacity-[0.07] xl:block" />
         <FlightPath
           variant="arch"
-          className="pointer-events-none absolute left-[8%] top-10 hidden h-[150px] w-[80%] text-meadow-500/18 lg:block"
+          className="pointer-events-none absolute left-[8%] top-10 hidden h-[150px] w-[80%] text-vermilion-500/18 lg:block"
         />
-        <TopoField className="pointer-events-none absolute -right-14 top-[45%] hidden h-[340px] w-[42%] text-sherwood-700/8 lg:block" />
-        <BanyanTree className="pointer-events-none absolute bottom-[12%] -left-14 hidden h-[240px] w-[240px] text-sherwood-700/8 xl:block" />
+        <TopoField className="pointer-events-none absolute -right-14 top-[45%] hidden h-[340px] w-[42%] text-azure-700/8 lg:block" />
+        <BanyanTree className="pointer-events-none absolute bottom-[12%] -left-14 hidden h-[240px] w-[240px] text-azure-700/8 xl:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
           {/* Filter board — one raised card holding every rail */}
           <div className="card p-6 sm:p-7">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-3.5">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
                   <Icon name="compass" className="h-5 w-5" />
                 </span>
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">Narrow it down</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">Narrow it down</div>
                   <div className="font-display text-[20px] font-semibold leading-tight text-text">
                     Filter the catalogue
                   </div>
@@ -103,7 +103,7 @@ export default async function PackagesPage({ searchParams }: Props) {
                 {hasFilters && (
                   <Link
                     href="/packages"
-                    className="rounded-full border border-border-strong px-3.5 py-1.5 text-[11.5px] font-bold text-meadow-700 transition-colors hover:border-meadow-500 hover:bg-meadow-50"
+                    className="rounded-full border border-border-strong px-3.5 py-1.5 text-[11.5px] font-bold text-vermilion-700 transition-colors hover:border-vermilion-500 hover:bg-vermilion-50"
                   >
                     Clear all ×
                   </Link>
@@ -183,10 +183,10 @@ export default async function PackagesPage({ searchParams }: Props) {
             </div>
           ) : (
             <div className="relative mt-12 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-16 text-center shadow-soft">
-              <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-sherwood-600/15" />
-              <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-sherwood-700/12 tree-breathe sm:block" />
+              <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/15" />
+              <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-azure-700/12 tree-breathe sm:block" />
               <div className="relative">
-                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/60">
+                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/60">
                   <Icon name="compass" className="h-6 w-6" />
                 </span>
                 <Display className="text-[23px]">No tours match these filters yet.</Display>
@@ -199,7 +199,7 @@ export default async function PackagesPage({ searchParams }: Props) {
                     Clear filters
                   </Button>
                   {wa && (
-                    <Button href={wa} external variant="meadow">
+                    <Button href={wa} external variant="accent">
                       Ask us on WhatsApp
                     </Button>
                   )}
@@ -309,8 +309,8 @@ function Chip({ href, active, label, count }: { href: string; active: boolean; l
       href={href}
       className={`shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all duration-300 ${
         active
-          ? 'border-sherwood-900 bg-sherwood-900 text-on-dark shadow-lift'
-          : 'border-border bg-bg text-text hover:-translate-y-0.5 hover:border-meadow-300 hover:bg-meadow-50 hover:text-meadow-700 hover:shadow-soft'
+          ? 'border-azure-900 bg-azure-900 text-on-dark shadow-lift'
+          : 'border-border bg-bg text-text hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft'
       }`}
     >
       {label}

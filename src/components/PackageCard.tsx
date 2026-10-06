@@ -55,15 +55,15 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
             priority={priority}
             className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-sherwood-900/55 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-azure-900/55 via-transparent to-transparent" />
           <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-sherwood-900/55 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.12em] text-on-dark backdrop-blur-md">
+          <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-azure-900/55 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.12em] text-on-dark backdrop-blur-md">
             <Icon name="train" className="h-3 w-3" />
             Fixed departure
           </span>
           {duration && (
-            <span className="absolute right-3 top-3 rounded-full bg-meadow-500 px-2.5 py-1 text-[10px] font-bold text-sherwood-900 shadow-glow">
+            <span className="absolute right-3 top-3 rounded-full bg-vermilion-500 px-2.5 py-1 text-[10px] font-bold text-white shadow-glow">
               {duration}
             </span>
           )}
@@ -77,11 +77,11 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <span className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-meadow-700">
+        <span className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-vermilion-700">
           {contextLine(pkg)}
         </span>
         <Link href={href} className="mt-1.5">
-          <h3 className="font-display text-[20px] font-semibold leading-tight text-text transition-colors group-hover:text-meadow-700">
+          <h3 className="font-display text-[20px] font-semibold leading-tight text-text transition-colors group-hover:text-vermilion-700">
             {pkg.package_name.replace(/ Group Tour$/, '')}
           </h3>
         </Link>
@@ -101,7 +101,7 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
                   <span className="block text-[10px] font-bold uppercase tracking-[0.12em] text-subtle">
                     Starting from
                   </span>
-                  <span className="font-display text-[25px] font-bold leading-none text-sherwood-700">
+                  <span className="font-display text-[25px] font-bold leading-none text-azure-700">
                     {formatINR(from)}
                   </span>
                   {top !== null && top > from && (
@@ -115,13 +115,13 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
             <div className="flex shrink-0 flex-col gap-1.5 sm:flex-row">
               <Link
                 href={href}
-                className="rounded-full border border-border-strong bg-raised px-3.5 py-2 text-center text-[10.5px] font-bold uppercase tracking-[0.08em] text-text transition-colors hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark"
+                className="rounded-full border border-border-strong bg-raised px-3.5 py-2 text-center text-[10.5px] font-bold uppercase tracking-[0.08em] text-text transition-colors hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
               >
                 Details
               </Link>
               <Link
                 href={`${href}#book`}
-                className="rounded-full bg-meadow-500 px-3.5 py-2 text-center text-[10.5px] font-bold uppercase tracking-[0.08em] text-sherwood-900 shadow-glow transition-colors hover:bg-meadow-400"
+                className="rounded-full bg-vermilion-500 px-3.5 py-2 text-center text-[10.5px] font-bold uppercase tracking-[0.08em] text-white shadow-glow transition-colors hover:bg-vermilion-400"
               >
                 Book
               </Link>

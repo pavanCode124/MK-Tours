@@ -33,12 +33,12 @@ export default function ContactPage() {
       <div className="relative overflow-hidden">
         <FlightPath
           variant="fall"
-          className="pointer-events-none absolute right-0 top-10 hidden h-[150px] w-[60%] text-meadow-500/18 lg:block"
+          className="pointer-events-none absolute right-0 top-10 hidden h-[150px] w-[60%] text-vermilion-500/18 lg:block"
         />
-        <TopoField className="pointer-events-none absolute -left-12 top-[40%] hidden h-[320px] w-[40%] text-sherwood-700/8 lg:block" />
+        <TopoField className="pointer-events-none absolute -left-12 top-[40%] hidden h-[320px] w-[40%] text-azure-700/8 lg:block" />
         <SmokePlume
           seed={4}
-          className="pointer-events-none absolute -right-4 bottom-[22%] hidden h-[250px] w-[190px] text-sherwood-600/12 lg:block"
+          className="pointer-events-none absolute -right-4 bottom-[22%] hidden h-[250px] w-[190px] text-azure-600/12 lg:block"
         />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
@@ -78,12 +78,12 @@ export default function ContactPage() {
           {/* Where we are */}
           <div className="mt-6 grid gap-5 lg:grid-cols-3">
             <div className="card relative overflow-hidden p-7 sm:p-9 lg:col-span-2">
-              <CameraBadge className="pointer-events-none absolute -right-6 -top-4 hidden h-[160px] w-[190px] text-sherwood-700/8 sm:block" />
+              <CameraBadge className="pointer-events-none absolute -right-6 -top-4 hidden h-[160px] w-[190px] text-azure-700/8 sm:block" />
               <div className="relative">
                 <Eyebrow className="mb-4">Our base</Eyebrow>
                 <Display className="text-[24px]">Where we are</Display>
                 <p className="mt-4 flex items-start gap-2.5 text-[14px] leading-relaxed text-muted">
-                  <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-meadow-700" />
+                  <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-vermilion-700" />
                   {AGENCY.address}
                 </p>
                 <p className="mt-4 text-[13.5px] leading-[1.75] text-muted">
@@ -101,7 +101,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-[1.5rem] bg-sherwood-900 p-7 text-on-dark shadow-float">
+            <div className="relative overflow-hidden rounded-[1.5rem] bg-azure-900 p-7 text-on-dark shadow-float">
               <PineTree className="pointer-events-none absolute -bottom-1 -right-3 h-[140px] w-[60px] text-black/25 tree-breathe" />
               <div className="relative">
                 <Eyebrow tone="dark" className="mb-4">
@@ -120,7 +120,7 @@ export default function ContactPage() {
                     'Anything you need us to plan around',
                   ].map((l) => (
                     <li key={l} className="flex items-start gap-2.5">
-                      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-meadow-500/20 text-meadow-300">
+                      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-vermilion-500/20 text-vermilion-300">
                         <Icon name="check" className="h-3 w-3" />
                       </span>
                       {l}
@@ -128,7 +128,7 @@ export default function ContactPage() {
                   ))}
                 </ul>
                 {wa && (
-                  <Button href={wa} external variant="meadow" className="mt-7 w-full">
+                  <Button href={wa} external variant="accent" className="mt-7 w-full">
                     Start on WhatsApp
                   </Button>
                 )}
@@ -149,7 +149,7 @@ export default function ContactPage() {
                 <div key={group.group}>
                   <div className="mb-5 flex items-center gap-3">
                     <span className="h-px flex-1 bg-gradient-to-r from-transparent to-border-strong" />
-                    <h3 className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-meadow-700">
+                    <h3 className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-vermilion-700">
                       {group.group}
                     </h3>
                     <span className="h-px flex-1 bg-gradient-to-l from-transparent to-border-strong" />
@@ -183,19 +183,19 @@ function ChannelCard({
   return (
     <div
       className={`group flex flex-col rounded-[1.5rem] border p-6 shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-float ${
-        highlight ? 'border-meadow-300 bg-meadow-50' : 'border-border bg-raised'
+        highlight ? 'border-vermilion-300 bg-vermilion-50' : 'border-border bg-raised'
       }`}
     >
       <span
         className={`mb-4 flex h-11 w-11 items-center justify-center rounded-2xl transition-colors duration-500 ${
           highlight
-            ? 'bg-meadow-500 text-sherwood-900 shadow-glow'
-            : 'bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50 group-hover:bg-meadow-500 group-hover:text-sherwood-900'
+            ? 'bg-vermilion-500 text-white shadow-glow'
+            : 'bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50 group-hover:bg-vermilion-500 group-hover:text-white'
         }`}
       >
         <Icon name={icon} className="h-5 w-5" />
       </span>
-      <h2 className="text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">{title}</h2>
+      <h2 className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">{title}</h2>
       <div className="mt-2 space-y-0.5">
         {lines.map((l) => (
           <p key={l} className="text-[14px] font-semibold leading-snug text-text">
@@ -208,7 +208,7 @@ function ChannelCard({
         <a
           href={action.href}
           {...(action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[12.5px] font-bold text-meadow-700 underline-offset-4 hover:underline"
+          className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[12.5px] font-bold text-vermilion-700 underline-offset-4 hover:underline"
         >
           {action.label}
           <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

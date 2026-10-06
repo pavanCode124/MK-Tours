@@ -1,13 +1,12 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Design tokens — "Monsoon Pine & Marigold".
+   Design tokens — "Indigo & Vermilion".
 
-   The palette is built from three things you actually see on these routes: the
-   wet-season pine and backwater green that carries every dark panel, the
-   marigold of a temple garland for accents and primary buttons, and a terracotta
-   that stands in for Rajasthan sandstone on the warm panels. Everything sits on
-   a paper-cream page.
+   The palette is built from the two colours the logo and the wordmark already
+   carry: a deep indigo blue that holds every dark panel and heading, and a
+   vermilion red for accents, eyebrows and primary buttons. A berry clay carries
+   the odd warm badge. Everything sits on a cool paper-white page.
 
    Shape language: nothing is square. Cards are generously rounded and lifted on
    a soft two-stage shadow; photographs are clipped to the same curve; dark
@@ -15,44 +14,44 @@
    --------------------------------------------------------------------------- */
 @theme {
   /* Surfaces */
-  --color-bg: #fdfbf5;
-  --color-surface: #f5efe2;
+  --color-bg: #fbfcfe;
+  --color-surface: #eff3fa;
   --color-raised: #ffffff;
-  --color-border: #ece4d3;
-  --color-border-strong: #d6c9ae;
+  --color-border: #e2e9f4;
+  --color-border-strong: #c2d0e4;
 
   /* Ink */
-  --color-text: #14302c;
-  --color-muted: #4e6b65;
-  --color-subtle: #86a09a;
-  --color-on-dark: #f4fbf7;
+  --color-text: #14213d;
+  --color-muted: #4a5a77;
+  --color-subtle: #8695ad;
+  --color-on-dark: #f2f6fd;
 
-  /* Sherwood — the brand pine, used for dark panels and headings */
-  --color-sherwood-900: #0b211f;
-  --color-sherwood-800: #113430;
-  --color-sherwood-700: #1a4f46;
-  --color-sherwood-600: #28705f;
-  --color-sherwood-500: #3b8d76;
-  --color-sherwood-200: #a7d6c5;
-  --color-sherwood-100: #d6ece3;
+  /* Azure — the brand indigo, used for dark panels and headings */
+  --color-azure-900: #0a1a3c;
+  --color-azure-800: #11295e;
+  --color-azure-700: #1b3f87;
+  --color-azure-600: #2457ab;
+  --color-azure-500: #3576d4;
+  --color-azure-200: #b3cdf2;
+  --color-azure-100: #dce9fb;
 
-  /* Meadow — the marigold accent for links, eyebrows and primary buttons */
-  --color-meadow-800: #93590f;
-  --color-meadow-700: #b36f16;
-  --color-meadow-600: #d08a1e;
-  --color-meadow-500: #eca22c;
-  --color-meadow-400: #f4bb5c;
-  --color-meadow-300: #f9d292;
-  --color-meadow-100: #fdedd0;
-  --color-meadow-50: #fdf6e8;
+  /* Vermilion — the red accent for links, eyebrows and primary buttons */
+  --color-vermilion-800: #7e1d0d;
+  --color-vermilion-700: #9e2612;
+  --color-vermilion-600: #bd2e17;
+  --color-vermilion-500: #d6381f;
+  --color-vermilion-400: #ec6a52;
+  --color-vermilion-300: #f79d89;
+  --color-vermilion-100: #fcdfd8;
+  --color-vermilion-50: #fdf2ef;
 
-  /* Warm accents — sandstone terracotta and a rose for the odd highlight */
-  --color-clay: #b85538;
-  --color-clay-600: #97412a;
-  --color-clay-100: #f7e3da;
-  --color-rose: #a84465;
-  --color-amber: #eca22c;
-  --color-amber-50: #fdf6e8;
+  /* Warm accents — a berry clay and a rose for the odd highlight */
+  --color-clay: #a62a45;
+  --color-clay-600: #87203a;
+  --color-clay-100: #f7dde4;
+  --color-rose: #8d3356;
+  --color-amber: #d6381f;
+  --color-amber-50: #fdf2ef;
 
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, 'Times New Roman', serif;
@@ -63,18 +62,18 @@
   --radius-hero: 2.75rem;
 
   /* Two-stage soft shadows: a tight contact shadow plus a wide ambient one. */
-  --shadow-soft: 0 1px 2px rgba(11, 33, 31, 0.04), 0 10px 26px -14px rgba(11, 33, 31, 0.16);
-  --shadow-lift: 0 2px 4px rgba(11, 33, 31, 0.05), 0 22px 44px -20px rgba(11, 33, 31, 0.26);
-  --shadow-float: 0 4px 10px rgba(11, 33, 31, 0.07), 0 36px 70px -28px rgba(11, 33, 31, 0.34);
-  --shadow-glow: 0 10px 34px -12px rgba(236, 162, 44, 0.5);
+  --shadow-soft: 0 1px 2px rgba(10, 26, 60, 0.04), 0 10px 26px -14px rgba(10, 26, 60, 0.16);
+  --shadow-lift: 0 2px 4px rgba(10, 26, 60, 0.05), 0 22px 44px -20px rgba(10, 26, 60, 0.26);
+  --shadow-float: 0 4px 10px rgba(10, 26, 60, 0.07), 0 36px 70px -28px rgba(10, 26, 60, 0.34);
+  --shadow-glow: 0 10px 34px -12px rgba(214, 56, 31, 0.45);
   --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* Legacy aliases kept so older markup keeps rendering while pages migrate. */
 @theme {
-  --color-primary: #113430;
-  --color-accent: #b36f16;
-  --color-accent-bright: #eca22c;
+  --color-primary: #11295e;
+  --color-accent: #9e2612;
+  --color-accent-bright: #d6381f;
 }
 
 html {
@@ -105,13 +104,13 @@ body {
   line-height: 1.08;
 }
 
-/* A hand-drawn marigold underline for the key word in a heading. Drawn as the
+/* A hand-drawn vermilion underline for the key word in a heading. Drawn as the
    element's own background so it always paints under the glyphs, whatever
    stacking context the heading happens to sit in. */
 .flourish {
   display: inline-block;
   padding-bottom: 0.06em;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 10c34-7 72-9 104-6 24 2 48 6 92 2' fill='none' stroke='%23f4bb5c' stroke-width='6' stroke-linecap='round' opacity='.85'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 10c34-7 72-9 104-6 24 2 48 6 92 2' fill='none' stroke='%23f08a72' stroke-width='6' stroke-linecap='round' opacity='.85'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 100% 0.3em;
@@ -123,13 +122,13 @@ body {
 }
 
 ::selection {
-  background: var(--color-meadow-300);
-  color: var(--color-sherwood-900);
+  background: var(--color-vermilion-300);
+  color: var(--color-azure-900);
 }
 
-/* Keyboard focus is marigold, never removed. */
+/* Keyboard focus is vermilion, never removed. */
 :focus-visible {
-  outline: 2px solid var(--color-meadow-600);
+  outline: 2px solid var(--color-vermilion-600);
   outline-offset: 3px;
 }
 
@@ -168,7 +167,7 @@ body {
   backdrop-filter: blur(14px) saturate(130%);
 }
 
-/* A dark glass variant for panels sitting on the pine sections. */
+/* A dark glass variant for panels sitting on the indigo sections. */
 @utility glass-dark {
   border-radius: var(--radius-card);
   background: rgba(255, 255, 255, 0.06);
@@ -186,12 +185,12 @@ body {
   background-size: 22px 22px;
 }
 
-/* Soft marigold / pine light blooms, placed behind content. */
+/* Soft vermilion / indigo light blooms, placed behind content. */
 @utility bloom-warm {
-  background: radial-gradient(closest-side, rgba(236, 162, 44, 0.28), rgba(236, 162, 44, 0));
+  background: radial-gradient(closest-side, rgba(214, 56, 31, 0.24), rgba(214, 56, 31, 0));
 }
 @utility bloom-cool {
-  background: radial-gradient(closest-side, rgba(40, 112, 95, 0.22), rgba(40, 112, 95, 0));
+  background: radial-gradient(closest-side, rgba(36, 87, 171, 0.20), rgba(36, 87, 171, 0));
 }
 
 /* The drawn arc a dark section meets the page on. */
@@ -442,7 +441,7 @@ body {
   display: none;
 }
 
-/* Vertical scroll areas inside nav panels keep a slim marigold thumb. */
+/* Vertical scroll areas inside nav panels keep a slim neutral thumb. */
 .thin-scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border-strong) transparent;
@@ -465,7 +464,7 @@ body {
   line-height: 1.7;
 }
 .rich-text li::marker {
-  color: var(--color-meadow-600);
+  color: var(--color-vermilion-600);
 }
 .rich-text p {
   margin: 0.6rem 0;
@@ -494,7 +493,7 @@ body {
   color: var(--color-text);
 }
 .rich-text a {
-  color: var(--color-meadow-700);
+  color: var(--color-vermilion-700);
   text-decoration: underline;
   text-underline-offset: 3px;
 }

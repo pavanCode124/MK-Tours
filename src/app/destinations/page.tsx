@@ -46,24 +46,24 @@ export default async function DestinationsPage({ searchParams }: Props) {
 
       <div className="relative overflow-hidden">
         <PencilPalm className="pointer-events-none absolute -right-12 top-28 hidden w-[170px] rotate-[8deg] opacity-[0.07] xl:block" />
-        <CompassRose className="pointer-events-none absolute -left-20 top-[22%] hidden h-[250px] w-[250px] text-sherwood-700/8 xl:block" />
+        <CompassRose className="pointer-events-none absolute -left-20 top-[22%] hidden h-[250px] w-[250px] text-azure-700/8 xl:block" />
         <FlightPath
           variant="rise"
-          className="pointer-events-none absolute left-[5%] top-8 hidden h-[150px] w-[80%] text-meadow-500/18 lg:block"
+          className="pointer-events-none absolute left-[5%] top-8 hidden h-[150px] w-[80%] text-vermilion-500/18 lg:block"
         />
-        <TopoField className="pointer-events-none absolute -right-10 bottom-[18%] hidden h-[320px] w-[40%] text-sherwood-700/8 lg:block" />
-        <BanyanTree className="pointer-events-none absolute -bottom-10 left-[2%] hidden h-[230px] w-[230px] text-sherwood-700/8 lg:block" />
+        <TopoField className="pointer-events-none absolute -right-10 bottom-[18%] hidden h-[320px] w-[40%] text-azure-700/8 lg:block" />
+        <BanyanTree className="pointer-events-none absolute -bottom-10 left-[2%] hidden h-[230px] w-[230px] text-azure-700/8 lg:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
           {/* Region / state filters on one raised card */}
           <div className="card p-6 sm:p-7">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-3.5">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
                   <Icon name="pin" className="h-5 w-5" />
                 </span>
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">Browse</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">Browse</div>
                   <div className="font-display text-[20px] font-semibold leading-tight text-text">
                     By region &amp; state
                   </div>
@@ -120,7 +120,7 @@ export default async function DestinationsPage({ searchParams }: Props) {
                     </div>
                     <Link
                       href={`/destinations?region=${encodeURIComponent(r.region)}`}
-                      className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark"
+                      className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
                     >
                       View {r.region}
                       <span className="transition-transform group-hover/l:translate-x-1">→</span>
@@ -151,10 +151,10 @@ export default async function DestinationsPage({ searchParams }: Props) {
 
           {filtered.length === 0 && (
             <div className="relative mt-12 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-14 text-center shadow-soft">
-              <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[140px] w-[60px] text-sherwood-700/12 tree-breathe sm:block" />
+              <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[140px] w-[60px] text-azure-700/12 tree-breathe sm:block" />
               <p className="relative text-[14px] text-muted">
                 Nothing here yet.{' '}
-                <Link href="/destinations" className="font-bold text-meadow-700 underline-offset-4 hover:underline">
+                <Link href="/destinations" className="font-bold text-vermilion-700 underline-offset-4 hover:underline">
                   See every destination →
                 </Link>
               </p>
@@ -181,8 +181,8 @@ function Chip({ href, active, label, count }: { href: string; active: boolean; l
       href={href}
       className={`shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all duration-300 ${
         active
-          ? 'border-sherwood-900 bg-sherwood-900 text-on-dark shadow-lift'
-          : 'border-border bg-bg text-text hover:-translate-y-0.5 hover:border-meadow-300 hover:bg-meadow-50 hover:text-meadow-700 hover:shadow-soft'
+          ? 'border-azure-900 bg-azure-900 text-on-dark shadow-lift'
+          : 'border-border bg-bg text-text hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft'
       }`}
     >
       {label}

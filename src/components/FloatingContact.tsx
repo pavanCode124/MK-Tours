@@ -21,10 +21,10 @@ export function FloatingContact() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Message MK Tours on WhatsApp"
-          className="group/wa pointer-events-auto relative flex items-center gap-0 overflow-hidden rounded-full bg-meadow-500 pr-0 text-sherwood-900 shadow-float transition-all duration-500 ease-out hover:gap-2 hover:pr-5"
+          className="group/wa pointer-events-auto relative flex items-center gap-0 overflow-hidden rounded-full bg-vermilion-500 pr-0 text-white shadow-float transition-all duration-500 ease-out hover:gap-2 hover:pr-5"
         >
           {/* A soft halo behind the button, so it reads as the live channel. */}
-          <span className="pointer-events-none absolute -inset-1.5 -z-10 rounded-full bg-meadow-400/35 blur-md" />
+          <span className="pointer-events-none absolute -inset-1.5 -z-10 rounded-full bg-vermilion-400/35 blur-md" />
           <span className="flex shrink-0 items-center justify-center p-3.5 sm:p-4">
             <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
               <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.38a9.86 9.86 0 004.74 1.21h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0012.04 2zm0 18.02h-.01a8.2 8.2 0 01-4.18-1.15l-.3-.18-3.1.81.83-3.03-.2-.31a8.2 8.2 0 01-1.26-4.37c0-4.54 3.7-8.23 8.23-8.23 2.2 0 4.26.86 5.82 2.41a8.18 8.18 0 012.41 5.82c0 4.54-3.7 8.23-8.24 8.23z" />
@@ -41,7 +41,7 @@ export function FloatingContact() {
         <a
           href={tel}
           aria-label="Call MK Tours"
-          className="group/call pointer-events-auto flex items-center gap-0 overflow-hidden rounded-full border border-border bg-raised pr-0 text-sherwood-800 shadow-lift transition-all duration-500 ease-out hover:gap-2 hover:border-meadow-300 hover:pr-5"
+          className="group/call pointer-events-auto flex items-center gap-0 overflow-hidden rounded-full border border-border bg-raised pr-0 text-azure-800 shadow-lift transition-all duration-500 ease-out hover:gap-2 hover:border-vermilion-300 hover:pr-5"
         >
           <span className="flex shrink-0 items-center justify-center p-3.5 sm:p-4">
             <svg
@@ -67,7 +67,7 @@ export function FloatingContact() {
       <a
         href="#top"
         aria-label="Back to top"
-        className="pointer-events-auto hidden h-11 w-11 items-center justify-center rounded-full border border-border bg-raised/90 text-muted shadow-soft backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:text-meadow-700 lg:flex"
+        className="pointer-events-auto hidden h-11 w-11 items-center justify-center rounded-full border border-border bg-raised/90 text-muted shadow-soft backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:text-vermilion-700 lg:flex"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M12 19V6M6 12l6-6 6 6" />

@@ -40,7 +40,7 @@ export const DESTINATIONS: Record<string, DestinationMeta> = {
   // Jammu & Kashmir
   srinagar: { state: 'Jammu & Kashmir', region: 'Himalayas', image: 'dest-srinagar.jpg', blurb: 'Shikaras on Dal Lake, Mughal gardens and houseboat evenings.' },
   gulmarg: { state: 'Jammu & Kashmir', region: 'Himalayas', image: 'dest-gulmarg.jpg', blurb: "Meadow of flowers in summer, and one of Asia's highest gondolas." },
-  sonmarg: { state: 'Jammu & Kashmir', region: 'Himalayas', image: 'dest-sonmarg.jpg', blurb: 'The meadow of gold, gateway to the Thajiwas glacier.' },
+  sonmarg: { state: 'Jammu & Kashmir', region: 'Himalayas', image: 'dest-sonmarg.jpg', blurb: 'The vermilion of gold, gateway to the Thajiwas glacier.' },
   pahalgam: { state: 'Jammu & Kashmir', region: 'Himalayas', image: 'dest-pahalgam.jpg', blurb: 'Pine valleys along the Lidder, and the start of the Amarnath trail.' },
   katra: { state: 'Jammu & Kashmir', region: 'Himalayas', image: 'dest-katra.jpg', blurb: 'The base town for the climb to Mata Vaishno Devi.' },
   vaishnodevi: { label: 'Vaishno Devi', state: 'Jammu & Kashmir', region: 'Himalayas', image: 'dest-vaishnodevi.jpg', blurb: 'The cave shrine in the Trikuta hills, reached on foot from Katra.' },
@@ -208,7 +208,7 @@ export const THEMES: Theme[] = [
   {
     slug: 'hill-station',
     label: 'Hills & Valleys',
-    blurb: 'Kashmir meadows, Munnar tea country and the Annapurna foothills.',
+    blurb: 'Kashmir vermilions, Munnar tea country and the Annapurna foothills.',
     packages: ['kashmir-with-vaishnodevi-group-tour', 'kerala-group-tour', 'nepal-with-muktinath-group-tour'],
   },
   {
@@ -270,8 +270,8 @@ export interface Season {
 
 export const SEASONS: Season[] = [
   { slug: 'year-round', label: 'Year Round', window: 'Always open', note: 'All-weather routes', tone: 'border-border bg-raised', months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
-  { slug: 'summer', label: 'Summer', window: 'Mar – Jun', note: 'Hills & valleys', tone: 'border-meadow-300/60 bg-meadow-50', months: [3, 4, 5, 6] },
-  { slug: 'monsoon', label: 'Monsoon', window: 'Jun – Sep', note: 'Waterfalls & green', tone: 'border-meadow-500/40 bg-meadow-50', months: [6, 7, 8, 9] },
+  { slug: 'summer', label: 'Summer', window: 'Mar – Jun', note: 'Hills & valleys', tone: 'border-vermilion-300/60 bg-vermilion-50', months: [3, 4, 5, 6] },
+  { slug: 'monsoon', label: 'Monsoon', window: 'Jun – Sep', note: 'Waterfalls & green', tone: 'border-vermilion-500/40 bg-vermilion-50', months: [6, 7, 8, 9] },
   { slug: 'winter', label: 'Winter', window: 'Oct – Feb', note: 'Peak season', tone: 'border-amber/40 bg-amber-50', months: [10, 11, 12, 1, 2] },
 ];
 

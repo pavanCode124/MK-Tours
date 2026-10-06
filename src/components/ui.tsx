@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 /* -------------------------------------------------------------------------- */
 
 /**
- * The small label above a section heading. It now sits in a soft marigold
+ * The small label above a section heading. It now sits in a soft vermilion
  * capsule with a leading dot rather than floating as bare tracked-out caps, so
  * it reads as a tag on the section instead of a line of small print.
  */
@@ -22,7 +22,7 @@ export function Eyebrow({
   if (tone === 'bare') {
     return (
       <span
-        className={`block text-[10.5px] font-bold uppercase tracking-[0.2em] text-meadow-700 ${className}`}
+        className={`block text-[10.5px] font-bold uppercase tracking-[0.2em] text-vermilion-700 ${className}`}
       >
         {children}
       </span>
@@ -30,8 +30,8 @@ export function Eyebrow({
   }
   const skin =
     tone === 'dark'
-      ? 'border-meadow-300/35 bg-white/8 text-meadow-300'
-      : 'border-meadow-300/70 bg-meadow-50 text-meadow-700';
+      ? 'border-vermilion-300/35 bg-white/8 text-vermilion-300'
+      : 'border-vermilion-300/70 bg-vermilion-50 text-vermilion-700';
   return (
     <span
       className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.16em] ${skin} ${className}`}
@@ -109,8 +109,8 @@ export function SectionHeading({
           href={link.href}
           className={`group/link inline-flex shrink-0 items-center gap-2 rounded-full border px-6 py-3 text-[11.5px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ${
             dark
-              ? 'border-white/25 text-on-dark hover:border-meadow-400 hover:bg-meadow-500 hover:text-sherwood-900'
-              : 'border-border-strong bg-raised text-text shadow-soft hover:-translate-y-0.5 hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark hover:shadow-lift'
+              ? 'border-white/25 text-on-dark hover:border-vermilion-400 hover:bg-vermilion-500 hover:text-white'
+              : 'border-border-strong bg-raised text-text shadow-soft hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark hover:shadow-lift'
           }`}
         >
           {link.label}
@@ -129,13 +129,13 @@ const BTN_BASE =
   'group/btn inline-flex items-center justify-center gap-2 rounded-full text-[11.5px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0';
 
 const BTN_VARIANTS = {
-  solid: 'bg-sherwood-900 text-on-dark shadow-lift hover:bg-sherwood-700 hover:shadow-float',
-  meadow: 'bg-meadow-500 text-sherwood-900 shadow-glow hover:bg-meadow-400 hover:shadow-float',
+  solid: 'bg-azure-900 text-on-dark shadow-lift hover:bg-azure-700 hover:shadow-float',
+  accent: 'bg-vermilion-500 text-white shadow-glow hover:bg-vermilion-400 hover:shadow-float',
   outline:
-    'border border-border-strong bg-raised text-text shadow-soft hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark hover:shadow-lift',
-  onDark: 'border border-on-dark/35 text-on-dark backdrop-blur-sm hover:border-on-dark hover:bg-on-dark hover:text-sherwood-900',
+    'border border-border-strong bg-raised text-text shadow-soft hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark hover:shadow-lift',
+  onDark: 'border border-on-dark/35 text-on-dark backdrop-blur-sm hover:border-on-dark hover:bg-on-dark hover:text-azure-900',
   clay: 'bg-clay text-white shadow-lift hover:bg-clay-600 hover:shadow-float',
-  ghost: 'text-meadow-700 hover:text-sherwood-800',
+  ghost: 'text-vermilion-700 hover:text-azure-800',
 } as const;
 
 const BTN_SIZES = {
@@ -192,7 +192,7 @@ export function Button({
 
 export function Stars({ count = 5, className = '' }: { count?: number; className?: string }) {
   return (
-    <span className={`inline-flex gap-0.5 text-meadow-500 ${className}`} aria-label={`${count} out of 5 stars`}>
+    <span className={`inline-flex gap-0.5 text-vermilion-500 ${className}`} aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: 5 }, (_, i) => (
         <svg
           key={i}
@@ -222,7 +222,7 @@ export function Rule({ className = '' }: { className?: string }) {
 export function Pill({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full bg-sherwood-900/75 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-on-dark shadow-soft backdrop-blur-md ${className}`}
+      className={`inline-flex items-center rounded-full bg-azure-900/75 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-on-dark shadow-soft backdrop-blur-md ${className}`}
     >
       {children}
     </span>
@@ -244,7 +244,7 @@ export function IconTile({
 }) {
   return (
     <div className={`card flex flex-col p-6 hover:card-hover ${className}`}>
-      <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50">
+      <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
         <Icon name={icon} className="h-5 w-5" />
       </span>
       {children}
@@ -265,10 +265,10 @@ export function Stat({
   highlight?: boolean;
 }) {
   return (
-    <div className="group/stat rounded-2xl px-4 py-5 text-center transition-colors duration-300 hover:bg-meadow-50/70">
+    <div className="group/stat rounded-2xl px-4 py-5 text-center transition-colors duration-300 hover:bg-vermilion-50/70">
       <div
         className={`font-display text-[20px] font-semibold leading-none ${
-          highlight ? 'text-meadow-500' : 'text-sherwood-700'
+          highlight ? 'text-vermilion-500' : 'text-azure-700'
         }`}
       >
         {top}

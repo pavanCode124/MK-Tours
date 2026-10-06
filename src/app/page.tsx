@@ -75,11 +75,11 @@ export default async function HomePage() {
             {TRUST_ITEMS.map((item) => (
               <div
                 key={item.label}
-                className="group/t rounded-2xl px-3 py-4 text-center transition-colors duration-300 hover:bg-meadow-50"
+                className="group/t rounded-2xl px-3 py-4 text-center transition-colors duration-300 hover:bg-vermilion-50"
               >
                 <div
                   className={`font-display text-[17px] font-bold leading-none ${
-                    item.top.startsWith('★') ? 'text-meadow-500' : 'text-sherwood-700'
+                    item.top.startsWith('★') ? 'text-vermilion-500' : 'text-azure-700'
                   }`}
                 >
                   {item.top}
@@ -95,7 +95,7 @@ export default async function HomePage() {
       {/* Top destinations — a mosaic, not a row of medallions */}
       <Section className="relative overflow-hidden">
         <PencilCamera className="pointer-events-none absolute -right-10 -top-4 hidden w-[200px] rotate-[9deg] opacity-[0.1] sm:block md:w-[250px] lg:-right-14 lg:w-[310px]" />
-        <BanyanTree className="pointer-events-none absolute -bottom-10 -left-12 hidden h-[260px] w-[260px] text-sherwood-700/8 lg:block" />
+        <BanyanTree className="pointer-events-none absolute -bottom-10 -left-12 hidden h-[260px] w-[260px] text-azure-700/8 lg:block" />
         <div className="pointer-events-none absolute -left-24 top-20 h-[300px] w-[300px] bloom-cool" />
         <div className="relative">
           <div className="reveal">
@@ -125,7 +125,7 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-clay py-20 text-on-dark lg:py-28">
         <WaveDivider flip className="pointer-events-none absolute inset-x-0 top-0 h-[64px] text-bg" />
         <SmokeShadow className="pointer-events-none absolute -bottom-16 right-0 h-[340px] w-[60%] text-white/15" />
-        <PineTree className="pointer-events-none absolute bottom-0 left-[4%] hidden h-[190px] w-[80px] text-sherwood-900/25 tree-breathe lg:block" />
+        <PineTree className="pointer-events-none absolute bottom-0 left-[4%] hidden h-[190px] w-[80px] text-azure-900/25 tree-breathe lg:block" />
         <FlightPath
           variant="fall"
           className="pointer-events-none absolute right-0 top-10 hidden h-[150px] w-[55%] text-white/25 lg:block"
@@ -199,7 +199,7 @@ export default async function HomePage() {
                   key={f.label}
                   className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-[12px] font-semibold text-on-dark backdrop-blur-sm"
                 >
-                  <Icon name={f.icon} className="h-4 w-4 text-meadow-300" />
+                  <Icon name={f.icon} className="h-4 w-4 text-vermilion-300" />
                   {f.label}
                 </span>
               ))}
@@ -217,7 +217,7 @@ export default async function HomePage() {
       {/* Packages */}
       <section className="relative overflow-hidden bg-surface py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0 dotfield opacity-50" />
-        <TopoField className="pointer-events-none absolute -right-16 top-24 hidden h-[360px] w-[45%] text-sherwood-700/8 lg:block" />
+        <TopoField className="pointer-events-none absolute -right-16 top-24 hidden h-[360px] w-[45%] text-azure-700/8 lg:block" />
         <PencilPalm className="pointer-events-none absolute -bottom-10 left-0 hidden w-[160px] -rotate-[8deg] opacity-[0.09] lg:block" />
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
           <div className="reveal">
@@ -245,10 +245,10 @@ export default async function HomePage() {
 
       {/* Browse by duration, season & theme — one planning board */}
       <Section className="relative overflow-hidden">
-        <CompassRose className="pointer-events-none absolute -left-20 top-28 hidden h-[260px] w-[260px] text-sherwood-700/8 xl:block" />
+        <CompassRose className="pointer-events-none absolute -left-20 top-28 hidden h-[260px] w-[260px] text-azure-700/8 xl:block" />
         <SmokePlume
           seed={3}
-          className="pointer-events-none absolute -right-6 top-10 hidden h-[260px] w-[200px] text-sherwood-600/12 lg:block"
+          className="pointer-events-none absolute -right-6 top-10 hidden h-[260px] w-[200px] text-azure-600/12 lg:block"
         />
         <div className="reveal relative">
           <SectionHeading
@@ -259,7 +259,7 @@ export default async function HomePage() {
                 Pick a length, a <span className="flourish">season</span>, or a reason
               </>
             }
-            lede="Six days or ten, winter in Rajasthan or summer in the Kashmir meadows — find the trip length and travel window that fits your calendar."
+            lede="Six days or ten, winter in Rajasthan or summer in the Kashmir vermilions — find the trip length and travel window that fits your calendar."
           />
         </div>
 
@@ -276,9 +276,9 @@ export default async function HomePage() {
                 <Link
                   key={d.days}
                   href={`/packages?duration=${d.days}`}
-                  className="group/d rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:-translate-y-1 hover:border-meadow-300 hover:bg-meadow-50 hover:shadow-lift"
+                  className="group/d rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:-translate-y-1 hover:border-vermilion-300 hover:bg-vermilion-50 hover:shadow-lift"
                 >
-                  <div className="font-display text-[23px] font-bold leading-none text-sherwood-700 transition-colors group-hover/d:text-meadow-700">
+                  <div className="font-display text-[23px] font-bold leading-none text-azure-700 transition-colors group-hover/d:text-vermilion-700">
                     {d.days}D
                   </div>
                   <div className="mt-1.5 text-[12px] text-muted">{d.nights} nights</div>
@@ -299,12 +299,12 @@ export default async function HomePage() {
                   <Link
                     key={s.slug}
                     href={`/packages?season=${s.slug}`}
-                    className="group/s rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:-translate-y-1 hover:border-meadow-300 hover:shadow-lift"
+                    className="group/s rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:-translate-y-1 hover:border-vermilion-300 hover:shadow-lift"
                   >
-                    <div className="font-display text-[19px] font-semibold leading-tight text-text transition-colors group-hover/s:text-meadow-700">
+                    <div className="font-display text-[19px] font-semibold leading-tight text-text transition-colors group-hover/s:text-vermilion-700">
                       {s.label}
                     </div>
-                    <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-meadow-700">
+                    <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-vermilion-700">
                       {s.window}
                     </div>
                     <div className="mt-2 text-[11px] text-muted">
@@ -325,10 +325,10 @@ export default async function HomePage() {
               <Link
                 key={t.slug}
                 href={`/themes/${t.slug}`}
-                className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:-translate-y-0.5 hover:border-meadow-300 hover:bg-meadow-50 hover:text-meadow-700 hover:shadow-soft"
+                className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft"
               >
                 {t.label}
-                <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-subtle transition-colors group-hover/t:bg-meadow-100 group-hover/t:text-meadow-700">
+                <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-subtle transition-colors group-hover/t:bg-vermilion-100 group-hover/t:text-vermilion-700">
                   {t.count}
                 </span>
               </Link>
@@ -337,18 +337,18 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* Why us — dark pine panel with glass pillars */}
-      <section className="relative overflow-hidden bg-sherwood-900 py-20 text-on-dark lg:py-28">
+      {/* Why us — dark indigo panel with glass pillars */}
+      <section className="relative overflow-hidden bg-azure-900 py-20 text-on-dark lg:py-28">
         <WaveDivider flip className="pointer-events-none absolute inset-x-0 top-0 h-[64px] text-bg" />
         <FlightPath
           variant="arch"
-          className="pointer-events-none absolute left-[8%] top-16 hidden h-[170px] w-[84%] text-meadow-300/30 md:block"
+          className="pointer-events-none absolute left-[8%] top-16 hidden h-[170px] w-[84%] text-vermilion-300/30 md:block"
         />
         <SmokePlume
           seed={5}
           className="pointer-events-none absolute bottom-10 left-[6%] hidden h-[240px] w-[180px] text-white/15 lg:block"
         />
-        <CameraBadge className="pointer-events-none absolute -right-8 bottom-16 hidden h-[200px] w-[230px] text-meadow-300/12 lg:block" />
+        <CameraBadge className="pointer-events-none absolute -right-8 bottom-16 hidden h-[200px] w-[230px] text-vermilion-300/12 lg:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
           <div className="reveal text-center">
@@ -382,8 +382,8 @@ export default async function HomePage() {
               What our <span className="flourish">travellers</span> say
             </Display>
           </div>
-          <div className="flex items-center gap-4 rounded-[1.5rem] border border-meadow-300/70 bg-meadow-50 px-6 py-4 shadow-soft">
-            <span className="font-display text-[34px] font-bold leading-none text-sherwood-700">4.9</span>
+          <div className="flex items-center gap-4 rounded-[1.5rem] border border-vermilion-300/70 bg-vermilion-50 px-6 py-4 shadow-soft">
+            <span className="font-display text-[34px] font-bold leading-none text-azure-700">4.9</span>
             <span>
               <Stars />
               <span className="mt-1 block text-[11px] font-semibold text-muted">Google rating</span>
@@ -405,8 +405,8 @@ export default async function HomePage() {
       {/* Guides */}
       <section className="relative overflow-hidden bg-surface py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0 dotfield opacity-50" />
-        <PineTree className="pointer-events-none absolute -bottom-2 right-[5%] hidden h-[200px] w-[86px] text-sherwood-700/10 tree-breathe lg:block" />
-        <PineTree className="pointer-events-none absolute -bottom-3 right-[13%] hidden h-[150px] w-[64px] text-sherwood-700/8 tree-breathe tree-breathe-slow lg:block" />
+        <PineTree className="pointer-events-none absolute -bottom-2 right-[5%] hidden h-[200px] w-[86px] text-azure-700/10 tree-breathe lg:block" />
+        <PineTree className="pointer-events-none absolute -bottom-3 right-[13%] hidden h-[150px] w-[64px] text-azure-700/8 tree-breathe tree-breathe-slow lg:block" />
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
           <div className="reveal">
             <SectionHeading
@@ -445,13 +445,13 @@ export default async function HomePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/contact#faq"
-                className="group/l inline-flex items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-3 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark"
+                className="group/l inline-flex items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-3 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
               >
                 All {ALL_FAQS.length} questions
                 <span className="transition-transform group-hover/l:translate-x-1">→</span>
               </Link>
             </div>
-            <CameraBadge className="pointer-events-none mt-10 hidden h-[150px] w-[180px] text-sherwood-700/12 lg:block" />
+            <CameraBadge className="pointer-events-none mt-10 hidden h-[150px] w-[180px] text-azure-700/12 lg:block" />
           </div>
           <div className="reveal">
             <FaqList items={ALL_FAQS.slice(0, 14)} />
@@ -462,13 +462,13 @@ export default async function HomePage() {
       {/* Talk to us */}
       <section className="pb-20 lg:pb-28">
         <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="reveal relative flex flex-col gap-8 overflow-hidden rounded-[2.25rem] bg-sherwood-800 px-7 py-12 text-on-dark shadow-float sm:px-12 lg:flex-row lg:items-center lg:justify-between">
-            <SmokeShadow className="pointer-events-none absolute -bottom-10 -left-10 h-[260px] w-[60%] text-sherwood-500/25" />
+          <div className="reveal relative flex flex-col gap-8 overflow-hidden rounded-[2.25rem] bg-azure-800 px-7 py-12 text-on-dark shadow-float sm:px-12 lg:flex-row lg:items-center lg:justify-between">
+            <SmokeShadow className="pointer-events-none absolute -bottom-10 -left-10 h-[260px] w-[60%] text-azure-500/25" />
             <FlightPath
               variant="rise"
-              className="pointer-events-none absolute right-0 top-0 hidden h-[140px] w-[55%] text-meadow-300/30 md:block"
+              className="pointer-events-none absolute right-0 top-0 hidden h-[140px] w-[55%] text-vermilion-300/30 md:block"
             />
-            <PineTree className="pointer-events-none absolute -bottom-1 right-[6%] hidden h-[130px] w-[56px] text-sherwood-900/50 tree-breathe lg:block" />
+            <PineTree className="pointer-events-none absolute -bottom-1 right-[6%] hidden h-[130px] w-[56px] text-azure-900/50 tree-breathe lg:block" />
 
             <div className="relative max-w-xl">
               <Eyebrow tone="dark" className="mb-4">
@@ -482,7 +482,7 @@ export default async function HomePage() {
             </div>
             <div className="relative flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
               {wa && (
-                <Button href={wa} external variant="meadow">
+                <Button href={wa} external variant="accent">
                   Chat on WhatsApp
                 </Button>
               )}
@@ -504,7 +504,7 @@ export default async function HomePage() {
 const SECTION_TONES = {
   light: 'bg-bg',
   surface: 'bg-surface',
-  dark: 'bg-sherwood-900 text-on-dark',
+  dark: 'bg-azure-900 text-on-dark',
   warm: 'bg-clay text-on-dark',
 } as const;
 
@@ -538,11 +538,11 @@ function BoardHead({
 }) {
   return (
     <div className="flex items-center gap-3.5">
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
         <Icon name={icon} className="h-5 w-5" />
       </span>
       <div className="flex-1">
-        <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">{kicker}</div>
+        <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">{kicker}</div>
         <div className="font-display text-[20px] font-semibold leading-tight text-text">{title}</div>
       </div>
       <span className="shrink-0 rounded-full bg-surface px-3 py-1.5 text-[11px] font-semibold text-subtle">{note}</span>

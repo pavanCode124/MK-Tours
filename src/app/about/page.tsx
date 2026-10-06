@@ -53,6 +53,18 @@ const STEPS = [
   },
 ];
 
+/* The print wall beside the story. Aspect ratios alternate tall/wide down each
+   column so the two columns interlock rather than lining up in rows. */
+const COLUMN_A = [
+  { src: '/images/dest-varanasi.jpg', alt: 'Ghats along the Ganga at Varanasi', ratio: 'aspect-[4/5]' },
+  { src: '/images/dest-jaisalmer.jpg', alt: 'The golden fort at Jaisalmer', ratio: 'aspect-[4/3]' },
+];
+
+const COLUMN_B = [
+  { src: '/images/dest-gulmarg.jpg', alt: 'The meadow at Gulmarg, Kashmir', ratio: 'aspect-[4/3]' },
+  { src: '/images/dest-alleppey.jpg', alt: 'A houseboat on the Alleppey backwaters', ratio: 'aspect-[4/5]' },
+];
+
 export default async function AboutPage() {
   const packages = await getPackages().catch(() => []);
   const destinations = allDestinations(packages);
@@ -81,11 +93,11 @@ export default async function AboutPage() {
               { v: String(destinations.length), l: 'Destinations covered', i: 'pin' as const },
               { v: String(states.size), l: 'States & countries', i: 'compass' as const },
             ].map((s) => (
-              <div key={s.l} className="rounded-2xl px-4 py-6 text-center transition-colors duration-300 hover:bg-meadow-50">
-                <span className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50">
+              <div key={s.l} className="rounded-2xl px-4 py-6 text-center transition-colors duration-300 hover:bg-vermilion-50">
+                <span className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
                   <Icon name={s.i} className="h-[18px] w-[18px]" />
                 </span>
-                <div className="font-display text-[28px] font-bold leading-none text-sherwood-700">{s.v}</div>
+                <div className="font-display text-[28px] font-bold leading-none text-azure-700">{s.v}</div>
                 <div className="mt-2 text-[11.5px] text-muted">{s.l}</div>
               </div>
             ))}
@@ -96,7 +108,7 @@ export default async function AboutPage() {
       {/* Story */}
       <section className="relative overflow-hidden py-18 lg:py-24">
         <PencilPalm className="pointer-events-none absolute -bottom-8 -left-10 hidden w-[150px] -rotate-[7deg] opacity-[0.08] lg:block" />
-        <BanyanTree className="pointer-events-none absolute -top-10 right-[2%] hidden h-[220px] w-[220px] text-sherwood-700/8 xl:block" />
+        <BanyanTree className="pointer-events-none absolute -top-10 right-[2%] hidden h-[220px] w-[220px] text-azure-700/8 xl:block" />
         <div className="pointer-events-none absolute -left-24 top-1/3 h-[320px] w-[320px] bloom-cool" />
         <div className="relative mx-auto grid max-w-[1320px] items-start gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
           <div>
@@ -137,28 +149,21 @@ export default async function AboutPage() {
             </div>
           </div>
 
-          {/* A staggered print wall rather than a flat 2×2 grid */}
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { src: '/images/dest-varanasi.jpg', alt: 'Ghats along the Ganga at Varanasi', cls: 'aspect-[4/5] mt-0' },
-              { src: '/images/dest-gulmarg.jpg', alt: 'The meadow at Gulmarg, Kashmir', cls: 'aspect-[4/3] mt-8' },
-              { src: '/images/dest-jaisalmer.jpg', alt: 'The golden fort at Jaisalmer', cls: 'aspect-[4/3] -mt-4' },
-              { src: '/images/dest-alleppey.jpg', alt: 'A houseboat on the Alleppey backwaters', cls: 'aspect-[4/5] mt-4' },
-            ].map((p) => (
-              <div
-                key={p.src}
-                className={`group relative overflow-hidden rounded-[1.75rem] shadow-lift transition-all duration-500 hover:-translate-y-1.5 hover:shadow-float ${p.cls}`}
-              >
-                <Image
-                  src={p.src}
-                  alt={p.alt}
-                  fill
-                  sizes="(min-width: 1024px) 260px, 50vw"
-                  className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.07]"
-                />
-                <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-              </div>
-            ))}
+          {/* A staggered print wall. Two independent columns rather than one
+              grid: a grid sized its rows to the tallest card, so the shorter
+              photograph in each row left a hole beneath it. Columns stack flush
+              and the right one simply starts lower to keep the stagger. */}
+          <div className="grid grid-cols-2 gap-4 lg:gap-5">
+            <div className="flex flex-col gap-4 lg:gap-5">
+              {COLUMN_A.map((p) => (
+                <Print key={p.src} {...p} />
+              ))}
+            </div>
+            <div className="flex flex-col gap-4 pt-8 lg:gap-5 lg:pt-12">
+              {COLUMN_B.map((p) => (
+                <Print key={p.src} {...p} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -169,9 +174,9 @@ export default async function AboutPage() {
         <PencilCamera className="pointer-events-none absolute -right-12 -top-8 hidden w-[220px] rotate-[10deg] opacity-[0.1] md:block lg:w-[290px]" />
         <FlightPath
           variant="rise"
-          className="pointer-events-none absolute left-[6%] top-[40%] hidden h-[180px] w-[88%] text-meadow-500/30 lg:block"
+          className="pointer-events-none absolute left-[6%] top-[40%] hidden h-[180px] w-[88%] text-vermilion-500/30 lg:block"
         />
-        <TopoField className="pointer-events-none absolute -bottom-10 left-0 hidden h-[280px] w-[40%] text-sherwood-700/8 lg:block" />
+        <TopoField className="pointer-events-none absolute -bottom-10 left-0 hidden h-[280px] w-[40%] text-azure-700/8 lg:block" />
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
           <Eyebrow className="mb-5">How we work</Eyebrow>
           <Display className="display-caps text-[30px] sm:text-[38px]">
@@ -180,10 +185,10 @@ export default async function AboutPage() {
           <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map((s) => (
               <div key={s.n} className="card group relative overflow-hidden p-6 hover:card-hover">
-                <span className="absolute right-4 top-3 font-display text-[48px] font-bold leading-none text-meadow-100 transition-colors duration-500 group-hover:text-meadow-300/70">
+                <span className="absolute right-4 top-3 font-display text-[48px] font-bold leading-none text-vermilion-100 transition-colors duration-500 group-hover:text-vermilion-300/70">
                   {s.n}
                 </span>
-                <span className="relative mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-sherwood-800 text-meadow-300 shadow-soft transition-colors duration-500 group-hover:bg-meadow-500 group-hover:text-sherwood-900">
+                <span className="relative mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-azure-800 text-vermilion-300 shadow-soft transition-colors duration-500 group-hover:bg-vermilion-500 group-hover:text-white">
                   <Icon name={s.icon} className="h-5 w-5" />
                 </span>
                 <h3 className="relative font-display text-[19px] font-semibold leading-snug text-text">{s.title}</h3>
@@ -197,12 +202,12 @@ export default async function AboutPage() {
       {/* Pillars */}
       <section className="py-18 lg:py-24">
         <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="relative overflow-hidden rounded-[2.25rem] bg-sherwood-900 px-6 py-14 shadow-float lg:px-12 lg:py-16">
+          <div className="relative overflow-hidden rounded-[2.25rem] bg-azure-900 px-6 py-14 shadow-float lg:px-12 lg:py-16">
             <SmokePlume
               seed={2}
               className="pointer-events-none absolute -bottom-6 left-[4%] hidden h-[230px] w-[180px] text-white/15 lg:block"
             />
-            <CameraBadge className="pointer-events-none absolute -right-6 top-6 hidden h-[180px] w-[210px] text-meadow-300/12 lg:block" />
+            <CameraBadge className="pointer-events-none absolute -right-6 top-6 hidden h-[180px] w-[210px] text-vermilion-300/12 lg:block" />
             <PineTree className="pointer-events-none absolute -bottom-1 right-[8%] hidden h-[150px] w-[64px] text-black/25 tree-breathe lg:block" />
             <div className="relative text-center">
               <Eyebrow tone="dark" className="mb-5">
@@ -223,7 +228,7 @@ export default async function AboutPage() {
 
       {/* Contact strip */}
       <section className="relative overflow-hidden pb-18 lg:pb-24">
-        <SmokeShadow className="pointer-events-none absolute -bottom-16 right-0 h-[300px] w-[55%] text-sherwood-600/12" />
+        <SmokeShadow className="pointer-events-none absolute -bottom-16 right-0 h-[300px] w-[55%] text-azure-600/12" />
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
           <div className="grid gap-5 sm:grid-cols-3">
             {[
@@ -232,10 +237,10 @@ export default async function AboutPage() {
               { icon: 'pin' as const, title: 'Find us', body: AGENCY.address, note: 'Departures from Mumbai' },
             ].map((c) => (
               <div key={c.title} className="card p-6 hover:card-hover">
-                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50">
+                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
                   <Icon name={c.icon} className="h-5 w-5" />
                 </span>
-                <h3 className="text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">{c.title}</h3>
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">{c.title}</h3>
                 <p className="mt-2 text-[14px] font-semibold leading-snug text-text">{c.body}</p>
                 <p className="mt-1 text-[12px] text-subtle">{c.note}</p>
               </div>
@@ -245,5 +250,23 @@ export default async function AboutPage() {
         <TreeLine className="pointer-events-none absolute inset-x-0 -bottom-1 h-[64px] text-surface" />
       </section>
     </>
+  );
+}
+
+/** One photograph in the story print wall. */
+function Print({ src, alt, ratio }: { src: string; alt: string; ratio: string }) {
+  return (
+    <div
+      className={`group relative w-full overflow-hidden rounded-[1.75rem] shadow-lift transition-all duration-500 hover:-translate-y-1.5 hover:shadow-float ${ratio}`}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(min-width: 1024px) 300px, 50vw"
+        className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.07]"
+      />
+      <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+    </div>
   );
 }

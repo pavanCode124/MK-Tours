@@ -6,7 +6,7 @@ export function PalmTrees({ className = '' }: { className?: string }) {
   return (
     <div className={`pointer-events-none select-none ${className}`} aria-hidden="true">
       <svg
-        className="palm-sway h-full w-auto text-sherwood-800"
+        className="palm-sway h-full w-auto text-azure-800"
         viewBox="0 0 126 170"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

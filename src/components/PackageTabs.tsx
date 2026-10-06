@@ -27,8 +27,8 @@ export function PackageTabs({ groups }: { groups: { label: string; content: Reac
                 aria-pressed={i === active}
                 className={`shrink-0 rounded-full px-5 py-2.5 text-[12.5px] font-bold transition-all duration-300 ${
                   i === active
-                    ? 'bg-sherwood-900 text-on-dark shadow-lift'
-                    : 'text-muted hover:bg-meadow-50 hover:text-meadow-700'
+                    ? 'bg-azure-900 text-on-dark shadow-lift'
+                    : 'text-muted hover:bg-vermilion-50 hover:text-vermilion-700'
                 }`}
               >
                 {g.label}

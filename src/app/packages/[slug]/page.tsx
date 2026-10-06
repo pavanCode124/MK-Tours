@@ -110,9 +110,9 @@ export default async function TourPage({ params }: Props) {
           ].map((f) => (
             <span
               key={f.text}
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-sherwood-900/40 px-3.5 py-2 text-[12px] font-semibold text-on-dark backdrop-blur-md"
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-azure-900/40 px-3.5 py-2 text-[12px] font-semibold text-on-dark backdrop-blur-md"
             >
-              <Icon name={f.icon} className="h-4 w-4 text-meadow-300" />
+              <Icon name={f.icon} className="h-4 w-4 text-vermilion-300" />
               {f.text}
             </span>
           ))}
@@ -120,7 +120,7 @@ export default async function TourPage({ params }: Props) {
       </PageHero>
 
       <div className="relative overflow-hidden">
-        <TopoField className="pointer-events-none absolute -left-12 top-[28%] hidden h-[320px] w-[34%] text-sherwood-700/8 xl:block" />
+        <TopoField className="pointer-events-none absolute -left-12 top-[28%] hidden h-[320px] w-[34%] text-azure-700/8 xl:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-[1fr_390px] lg:gap-12">
@@ -135,9 +135,9 @@ export default async function TourPage({ params }: Props) {
                       <Link
                         key={p.slug}
                         href={`/destinations/${p.slug}`}
-                        className="group/p inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:-translate-y-0.5 hover:border-meadow-300 hover:bg-meadow-50 hover:text-meadow-700 hover:shadow-soft"
+                        className="group/p inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft"
                       >
-                        <Icon name="pin" className="h-3.5 w-3.5 text-meadow-600" />
+                        <Icon name="pin" className="h-3.5 w-3.5 text-vermilion-600" />
                         {p.label}
                         <span className="text-subtle">· {p.state}</span>
                       </Link>
@@ -160,7 +160,7 @@ export default async function TourPage({ params }: Props) {
               {/* Itinerary */}
               {days.length > 0 && (
                 <section id="itinerary" className="card relative overflow-hidden scroll-mt-28 p-7 sm:p-9">
-                  <PineTree className="pointer-events-none absolute -bottom-3 right-4 hidden h-[160px] w-[70px] text-sherwood-700/8 tree-breathe sm:block" />
+                  <PineTree className="pointer-events-none absolute -bottom-3 right-4 hidden h-[160px] w-[70px] text-azure-700/8 tree-breathe sm:block" />
                   <div className="relative">
                     <SectionTitle icon="compass">Day-by-Day Itinerary</SectionTitle>
                     <ol className="mt-7 space-y-0">
@@ -211,16 +211,16 @@ export default async function TourPage({ params }: Props) {
                 id="book"
                 className="relative overflow-hidden rounded-[1.75rem] border border-border bg-raised p-6 shadow-float scroll-mt-28"
               >
-                {/* A marigold cap across the top of the rail. */}
-                <span className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-meadow-400 via-meadow-500 to-clay" />
+                {/* A vermilion cap across the top of the rail. */}
+                <span className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-vermilion-400 via-vermilion-500 to-clay" />
 
                 {from !== null && (
                   <div className="pt-2">
-                    <span className="block text-[10px] font-bold uppercase tracking-[0.12em] text-meadow-700">
+                    <span className="block text-[10px] font-bold uppercase tracking-[0.12em] text-vermilion-700">
                       Starting from
                     </span>
                     <div className="mt-1.5 flex items-baseline gap-1.5">
-                      <span className="font-display text-[36px] font-bold leading-none text-sherwood-700">
+                      <span className="font-display text-[36px] font-bold leading-none text-azure-700">
                         {formatINR(from)}
                       </span>
                       <span className="text-[12px] text-muted">/ person</span>
@@ -248,12 +248,12 @@ export default async function TourPage({ params }: Props) {
                       {(pkg.pricing ?? []).map((o, i) => (
                         <div
                           key={o.label}
-                          className={`flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-meadow-50 ${
+                          className={`flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-vermilion-50 ${
                             i % 2 === 1 ? 'bg-surface/60' : ''
                           }`}
                         >
                           <span className="text-[12.5px] leading-snug text-muted">{o.label}</span>
-                          <span className="shrink-0 font-display text-[18px] font-bold text-sherwood-700">
+                          <span className="shrink-0 font-display text-[18px] font-bold text-azure-700">
                             {formatINR(o.price)}
                           </span>
                         </div>
@@ -267,7 +267,7 @@ export default async function TourPage({ params }: Props) {
 
                 <div className="mt-6 flex flex-col gap-2.5">
                   {wa && (
-                    <Button href={wa} external variant="meadow" className="w-full">
+                    <Button href={wa} external variant="accent" className="w-full">
                       Book on WhatsApp
                     </Button>
                   )}
@@ -281,7 +281,7 @@ export default async function TourPage({ params }: Props) {
                       href={brochure}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-1 inline-flex items-center justify-center gap-2 text-center text-[12.5px] font-bold text-meadow-700 underline-offset-4 hover:underline"
+                      className="mt-1 inline-flex items-center justify-center gap-2 text-center text-[12.5px] font-bold text-vermilion-700 underline-offset-4 hover:underline"
                     >
                       <Icon name="book" className="h-4 w-4" />
                       Download the brochure (PDF)
@@ -305,7 +305,7 @@ export default async function TourPage({ params }: Props) {
                       {seasons.map((s) => (
                         <span
                           key={s!.slug}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-meadow-300/70 bg-meadow-50 px-3 py-1.5 text-[11.5px] font-semibold text-meadow-800"
+                          className="inline-flex items-center gap-1.5 rounded-full border border-vermilion-300/70 bg-vermilion-50 px-3 py-1.5 text-[11.5px] font-semibold text-vermilion-800"
                         >
                           <Icon name="sun" className="h-3.5 w-3.5" />
                           {s!.label} · {s!.window}
@@ -335,7 +335,7 @@ export default async function TourPage({ params }: Props) {
           {/* Related */}
           {related.length > 0 && (
             <section className="relative mt-20 overflow-hidden">
-              <SmokeShadow className="pointer-events-none absolute -right-10 -top-10 h-[280px] w-[50%] text-sherwood-600/10" />
+              <SmokeShadow className="pointer-events-none absolute -right-10 -top-10 h-[280px] w-[50%] text-azure-600/10" />
               <div className="relative">
                 <Eyebrow className="mb-4">Keep looking</Eyebrow>
                 <Display className="display-caps text-[27px] sm:text-[33px]">
@@ -367,7 +367,7 @@ function SectionTitle({
 }) {
   return (
     <div className="flex items-center gap-3.5">
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/50">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
         <Icon name={icon} className="h-[18px] w-[18px]" />
       </span>
       <Display className="text-[24px]">{children}</Display>
@@ -378,7 +378,7 @@ function SectionTitle({
 function Fact({ icon, text }: { icon: 'train' | 'home' | 'shield' | 'phone'; text: string }) {
   return (
     <div className="flex items-start gap-2.5">
-      <Icon name={icon} className="mt-0.5 h-4 w-4 shrink-0 text-meadow-700" />
+      <Icon name={icon} className="mt-0.5 h-4 w-4 shrink-0 text-vermilion-700" />
       <span className="leading-snug">{text}</span>
     </div>
   );
@@ -388,9 +388,9 @@ function JumpLink({ href, children }: { href: string; children: React.ReactNode 
   return (
     <a
       href={href}
-      className="group/j flex items-center gap-2 rounded-lg px-2 py-1.5 text-muted transition-colors hover:bg-meadow-50 hover:text-meadow-700"
+      className="group/j flex items-center gap-2 rounded-lg px-2 py-1.5 text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
     >
-      <span className="h-px w-2 bg-border-strong transition-all duration-300 group-hover/j:w-4 group-hover/j:bg-meadow-500" />
+      <span className="h-px w-2 bg-border-strong transition-all duration-300 group-hover/j:w-4 group-hover/j:bg-vermilion-500" />
       {children}
     </a>
   );
@@ -403,11 +403,11 @@ function DayRow({ day, last }: { day: TourDay; last: boolean }) {
     <li className={`relative pl-12 ${last ? 'pb-0' : 'pb-9'}`}>
       {/* The connector line runs behind the day badge, stopping at the last day. */}
       {!last && <span className="absolute left-[19px] top-10 h-[calc(100%-2.5rem)] w-px bg-border" />}
-      <span className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-2xl bg-sherwood-800 font-display text-[15px] font-bold text-meadow-300 shadow-soft">
+      <span className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-2xl bg-azure-800 font-display text-[15px] font-bold text-vermilion-300 shadow-soft">
         {day.day_num}
       </span>
       <div className="flex flex-wrap items-baseline gap-x-3 pt-1">
-        <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-meadow-700">Day {day.day_num}</span>
+        <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">Day {day.day_num}</span>
         {place && (
           <span className="inline-flex items-center gap-1 text-[11px] text-subtle">
             <Icon name="pin" className="h-3 w-3" />

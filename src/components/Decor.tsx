@@ -238,24 +238,24 @@ export function FlightTag({
 }) {
   return (
     <div
-      className={`inline-flex items-stretch overflow-hidden rounded-2xl border border-meadow-300/70 bg-meadow-50 shadow-soft ${className}`}
+      className={`inline-flex items-stretch overflow-hidden rounded-2xl border border-vermilion-300/70 bg-vermilion-50 shadow-soft ${className}`}
       aria-hidden="true"
     >
       <span className="flex flex-col justify-center px-4 py-2.5">
-        <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-meadow-700">From</span>
-        <span className="font-display text-[15px] leading-none text-sherwood-800">{from}</span>
+        <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-vermilion-700">From</span>
+        <span className="font-display text-[15px] leading-none text-azure-800">{from}</span>
       </span>
-      <span className="flex items-center border-x border-dashed border-meadow-400/70 px-3 text-meadow-600">
+      <span className="flex items-center border-x border-dashed border-vermilion-400/70 px-3 text-vermilion-600">
         <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
           <path d="M21 16v-2l-8-2.5V6a1.5 1.5 0 10-3 0v5.5L2 14v2l8-1.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-4.5z" />
         </svg>
       </span>
       <span className="flex flex-col justify-center px-4 py-2.5">
-        <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-meadow-700">To</span>
-        <span className="font-display text-[15px] leading-none text-sherwood-800">{to}</span>
+        <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-vermilion-700">To</span>
+        <span className="font-display text-[15px] leading-none text-azure-800">{to}</span>
       </span>
       {note && (
-        <span className="flex items-center border-l border-dashed border-meadow-400/70 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-meadow-700">
+        <span className="flex items-center border-l border-dashed border-vermilion-400/70 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-vermilion-700">
           {note}
         </span>
       )}

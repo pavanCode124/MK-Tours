@@ -8,7 +8,7 @@ export function PencilPalm({ className = '' }: { className?: string }) {
   return (
     <div className={`pointer-events-none select-none ${className}`} aria-hidden="true">
       <svg
-        className="h-auto w-full text-sherwood-800"
+        className="h-auto w-full text-azure-800"
         viewBox="0 0 180 230"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

@@ -61,7 +61,7 @@ export default async function DestinationPage({ params }: Props) {
         ]}
       >
         <div className="flex flex-wrap items-center gap-3">
-          <Button href="#tours" variant="meadow" arrow={false}>
+          <Button href="#tours" variant="accent" arrow={false}>
             {tours.length} {tours.length === 1 ? 'Tour' : 'Tours'} Available
           </Button>
           {wa && (
@@ -74,8 +74,8 @@ export default async function DestinationPage({ params }: Props) {
       </PageHero>
 
       <div className="relative overflow-hidden">
-        <TopoField className="pointer-events-none absolute -right-12 top-[14%] hidden h-[320px] w-[38%] text-sherwood-700/8 lg:block" />
-        <BanyanTree className="pointer-events-none absolute -left-14 bottom-[20%] hidden h-[240px] w-[240px] text-sherwood-700/8 xl:block" />
+        <TopoField className="pointer-events-none absolute -right-12 top-[14%] hidden h-[320px] w-[38%] text-azure-700/8 lg:block" />
+        <BanyanTree className="pointer-events-none absolute -left-14 bottom-[20%] hidden h-[240px] w-[240px] text-azure-700/8 xl:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
           <section id="tours" className="scroll-mt-28">
@@ -91,17 +91,17 @@ export default async function DestinationPage({ params }: Props) {
               </div>
             ) : (
               <div className="relative mt-9 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-14 text-center shadow-soft">
-                <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-sherwood-600/12" />
-                <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[140px] w-[60px] text-sherwood-700/12 tree-breathe sm:block" />
+                <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/12" />
+                <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[140px] w-[60px] text-azure-700/12 tree-breathe sm:block" />
                 <div className="relative">
-                  <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/60">
+                  <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/60">
                     <Icon name="compass" className="h-6 w-6" />
                   </span>
                   <p className="text-[14.5px] leading-[1.75] text-muted">
                     No fixed departure covers {destination.label} right now — but we build private itineraries to order.
                   </p>
                   {wa && (
-                    <Button href={wa} external variant="meadow" className="mt-7">
+                    <Button href={wa} external variant="accent" className="mt-7">
                       Ask about {destination.label}
                     </Button>
                   )}
@@ -133,7 +133,7 @@ export default async function DestinationPage({ params }: Props) {
                 </div>
                 <Link
                   href={`/destinations?state=${encodeURIComponent(destination.state)}`}
-                  className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark"
+                  className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
                 >
                   All of {destination.state}
                   <span className="transition-transform group-hover/l:translate-x-1">→</span>

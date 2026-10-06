@@ -29,17 +29,17 @@ export default function ReviewsPage() {
       />
 
       <div className="relative overflow-hidden">
-        <TopoField className="pointer-events-none absolute -right-12 top-[35%] hidden h-[320px] w-[40%] text-sherwood-700/8 lg:block" />
+        <TopoField className="pointer-events-none absolute -right-12 top-[35%] hidden h-[320px] w-[40%] text-azure-700/8 lg:block" />
         <FlightPath
           variant="rise"
-          className="pointer-events-none absolute -left-8 bottom-[26%] hidden h-[150px] w-[70%] text-meadow-500/15 lg:block"
+          className="pointer-events-none absolute -left-8 bottom-[26%] hidden h-[150px] w-[70%] text-vermilion-500/15 lg:block"
         />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
           {/* Rating summary — a raised card with the score pulled out */}
           <div className="card flex flex-wrap items-center gap-7 p-7 sm:p-9">
             <div className="flex items-center gap-5">
-              <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-[1.25rem] bg-meadow-500 text-sherwood-900 shadow-glow">
+              <div className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-[1.25rem] bg-vermilion-500 text-white shadow-glow">
                 <span className="font-display text-[30px] font-bold leading-none">4.9</span>
                 <span className="text-[9px] font-bold uppercase tracking-[0.12em]">out of 5</span>
               </div>
@@ -55,7 +55,7 @@ export default function ReviewsPage() {
               href={AGENCY.googleProfile}
               target="_blank"
               rel="noopener noreferrer"
-              className="group/l ml-auto inline-flex items-center gap-2 rounded-full border border-border-strong bg-bg px-5 py-3 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark"
+              className="group/l ml-auto inline-flex items-center gap-2 rounded-full border border-border-strong bg-bg px-5 py-3 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
             >
               Read them on Google
               <span className="transition-transform group-hover/l:translate-x-1">→</span>
@@ -69,10 +69,10 @@ export default function ReviewsPage() {
           </div>
 
           <div className="relative mt-16 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-12 text-center shadow-soft">
-            <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-sherwood-600/12" />
-            <PineTree className="pointer-events-none absolute -bottom-2 right-8 hidden h-[150px] w-[64px] text-sherwood-700/12 tree-breathe sm:block" />
+            <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/12" />
+            <PineTree className="pointer-events-none absolute -bottom-2 right-8 hidden h-[150px] w-[64px] text-azure-700/12 tree-breathe sm:block" />
             <div className="relative">
-              <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/60">
+              <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/60">
                 <Icon name="heart" className="h-6 w-6" />
               </span>
               <Eyebrow className="mb-4">Your turn</Eyebrow>

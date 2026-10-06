@@ -58,8 +58,8 @@ export default async function ThemePage({ params }: Props) {
       </PageHero>
 
       <div className="relative overflow-hidden">
-        <TopoField className="pointer-events-none absolute -right-12 top-[12%] hidden h-[320px] w-[38%] text-sherwood-700/8 lg:block" />
-        <CompassRose className="pointer-events-none absolute -left-20 bottom-[22%] hidden h-[250px] w-[250px] text-sherwood-700/8 xl:block" />
+        <TopoField className="pointer-events-none absolute -right-12 top-[12%] hidden h-[320px] w-[38%] text-azure-700/8 lg:block" />
+        <CompassRose className="pointer-events-none absolute -left-20 bottom-[22%] hidden h-[250px] w-[250px] text-azure-700/8 xl:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
           {tours.length > 0 ? (
@@ -78,15 +78,15 @@ export default async function ThemePage({ params }: Props) {
             </>
           ) : (
             <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-16 text-center shadow-soft">
-              <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-sherwood-600/12" />
-              <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-sherwood-700/12 tree-breathe sm:block" />
+              <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/12" />
+              <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-azure-700/12 tree-breathe sm:block" />
               <div className="relative">
-                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/60">
+                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/60">
                   <Icon name="sparkle" className="h-6 w-6" />
                 </span>
                 <p className="text-[14.5px] text-muted">Nothing scheduled under this theme at the moment.</p>
                 {wa && (
-                  <Button href={wa} external variant="meadow" className="mt-7">
+                  <Button href={wa} external variant="accent" className="mt-7">
                     Ask us what is coming up
                   </Button>
                 )}
@@ -103,10 +103,10 @@ export default async function ThemePage({ params }: Props) {
                   <Link
                     key={t.slug}
                     href={`/themes/${t.slug}`}
-                    className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-raised px-4 py-2.5 text-[12.5px] font-semibold text-text shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-meadow-300 hover:bg-meadow-50 hover:text-meadow-700"
+                    className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-raised px-4 py-2.5 text-[12.5px] font-semibold text-text shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700"
                   >
                     {t.label}
-                    <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-subtle transition-colors group-hover/t:bg-meadow-100 group-hover/t:text-meadow-700">
+                    <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-subtle transition-colors group-hover/t:bg-vermilion-100 group-hover/t:text-vermilion-700">
                       {t.count}
                     </span>
                   </Link>

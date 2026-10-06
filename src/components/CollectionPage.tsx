@@ -42,7 +42,7 @@ export function CollectionPage({
     <>
       <PageHero image={image} eyebrow={eyebrow} title={title} lede={lede} crumbs={[{ label: crumbLabel }]}>
         <div className="flex flex-wrap gap-3">
-          <Button href="#tours" variant="meadow" arrow={false}>
+          <Button href="#tours" variant="accent" arrow={false}>
             {tours.length} {tours.length === 1 ? 'Tour' : 'Tours'}
           </Button>
           {wa && (
@@ -56,9 +56,9 @@ export function CollectionPage({
       <div className="relative overflow-hidden">
         <FlightPath
           variant="rise"
-          className="pointer-events-none absolute -left-10 top-10 hidden h-[160px] w-[70%] text-meadow-500/20 xl:block"
+          className="pointer-events-none absolute -left-10 top-10 hidden h-[160px] w-[70%] text-vermilion-500/20 xl:block"
         />
-        <TopoField className="pointer-events-none absolute right-0 top-[30%] hidden h-[320px] w-[40%] text-sherwood-700/8 lg:block" />
+        <TopoField className="pointer-events-none absolute right-0 top-[30%] hidden h-[320px] w-[40%] text-azure-700/8 lg:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
           <section id="tours" className="scroll-mt-28">
@@ -73,7 +73,7 @@ export function CollectionPage({
                   </div>
                   <Link
                     href="/packages"
-                    className="group/l inline-flex items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-sherwood-700 hover:bg-sherwood-800 hover:text-on-dark"
+                    className="group/l inline-flex items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
                   >
                     All packages
                     <span className="transition-transform group-hover/l:translate-x-1">→</span>
@@ -87,11 +87,11 @@ export function CollectionPage({
               </>
             ) : (
               <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-16 text-center shadow-soft">
-                <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-sherwood-600/15" />
-                <BanyanTree className="pointer-events-none absolute -bottom-6 left-6 hidden h-[170px] w-[170px] text-sherwood-700/10 sm:block" />
-                <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-sherwood-700/12 tree-breathe sm:block" />
+                <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/15" />
+                <BanyanTree className="pointer-events-none absolute -bottom-6 left-6 hidden h-[170px] w-[170px] text-azure-700/10 sm:block" />
+                <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-azure-700/12 tree-breathe sm:block" />
                 <div className="relative">
-                  <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-meadow-50 text-meadow-700 ring-1 ring-meadow-300/60">
+                  <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/60">
                     <Icon name="compass" className="h-6 w-6" />
                   </span>
                   <Display className="text-[25px]">{emptyTitle}</Display>
@@ -101,7 +101,7 @@ export function CollectionPage({
                       Browse all packages
                     </Button>
                     {wa && (
-                      <Button href={wa} external variant="meadow">
+                      <Button href={wa} external variant="accent">
                         Ask us on WhatsApp
                       </Button>
                     )}
@@ -120,7 +120,7 @@ export function CollectionPage({
                 </div>
                 <Link
                   href="/destinations"
-                  className="group/l shrink-0 text-[13px] font-bold text-meadow-700 underline-offset-4 hover:underline"
+                  className="group/l shrink-0 text-[13px] font-bold text-vermilion-700 underline-offset-4 hover:underline"
                 >
                   All destinations <span className="inline-block transition-transform group-hover/l:translate-x-1">→</span>
                 </Link>
@@ -140,7 +140,7 @@ export function CollectionPage({
               <div className="mt-7 grid gap-5 md:grid-cols-3">
                 {notes.map((n, i) => (
                   <div key={n.title} className="card group relative overflow-hidden p-6 hover:card-hover">
-                    <span className="absolute right-4 top-3 font-display text-[46px] font-bold leading-none text-meadow-100 transition-colors duration-500 group-hover:text-meadow-300/70">
+                    <span className="absolute right-4 top-3 font-display text-[46px] font-bold leading-none text-vermilion-100 transition-colors duration-500 group-hover:text-vermilion-300/70">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <h3 className="relative font-display text-[19px] font-semibold leading-snug text-text">
