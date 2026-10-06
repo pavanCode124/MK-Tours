@@ -1,6 +1,6 @@
-// Editorial copy the CRM does not hold: trust markers, FAQs, traveller reviews
-// and the destination guides. Kept in one file so the agency can edit wording
-// without touching layout.
+// Editorial copy the CRM does not hold: trust markers, FAQs, and traveller
+// reviews. Kept in one file so the agency can edit wording without touching
+// layout.
 
 export const AGENCY = {
   name: 'MK Tours',
@@ -119,107 +119,6 @@ export const REVIEWS: Review[] = [
     stars: 5,
     quote:
       'Jaisalmer and the desert camp were the highlight. Clean hotels throughout, and the coordinator answered on WhatsApp within minutes every time we asked something.',
-  },
-];
-
-/* -------------------------------------------------------------------------- */
-/* Guides                                                                     */
-/* -------------------------------------------------------------------------- */
-
-export interface Guide {
-  slug: string;
-  kicker: string;
-  title: string;
-  excerpt: string;
-  readMinutes: number;
-  image: string;
-  body: string[];
-}
-
-export const GUIDES: Guide[] = [
-  {
-    slug: 'vrindavan-travel-guide',
-    kicker: 'Destination guides',
-    title: 'Vrindavan & Mathura: What to See, and When to Go',
-    excerpt:
-      'Darshan timings at Banke Bihari, the walk to Prem Mandir after dark, and why Holi changes everything about this trip.',
-    readMinutes: 9,
-    image: '/images/dest-vrindavan.jpg',
-    body: [
-      'Vrindavan rewards travellers who understand its rhythm. Banke Bihari closes between the morning and evening darshan, and the queue at Prem Mandir thins considerably after the light show begins — which is exactly when most groups leave.',
-      'October through March is the comfortable window. Holi, in late February or March, turns Barsana and Nandgaon into the busiest and most extraordinary week of the year; book months ahead if that is what you are after.',
-      'Most itineraries pair Vrindavan with Mathura, Gokul, Govardhan and a day in Agra for the Taj Mahal and Agra Fort. Six days covers it comfortably from Mumbai by train, with two nights on the rails.',
-    ],
-  },
-  {
-    slug: 'kashmir-first-timers',
-    kicker: 'Destination guides',
-    title: 'Kashmir for First-Timers: Gulmarg, Sonmarg and Pahalgam',
-    excerpt:
-      'How the three valleys differ, what the gondola actually costs, and the pacing that keeps a Kashmir week from becoming a car journey.',
-    readMinutes: 11,
-    image: '/images/dest-gulmarg.jpg',
-    body: [
-      'The mistake first-time visitors make is treating Gulmarg, Sonmarg and Pahalgam as a checklist. Each is a day in its own right, and each is two to three hours from Srinagar in a different direction.',
-      'Gulmarg is for the gondola — Phase 1 to Kongdoori, Phase 2 to Apharwat if the weather allows. Sonmarg is for the Thajiwas glacier walk. Pahalgam is for the Lidder valley, Betaab and Aru, and is the gentlest of the three.',
-      'A shikara evening on Dal Lake belongs at the end, not the start. And if you are combining Kashmir with Vaishno Devi, do Katra first: the climb is easier on fresh legs.',
-    ],
-  },
-  {
-    slug: 'kerala-in-a-week',
-    kicker: 'Destination guides',
-    title: 'Kerala in a Week: Kochi, Munnar, Thekkady, Alleppey',
-    excerpt:
-      'The classic Kerala loop, how long each leg really takes, and the one night on a houseboat that is worth rearranging the week for.',
-    readMinutes: 10,
-    image: '/images/dest-munnar.jpg',
-    body: [
-      'The standard Kerala circuit runs Kochi → Munnar → Thekkady → Alleppey → Kochi, and it works because each drive is short enough to leave most of the day free.',
-      'Munnar is cool year-round and best over two nights; one night leaves you with a drive up and a drive down. Thekkady is about the Periyar reserve and the spice estates around it.',
-      'Alleppey is the finish. A houseboat that casts off at noon and moors for the night in the Kuttanad paddy country is the image people carry home from Kerala, and it is worth protecting in the itinerary.',
-    ],
-  },
-  {
-    slug: 'rajasthan-when-to-go',
-    kicker: 'Travel planning',
-    title: 'Royal Rajasthan: Jaipur, Jodhpur, Jaisalmer and the Thar',
-    excerpt:
-      'Why October to March is the only sensible window, what a desert camp night is really like, and where Longewala and Kuldhara fit in.',
-    readMinutes: 8,
-    image: '/images/dest-jaisalmer.jpg',
-    body: [
-      'Rajasthan has a season, and it is October to March. Outside it, the Thar is punishing and the forts are no pleasure to walk.',
-      'Jaipur gives you Amber Fort, Hawa Mahal and the City Palace. Jodhpur is Mehrangarh and the blue old town below it. Jaisalmer is the living fort, the havelis, and the dunes at Sam.',
-      'The desert camp night is a fixture of most itineraries — camel ride at sunset, folk music, a tent with a proper bed. Longewala and Kuldhara are the two add-ons worth the detour from Jaisalmer.',
-    ],
-  },
-  {
-    slug: 'nepal-muktinath-yatra',
-    kicker: 'Pilgrimage',
-    title: 'Nepal with Muktinath: What the Yatra Involves',
-    excerpt:
-      'Altitude, documents, the Jomsom leg, and what to expect from the 108 waterspouts at 3,800 metres.',
-    readMinutes: 12,
-    image: '/images/dest-muktinath.jpg',
-    body: [
-      'Muktinath sits at 3,800 metres in Mustang, and the final approach is the part to plan for. Groups reach it via Pokhara and Jomsom, and the altitude is real — a slow day on arrival is not wasted time.',
-      'Indian nationals do not need a visa for Nepal, but do need photo ID: a passport or voter card. Aadhaar alone is not accepted at the border.',
-      'Most itineraries also take in Kathmandu for Pashupatinath and Boudhanath, Pokhara for Phewa Lake, Lumbini for the Buddha’s birthplace, and Chitwan for the Terai grasslands.',
-    ],
-  },
-  {
-    slug: 'train-group-tours-explained',
-    kicker: 'Travel planning',
-    title: 'Why Our Tours Travel by Train — and What SL vs 3AC Means',
-    excerpt:
-      'The difference between sleeper and 3AC, how twin and triple sharing changes the price, and what a group booking covers.',
-    readMinutes: 7,
-    image: '/images/city-mumbai.jpg',
-    body: [
-      'Every MK Tours fixed departure is built around a confirmed group rail booking out of Mumbai. It is cheaper than flying, it puts the group together from hour one, and it makes the price predictable.',
-      'SL is sleeper class — open, fan-cooled, and the most economical. 3AC is three-tier air-conditioned, with bedding provided. Both are quoted separately so you can choose.',
-      'The second variable is hotel sharing. Triple sharing is the lowest price; twin sharing costs more per person but gives two to a room. Every package lists all four combinations with the exact figure.',
-    ],
   },
 ];
 

@@ -257,8 +257,6 @@ export async function SiteHeader() {
                   { href: '/about', label: 'About MK Tours' },
                   { href: '/reviews', label: 'Guest Reviews' },
                   { href: '/gallery', label: 'Gallery' },
-                  { href: '/blog', label: 'Travel Journal' },
-                  { href: '/careers', label: 'Careers' },
                 ].map((l) => (
                   <li key={l.href}>
                     <Link
@@ -356,8 +354,6 @@ function MobileLinks({ states, themes }: { states: string[]; themes: { slug: str
     { href: '/about', label: 'About' },
     { href: '/reviews', label: 'Reviews' },
     { href: '/gallery', label: 'Gallery' },
-    { href: '/blog', label: 'Travel Journal' },
-    { href: '/careers', label: 'Careers' },
     { href: '/contact', label: 'Contact' },
   ];
   return (

@@ -6,7 +6,6 @@ import { PackageTabs } from '@/components/PackageTabs';
 import {
   DestinationMosaic,
   FaqList,
-  GuideCard,
   Pillar,
   ReviewCard,
 } from '@/components/sections';
@@ -36,7 +35,7 @@ import {
   SEASONS,
   themesWithCounts,
 } from '@/lib/catalog';
-import { AGENCY, ALL_FAQS, GUIDES, PILLARS, REVIEWS, TRUST_ITEMS } from '@/lib/content';
+import { AGENCY, ALL_FAQS, PILLARS, REVIEWS, TRUST_ITEMS } from '@/lib/content';
 import { getHost, getPackages, telHref, whatsappLink } from '@/lib/mktours';
 
 export default async function HomePage() {
@@ -401,32 +400,6 @@ export default async function HomePage() {
           </Button>
         </div>
       </Section>
-
-      {/* Guides */}
-      <section className="relative overflow-hidden bg-surface py-20 lg:py-28">
-        <div className="pointer-events-none absolute inset-0 dotfield opacity-50" />
-        <PineTree className="pointer-events-none absolute -bottom-2 right-[5%] hidden h-[200px] w-[86px] text-azure-700/10 tree-breathe lg:block" />
-        <PineTree className="pointer-events-none absolute -bottom-3 right-[13%] hidden h-[150px] w-[64px] text-azure-700/8 tree-breathe tree-breathe-slow lg:block" />
-        <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="reveal">
-            <SectionHeading
-              eyebrow="Travel journal"
-              title={
-                <>
-                  Read before <span className="flourish">you go</span>
-                </>
-              }
-              lede="Short, practical notes on the places we travel to — written by the people who run the routes."
-              link={{ href: '/blog', label: 'All guides' }}
-            />
-          </div>
-          <div className="reveal mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {GUIDES.slice(0, 3).map((g) => (
-              <GuideCard key={g.slug} {...g} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* FAQ — heading on the left, accordion cards on the right */}
       <Section className="relative overflow-hidden">

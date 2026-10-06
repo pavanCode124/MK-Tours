@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Destination } from '@/lib/catalog';
-import { CameraBadge, PineTree } from './Decor';
+import { PineTree } from './Decor';
 import { Icon, type IconName, Stars } from './ui';
 
 /* -------------------------------------------------------------------------- */
@@ -329,49 +329,3 @@ export function GalleryStrip({ items }: { items: { src: string; label: string }[
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/* Guide card                                                                 */
-/* -------------------------------------------------------------------------- */
-
-export function GuideCard({
-  slug,
-  kicker,
-  title,
-  readMinutes,
-  image,
-}: {
-  slug: string;
-  kicker: string;
-  title: string;
-  readMinutes: number;
-  image: string;
-}) {
-  return (
-    <Link href={`/blog/${slug}`} className="card group flex flex-col overflow-hidden hover:card-hover">
-      <div className="relative aspect-[16/10] overflow-hidden">
-        <Image
-          src={image}
-          alt=""
-          fill
-          sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
-        />
-        <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-        <CameraBadge className="absolute -bottom-4 -right-4 h-24 w-28 text-white/25" />
-        <span className="absolute left-3.5 top-3.5 rounded-full border border-white/25 bg-azure-900/55 px-3 py-1.5 text-[9.5px] font-bold uppercase tracking-[0.14em] text-on-dark backdrop-blur-md">
-          {kicker}
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-[18px] font-semibold leading-snug text-text transition-colors group-hover:text-vermilion-700">
-          {title}
-        </h3>
-        <span className="mt-auto flex items-center gap-2 pt-4 text-[11.5px] text-subtle">
-          <Icon name="clock" className="h-3.5 w-3.5" />
-          {readMinutes} min read
-          <span className="ml-auto text-vermilion-700 transition-transform duration-300 group-hover:translate-x-1">→</span>
-        </span>
-      </div>
-    </Link>
-  );
-}

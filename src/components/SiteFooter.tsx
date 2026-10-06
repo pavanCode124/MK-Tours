@@ -15,10 +15,8 @@ const EXPLORE = [
 
 const COMPANY = [
   { href: '/about', label: 'Our Story' },
-  { href: '/blog', label: 'Travel Guides' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/reviews', label: 'Reviews' },
-  { href: '/careers', label: 'Careers' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms & Conditions' },
 ];
