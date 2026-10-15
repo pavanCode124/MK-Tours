@@ -84,6 +84,13 @@ export function NavBar({ children, className = '' }: { children: ReactNode; clas
           closeTimer.current = setTimeout(() => setOpenId(null), 140);
         }}
         onMouseEnter={cancelClose}
+        onMouseOver={(e) => {
+          // Moving onto anything in the bar that is not a dropdown — a plain
+          // link, or the space between them — closes whatever panel is open.
+          // `mouseleave` alone never fires here, since the pointer is still
+          // inside the nav.
+          if (!(e.target as HTMLElement)?.closest?.('[data-navmenu]')) close();
+        }}
       >
         {children}
       </nav>
@@ -121,6 +128,7 @@ export function NavMenu({
 
   return (
     <div
+      data-navmenu
       className="relative"
       onMouseEnter={() => open(id)}
       onFocus={() => open(id)}

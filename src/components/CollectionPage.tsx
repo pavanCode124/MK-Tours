@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { CardRail } from '@/components/CardRail';
-import { PackageCard } from '@/components/PackageCard';
+import { PACKAGE_ITEM, PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { RailSection } from '@/components/RailSection';
 import { DestinationCard, DESTINATION_ITEM } from '@/components/sections';
@@ -78,7 +78,7 @@ export function CollectionPage({
                     <span className="">→</span>
                   </Link>
                 </div>
-                <CardRail label="Departures">
+                <CardRail itemClassName={PACKAGE_ITEM} label="Departures">
                   {tours.map((p, i) => (
                     <PackageCard key={p.id} pkg={p} priority={i < 3} />
                   ))}

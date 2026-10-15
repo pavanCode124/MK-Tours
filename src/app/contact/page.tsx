@@ -4,6 +4,8 @@ import { PlainPageHero } from '@/components/PageHero';
 import { FaqList } from '@/components/sections';
 import { Button, Display, Icon } from '@/components/ui';
 import { CameraBadge, FlightPath, PineTree, SmokePlume, TopoField } from '@/components/Decor';
+import { PencilCamera } from '@/components/PencilCamera';
+import { PencilCouple, PencilPines } from '@/components/PencilDoodles';
 import { AGENCY, FAQS } from '@/lib/content';
 import { formatPhone, telHref, whatsappLink } from '@/lib/mktours';
 
@@ -39,6 +41,9 @@ export default function ContactPage() {
           seed={4}
           className="pointer-events-none absolute -right-4 bottom-[22%] hidden h-[250px] w-[190px] text-azure-600/12 lg:block"
         />
+        <PencilCouple className="pointer-events-none absolute -left-10 top-[34%] hidden w-[170px] -rotate-[5deg] opacity-[0.08] xl:block" />
+        <PencilPines className="pointer-events-none absolute -right-10 bottom-[8%] hidden w-[190px] rotate-[4deg] opacity-[0.07] lg:block" />
+        <PencilCamera className="pointer-events-none absolute -left-14 bottom-[26%] hidden w-[200px] rotate-[8deg] opacity-[0.06] xl:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
           {/* Channels */}
@@ -51,11 +56,10 @@ export default function ContactPage() {
               action={{ href: telHref(AGENCY.phonePrimary) ?? '#', label: 'Call now', external: true }}
             />
             <ChannelCard
-              icon="check"
+              icon="whatsapp"
               title="WhatsApp"
               lines={[formatPhone(AGENCY.phonePrimary)]}
               note="Fastest way to reach us"
-              highlight
               action={wa ? { href: wa, label: 'Chat on WhatsApp', external: true } : undefined}
             />
             <ChannelCard
@@ -167,7 +171,7 @@ function ChannelCard({
   action,
   highlight = false,
 }: {
-  icon: 'phone' | 'mail' | 'check' | 'shield';
+  icon: 'phone' | 'mail' | 'whatsapp' | 'shield';
   title: string;
   lines: string[];
   note: string;

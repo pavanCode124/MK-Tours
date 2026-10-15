@@ -85,8 +85,10 @@ export async function SiteFooter() {
           <div>
             <div className="flex items-center gap-3">
               {logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={logo} alt="" aria-hidden="true" className="h-11 w-auto rounded-xl bg-bg/95 p-1" />
+                <span className="block h-11 w-11 overflow-hidden rounded-full">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={logo} alt="" aria-hidden="true" className="h-full w-full object-cover object-center" />
+                </span>
               ) : (
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-vermilion-500 font-display text-base font-bold text-white">
                   MK

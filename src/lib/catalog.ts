@@ -264,8 +264,35 @@ export function packagesForTheme(packages: Package[], slug: string): Package[] {
   return packages.filter((p) => theme.packages.includes(p.slug ?? ''));
 }
 
-export function themesWithCounts(packages: Package[]): (Theme & { count: number })[] {
-  return THEMES.map((t) => ({ ...t, count: packagesForTheme(packages, t.slug).length })).filter((t) => t.count > 0);
+/**
+ * The photograph that stands for a theme. Chosen by hand, because several
+ * themes share a lead package and would otherwise all wear the same picture.
+ */
+export const THEME_IMAGES: Record<string, string> = {
+  pilgrimage: '/images/dest-varanasi.jpg',
+  'hill-station': '/images/dest-gulmarg.jpg',
+  heritage: '/images/dest-jaisalmer.jpg',
+  family: '/images/hero-alleppey.jpg',
+  honeymoon: '/images/dest-munnar.jpg',
+  international: '/images/dest-pokhara.jpg',
+};
+
+export function themeImage(packages: Package[], slug: string): string {
+  const picked = THEME_IMAGES[slug];
+  if (picked) return picked;
+  for (const pkg of packagesForTheme(packages, slug)) {
+    const place = packageDestinations(pkg).find((s) => DESTINATIONS[s]);
+    if (place) return `/images/${DESTINATIONS[place].image}`;
+  }
+  return `/images/${FALLBACK_IMAGE}`;
+}
+
+export function themesWithCounts(packages: Package[]): (Theme & { count: number; image: string })[] {
+  return THEMES.map((t) => ({
+    ...t,
+    count: packagesForTheme(packages, t.slug).length,
+    image: themeImage(packages, t.slug),
+  })).filter((t) => t.count > 0);
 }
 
 /* -------------------------------------------------------------------------- */

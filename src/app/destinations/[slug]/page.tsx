@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CardRail } from '@/components/CardRail';
-import { PackageCard } from '@/components/PackageCard';
+import { PACKAGE_ITEM, PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { DestinationRail } from '@/components/sections';
 import { Button, Display, Icon } from '@/components/ui';
@@ -82,7 +82,7 @@ export default async function DestinationPage({ params }: Props) {
               Tours that visit <span className="flourish">{destination.label}</span>
             </Display>
             {tours.length > 0 ? (
-              <CardRail className="mt-9" label="Tours that visit this destination">
+              <CardRail className="mt-9" itemClassName={PACKAGE_ITEM} label="Tours that visit this destination">
                 {tours.map((p, i) => (
                   <PackageCard key={p.id} pkg={p} priority={i < 3} />
                 ))}
@@ -113,7 +113,7 @@ export default async function DestinationPage({ params }: Props) {
               <Display className="display-caps text-[27px] sm:text-[33px]">
                 More tours in {destination.state}
               </Display>
-              <CardRail className="mt-8" label="Nearby departures">
+              <CardRail className="mt-8" itemClassName={PACKAGE_ITEM} label="Nearby departures">
                 {stateTours.slice(0, 6).map((p) => (
                   <PackageCard key={p.id} pkg={p} />
                 ))}

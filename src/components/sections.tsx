@@ -2,7 +2,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Destination } from '@/lib/catalog';
 import { CardRail } from './CardRail';
-import { Icon, type IconName, Stars } from './ui';
+import { PillarArt, PillarSquiggle, type ArtName } from './PillarArt';
+import {
+  CardChips,
+  CardFact,
+  CardFlag,
+  CardMedia,
+  CardShell,
+  Icon,
+  type IconName,
+  PricePill,
+  Stars,
+} from './ui';
 
 /* -------------------------------------------------------------------------- */
 /* Destination card — a curved portrait tile with the caption over the photo   */
@@ -16,43 +27,74 @@ export function DestinationCard({
   className?: string;
 }) {
   return (
-    <Link
-      href={`/destinations/${destination.slug}`}
-      className={`group relative block overflow-hidden rounded-[1.75rem] bg-azure-900 shadow-soft transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-float ${className}`}
-    >
-      <div className="relative aspect-[4/5]">
-        <Image
-          src={destination.image}
-          alt={destination.label}
-          fill
-          sizes="(min-width: 1024px) 240px, (min-width: 640px) 33vw, 45vw"
-          className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.09]"
-        />
-        {/* The caption sits on the photo, so the tile is one object rather than
-            a picture with a label parked underneath it. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-azure-900/80 via-azure-900/10 to-transparent" />
-        {/* A single sheen crosses the photograph on hover. */}
-        <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+    <CardShell href={`/destinations/${destination.slug}`} className={`min-h-[320px] ${className}`}>
+      <CardMedia
+        src={destination.image}
+        alt={destination.label}
+        sizes="(min-width: 1024px) 240px, (min-width: 640px) 33vw, 45vw"
+      />
 
-        {destination.count !== undefined && destination.count > 0 && (
-          <span className="absolute right-3 top-3 rounded-full border border-white/25 bg-azure-900/55 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.1em] text-on-dark backdrop-blur-md">
-            {destination.count} {destination.count === 1 ? 'tour' : 'tours'}
-          </span>
-        )}
-
-        <div className="absolute inset-x-0 bottom-0 p-4">
-          <span className="flex items-center gap-1.5 text-[9.5px] font-bold uppercase tracking-[0.16em] text-vermilion-300">
-            <Icon name="pin" className="h-3 w-3" />
-            {destination.state}
-          </span>
-          <span className="mt-1 block font-display text-[19px] font-semibold leading-tight text-on-dark">
-            {destination.label}
-          </span>
-          {/* A vermilion rule that draws itself under the name on hover. */}
-          <span className="mt-2 block h-[2px] w-8 origin-left rounded-full bg-vermilion-500 transition-transform duration-500 ease-out group-hover:scale-x-[2.6]" />
+      {destination.count !== undefined && destination.count > 0 && (
+        <div className="p-3">
+          <PricePill
+            price={String(destination.count)}
+            suffix={destination.count === 1 ? 'tour' : 'tours'}
+          />
         </div>
+      )}
+
+      <div className="mt-auto space-y-2 p-4 pt-6">
+        <CardFlag>{destination.region}</CardFlag>
+
+        <h3 className="font-display text-[19px] font-semibold leading-tight text-on-dark">{destination.label}</h3>
+
+        <CardChips items={[destination.state]} />
+
+        {destination.blurb && (
+          <p className="line-clamp-2 text-[11.5px] leading-[1.6] text-on-dark/70">{destination.blurb}</p>
+        )}
       </div>
-    </Link>
+    </CardShell>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Experience card — a theme, in the same photographic tile                    */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * One way to travel — pilgrimage, hill station, honeymoon — as the same tile
+ * the packages and destinations use, so the three collections read as one set.
+ */
+export function ExperienceCard({
+  theme,
+  className = '',
+}: {
+  theme: { slug: string; label: string; blurb: string; count: number; image: string };
+  className?: string;
+}) {
+  return (
+    <CardShell href={`/themes/${theme.slug}`} className={`min-h-[340px] ${className}`}>
+      <CardMedia
+        src={theme.image}
+        alt={theme.label}
+        sizes="(min-width: 1024px) 300px, (min-width: 640px) 40vw, 70vw"
+      />
+
+      <div className="p-3">
+        <PricePill price={String(theme.count)} suffix={theme.count === 1 ? 'tour' : 'tours'} />
+      </div>
+
+      <div className="mt-auto space-y-2 p-4 pt-6">
+        <CardFlag>Experience</CardFlag>
+
+        <h3 className="font-display text-[19px] font-semibold leading-tight text-on-dark">{theme.label}</h3>
+
+        <p className="line-clamp-2 text-[11.5px] leading-[1.6] text-on-dark/70">{theme.blurb}</p>
+
+        <CardFact icon="sparkle" text={`${theme.count} ${theme.count === 1 ? 'departure' : 'departures'}`} />
+      </div>
+    </CardShell>
   );
 }
 
@@ -175,6 +217,56 @@ export function Pillar({
     </div>
   );
 }
+
+/**
+ * The light-panel card: the promise is read first, in type, and the drawing
+ * sits underneath it on a pale dome — a card you look at rather than a row of
+ * icons you skim past. `step` numbers it, for a sequence rather than a set.
+ */
+export function PillarCard({
+  art,
+  title,
+  text,
+  step,
+}: {
+  art: ArtName;
+  title: string;
+  text: string;
+  /** e.g. `01` — shown as a small marker above the title. */
+  step?: string;
+}) {
+  return (
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-azure-200 bg-raised transition-all duration-500 hover:-translate-y-1.5 hover:border-vermilion-300 hover:shadow-lift">
+      <PillarSquiggle seed={SQUIGGLE_SEED[art] ?? 0} className="inset-x-0 top-6 h-[120px] w-full opacity-70" />
+
+      <div className="relative px-6 pt-7">
+        {step && (
+          <span className="mb-2 flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-vermilion-600">
+            {step}
+            <span className="h-px w-6 bg-vermilion-300" />
+          </span>
+        )}
+        <h3 className="font-display text-[20px] font-bold leading-tight text-azure-700 transition-colors duration-500 group-hover:text-vermilion-700">
+          {title}
+        </h3>
+        <p className="mt-3 text-[13.5px] leading-[1.75] text-muted">{text}</p>
+      </div>
+
+      <PillarArt name={art} className="mt-6 h-[175px] w-full" />
+    </article>
+  );
+}
+
+const SQUIGGLE_SEED: Record<ArtName, number> = {
+  group: 0,
+  pin: 1,
+  shield: 2,
+  home: 3,
+  enquiry: 4,
+  quote: 2,
+  booking: 1,
+  manager: 0,
+};
 
 /* -------------------------------------------------------------------------- */
 /* Review card                                                                */

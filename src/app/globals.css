@@ -62,6 +62,10 @@
   --color-amber: #d6381f;
   --color-amber-50: #fdf2ef;
 
+  /* Marigold — the price pill on a photograph, where red would fight the accent */
+  --color-marigold: #ffd43b;
+  --color-marigold-600: #e8b800;
+
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: var(--font-fraunces), ui-serif, Georgia, 'Times New Roman', serif;
 
@@ -507,6 +511,46 @@ body {
   text-underline-offset: 3px;
 }
 
+/* Inclusions and exclusions read as a checklist rather than as prose: the
+   disc marker is dropped and a tick or a cross is drawn in its place, so a
+   traveller can tell at a glance which column they are looking at. The glyphs
+   are painted with ::before because the lists arrive as CRM-authored HTML that
+   we cannot add markup to. */
+.tick-list ul,
+.tick-list ol {
+  list-style: none;
+  padding-left: 0;
+}
+.tick-list li {
+  position: relative;
+  padding-left: 1.9rem;
+  margin: 0.55rem 0;
+}
+.tick-list li::before {
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.tick-list[data-tone='in'] li::before {
+  content: '✓';
+  background: var(--color-sky-50);
+  color: var(--color-azure-700);
+}
+.tick-list[data-tone='out'] li::before {
+  content: '✕';
+  background: var(--color-vermilion-50);
+  color: var(--color-vermilion-700);
+}
+
 /* Native details markers are replaced by our own +/− affordance. */
 summary::-webkit-details-marker {
   display: none;
@@ -632,4 +676,25 @@ summary {
 
 .marquee-tag {
   transform: rotate(-1.4deg);
+}
+
+/* ---------------------------------------------------------------------------
+   Sticky header glass
+   --------------------------------------------------------------------------- */
+
+/* The header rides opaque at the top of the page and turns to glass once it
+   has scrolled; the `data-scrolled` attribute is set by ScrollAwareHeader and
+   the glass itself is painted by the group-data- utilities on the two bars.
+   All that is left here is the easing between the two states. */
+.site-header__strip,
+.site-header__bar {
+  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
+    backdrop-filter 0.35s ease, -webkit-backdrop-filter 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__strip,
+  .site-header__bar {
+    transition: none;
+  }
 }

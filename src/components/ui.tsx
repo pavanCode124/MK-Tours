@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
@@ -275,9 +276,24 @@ const ICON_PATHS = {
   clock: 'M12 21a9 9 0 100-18 9 9 0 000 18z M12 7.5V12l3.2 2',
 } as const;
 
-export type IconName = keyof typeof ICON_PATHS;
+export type IconName = keyof typeof ICON_PATHS | 'whatsapp';
+
+/**
+ * The WhatsApp mark is a solid glyph, not a line drawing, so it is kept out of
+ * ICON_PATHS and filled rather than stroked — a traced outline reads as a
+ * generic speech bubble and loses the brand.
+ */
+const WHATSAPP_PATH =
+  'M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.33 4.97L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 1.82c2.16 0 4.19.84 5.72 2.37a8.05 8.05 0 012.37 5.72c0 4.46-3.63 8.09-8.09 8.09a8.2 8.2 0 01-4.18-1.14l-.3-.18-3.11.82.83-3.04-.2-.31a8.05 8.05 0 01-1.24-4.3c0-4.46 3.63-8.09 8.2-8.03zm-3.3 3.6c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.6c.13.17 1.76 2.7 4.28 3.78.6.26 1.06.41 1.42.53.6.19 1.14.16 1.57.1.48-.07 1.48-.6 1.69-1.19.21-.59.21-1.09.15-1.19-.06-.1-.23-.17-.48-.29-.25-.12-1.48-.73-1.71-.81-.23-.09-.4-.13-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.06-.39-2.01-1.24-.74-.66-1.25-1.48-1.39-1.73-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.55-1.36-.78-1.86-.2-.47-.4-.41-.56-.42h-.48z';
 
 export function Icon({ name, className = 'h-5 w-5' }: { name: IconName; className?: string }) {
+  if (name === 'whatsapp') {
+    return (
+      <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+        <path d={WHATSAPP_PATH} />
+      </svg>
+    );
+  }
   return (
     <svg
       viewBox="0 0 24 24"
@@ -293,5 +309,152 @@ export function Icon({ name, className = 'h-5 w-5' }: { name: IconName; classNam
         <path key={i} d={i === 0 ? d : `M${d}`} />
       ))}
     </svg>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Photographic card kit                                                      */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Packages, destinations and experiences all share one tile now: a single
+ * photograph darkened from the foot upwards, with the offer riding the top
+ * corner and the facts stacked over the bottom of the picture. The parts live
+ * here so the three cards cannot drift apart.
+ */
+
+/** The clickable tile itself. Children sit above the photograph. */
+export function CardShell({
+  href,
+  children,
+  className = '',
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`group relative isolate flex h-full min-h-[380px] flex-col overflow-hidden rounded-[1.15rem] bg-azure-900 shadow-lift ring-1 ring-white/10 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-float ${className}`}
+    >
+      {children}
+    </Link>
+  );
+}
+
+/**
+ * The photograph behind a tile. One wash, weighted to the foot, so the top of
+ * the picture stays bright and the type below always has something to sit on.
+ */
+export function CardMedia({
+  src,
+  alt,
+  sizes = '(min-width: 1024px) 340px, (min-width: 640px) 45vw, 80vw',
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  sizes?: string;
+  priority?: boolean;
+}) {
+  return (
+    <div className="absolute inset-0 -z-10">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes={sizes}
+        priority={priority}
+        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(6,16,38,0.98)_0%,rgba(8,20,46,0.95)_30%,rgba(10,26,60,0.70)_50%,rgba(10,26,60,0.16)_76%,rgba(10,26,60,0.04)_100%)]" />
+      <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+    </div>
+  );
+}
+
+/**
+ * The offer that rides the top of the tile: the old price struck through on a
+ * marigold highlight, then the price being asked.
+ */
+export function PricePill({
+  price,
+  was,
+  suffix = 'onwards',
+  className = '',
+}: {
+  price: string;
+  was?: string;
+  suffix?: string;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-[0.5rem] bg-raised px-2.5 py-1.5 leading-none shadow-lift ${className}`}
+    >
+      {was && (
+        <s className="rounded-[0.25rem] bg-marigold px-1 py-[3px] text-[11px] font-semibold text-azure-900/70 decoration-vermilion-500 decoration-[1.5px]">
+          {was}
+        </s>
+      )}
+      <span className="font-display text-[14px] font-bold text-azure-900">{price}</span>
+      <span className="text-[11px] font-semibold text-muted">{suffix}</span>
+    </span>
+  );
+}
+
+/** The marigold flag above a tile's title — trip type, region, or the like. */
+export function CardFlag({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return (
+    <span
+      className={`inline-flex items-center rounded-[0.45rem] bg-marigold px-2.5 py-1 text-[10.5px] font-extrabold uppercase tracking-[0.08em] text-azure-900 ${className}`}
+    >
+      {children}
+    </span>
+  );
+}
+
+/**
+ * The route strip: what the trip covers, on one glass chip, with the overflow
+ * counted off in marigold rather than wrapped onto another line.
+ */
+export function CardChips({ items, max = 3 }: { items: string[]; max?: number }) {
+  if (items.length === 0) return null;
+  const shown = items.slice(0, max);
+  const rest = items.length - shown.length;
+  return (
+    <div className="flex items-center gap-1.5">
+      <span className="min-w-0 flex-1 truncate rounded-[0.45rem] bg-white/12 px-2 py-1.5 text-[11px] font-semibold text-on-dark/85 ring-1 ring-inset ring-white/15 backdrop-blur-sm">
+        {shown.join(' • ')}
+      </span>
+      {rest > 0 && (
+        <span className="shrink-0 rounded-[0.45rem] bg-marigold px-1.5 py-1.5 text-[11px] font-bold leading-none text-azure-900">
+          +{rest} More
+        </span>
+      )}
+    </div>
+  );
+}
+
+/** One icon + label fact on the foot of a tile. */
+export function CardFact({
+  icon,
+  text,
+  trail,
+  className = '',
+}: {
+  icon: IconName;
+  text: string;
+  /** A quieter note after the fact, e.g. "+3 batches". */
+  trail?: string;
+  className?: string;
+}) {
+  return (
+    <span className={`flex min-w-0 items-center gap-1.5 text-[11.5px] font-medium text-on-dark/85 ${className}`}>
+      <Icon name={icon} className="h-3.5 w-3.5 shrink-0 text-sky-300" />
+      <span className="truncate">{text}</span>
+      {trail && <span className="shrink-0 text-[11px] text-sky-300/80">{trail}</span>}
+    </span>
   );
 }

@@ -1,23 +1,31 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { DESTINATIONS, packageDestinations } from '@/lib/catalog';
+import { DESTINATIONS, packageDestinations, SEASONS, seasonsForPackage } from '@/lib/catalog';
 import {
   destinationLabel,
-  durationPhrase,
+  durationNights,
   formatINR,
-  packageTagline,
   startingPrice,
   type Package,
 } from '@/lib/mktours';
-import { Icon, Stars } from './ui';
+import { CardChips, CardFact, CardFlag, CardMedia, CardShell, PricePill } from './ui';
 
-/** The state + nights line above a card title, e.g. "Rajasthan · 7 Nights". */
-function contextLine(pkg: Package): string {
-  const slugs = packageDestinations(pkg);
-  const states = [...new Set(slugs.map((s) => DESTINATIONS[s]?.state).filter(Boolean))] as string[];
-  const place = states[0] ?? (slugs[0] ? destinationLabel(slugs[0]) : 'India');
-  const nights = Math.max((pkg.days ?? 1) - 1, 0);
-  return `${place} · ${nights === 0 ? 'Day Trip' : `${nights} Nights`}`;
+/** "9N/10D" — nights first, the way the fixed-departure listings are read. */
+function durationChip(pkg: Package): string {
+  if (!pkg.days) return '';
+  const nights = durationNights(pkg);
+  return nights === 0 ? 'Day Trip' : `${nights}N/${pkg.days}D`;
+}
+
+/** The places an itinerary covers, each one as its own chip entry. */
+function places(pkg: Package): string[] {
+  return packageDestinations(pkg).map((s) => DESTINATIONS[s]?.label ?? destinationLabel(s));
+}
+
+/** The travel windows this trip suits — the nearest thing we have to batches. */
+function windows(pkg: Package): string[] {
+  return seasonsForPackage(pkg)
+    .filter((slug) => slug !== 'year-round')
+    .map((slug) => SEASONS.find((s) => s.slug === slug)?.window)
+    .filter((w): w is string => Boolean(w));
 }
 
 /** Card image: the destination photo for the first place, since the CRM's own
@@ -31,99 +39,59 @@ function cardImage(pkg: Package): { src: string; alt: string } {
   };
 }
 
+/**
+ * One package, as a single photographic tile: the picture runs the whole card,
+ * the offer rides the top corner, and the trip type, title, route and facts
+ * stack over the darkened foot of the photograph.
+ */
+/** Uniform cell width for a package tile, used by every package rail. */
+export const PACKAGE_ITEM = 'w-[240px] sm:w-[260px] lg:w-[280px]';
+
 export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?: boolean }) {
   const href = `/packages/${pkg.slug ?? pkg.id}`;
   const image = cardImage(pkg);
-  const duration = durationPhrase(pkg);
+  const duration = durationChip(pkg);
   const from = startingPrice(pkg);
-  const tagline = packageTagline(pkg);
-  const places = packageDestinations(pkg).length;
+  const was = pkg.original_price && from !== null && pkg.original_price > from ? pkg.original_price : null;
+  const route = places(pkg);
+  const travelWindows = windows(pkg);
+  const flag = (pkg.package_type ?? 'Group Tour').trim();
 
   return (
-    <article className="card group relative flex flex-col overflow-hidden hover:card-hover">
-      {/* Photograph runs bright and edge-to-edge — the only darkened part of the
-          picture is the solid caption bar at the foot, not a wash over the whole
-          image. The duration chip rides the top-right corner. */}
-      <Link href={href} className="relative block aspect-[4/3] overflow-hidden bg-surface">
-        <Image
-          src={image.src}
-          alt={image.alt}
-          fill
-          sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
-          priority={priority}
-          className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
-        />
-        <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+    <CardShell href={href} className="min-h-[420px]">
+      <CardMedia src={image.src} alt={image.alt} priority={priority} />
 
-        {duration && (
-          <span className="absolute right-3 top-3 rounded-full bg-vermilion-500 px-2.5 py-1 text-[10px] font-bold text-white shadow-glow">
-            {duration}
-          </span>
+      {from !== null && (
+        <div className="p-3">
+          <PricePill
+            price={`${formatINR(from)}/-`}
+            was={was ? `${formatINR(was)}/-` : undefined}
+          />
+        </div>
+      )}
+
+      <div className="mt-auto space-y-2.5 p-4 pt-6">
+        {flag && <CardFlag>{flag}</CardFlag>}
+
+        <h3 className="line-clamp-2 font-display text-[17px] font-semibold leading-snug text-on-dark">
+          {pkg.package_name.replace(/ Group Tour$/, '')}
+        </h3>
+
+        <CardChips items={route} />
+
+        <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 pt-0.5">
+          {duration && <CardFact icon="clock" text={duration} />}
+          <CardFact icon="pin" text="Mumbai - Mumbai" />
+        </div>
+
+        {travelWindows.length > 0 && (
+          <CardFact
+            icon="calendar"
+            text={travelWindows.slice(0, 2).join(', ')}
+            trail={travelWindows.length > 2 ? `+${travelWindows.length - 2} windows` : undefined}
+          />
         )}
-
-        <div className="absolute inset-x-0 bottom-0 bg-azure-900/92 px-4 py-3">
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-vermilion-300">
-            {contextLine(pkg)}
-          </span>
-          <h3 className="mt-0.5 line-clamp-1 font-display text-[17px] font-semibold leading-tight text-on-dark">
-            {pkg.package_name.replace(/ Group Tour$/, '')}
-          </h3>
-        </div>
-      </Link>
-
-      <div className="flex flex-1 flex-col p-4">
-        {tagline && <p className="line-clamp-2 text-[13px] leading-relaxed text-muted">{tagline}</p>}
-
-        <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5">
-          {places > 0 && (
-            <span className="flex items-center gap-1.5 text-[12px] text-muted">
-              <Icon name="pin" className="h-3.5 w-3.5 text-vermilion-600" />
-              {places} {places === 1 ? 'destination' : 'destinations'}
-            </span>
-          )}
-          <span className="flex items-center gap-2">
-            <Stars />
-            <span className="text-[12px] text-muted">Tour manager included</span>
-          </span>
-        </div>
-
-        {/* Price and actions sit in a tinted well at the foot of the card. */}
-        <div className="mt-auto pt-3">
-          <div className="-mx-1 -mb-1 flex items-end justify-between gap-3 rounded-[1.1rem] bg-surface/80 p-3.5">
-            <div>
-              {from !== null ? (
-                <>
-                  <span className="block text-[10px] font-bold uppercase tracking-[0.12em] text-subtle">
-                    Starting from
-                  </span>
-                  <span className="flex items-baseline gap-1.5">
-                    <span className="font-display text-[25px] font-bold leading-none text-azure-700">
-                      {formatINR(from)}
-                    </span>
-                    <span className="text-[10.5px] font-semibold text-subtle">Onwards</span>
-                  </span>
-                </>
-              ) : (
-                <span className="block text-[12px] font-semibold text-muted">Price on request</span>
-              )}
-            </div>
-            <div className="flex shrink-0 flex-col gap-1.5 sm:flex-row">
-              <Link
-                href={href}
-                className="rounded-full border border-border-strong bg-raised px-3.5 py-2 text-center text-[10.5px] font-bold uppercase tracking-[0.08em] text-text transition-colors hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
-              >
-                Details
-              </Link>
-              <Link
-                href={`${href}#book`}
-                className="rounded-full bg-vermilion-500 px-3.5 py-2 text-center text-[10.5px] font-bold uppercase tracking-[0.08em] text-white shadow-glow transition-colors hover:bg-vermilion-400"
-              >
-                Book
-              </Link>
-            </div>
-          </div>
-        </div>
       </div>
-    </article>
+    </CardShell>
   );
 }

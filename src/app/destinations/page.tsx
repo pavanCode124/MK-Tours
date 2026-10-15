@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHero } from '@/components/PageHero';
 import { PencilPalm } from '@/components/PencilPalm';
+import { PencilBalloon, PencilPines } from '@/components/PencilDoodles';
 import { BanyanTree, CompassRose, FlightPath, PineTree, TopoField } from '@/components/Decor';
 import { RailSection } from '@/components/RailSection';
 import { DestinationCard, DestinationRail, DESTINATION_ITEM } from '@/components/sections';
@@ -46,6 +47,8 @@ export default async function DestinationsPage({ searchParams }: Props) {
 
       <div className="relative overflow-x-clip">
         <PencilPalm className="pointer-events-none absolute -right-12 top-28 hidden w-[170px] rotate-[8deg] opacity-[0.07] xl:block" />
+        <PencilBalloon className="pointer-events-none absolute -left-10 top-40 hidden w-[150px] -rotate-[5deg] opacity-[0.07] lg:block" />
+        <PencilPines className="pointer-events-none absolute -right-8 bottom-16 hidden w-[200px] rotate-[3deg] opacity-[0.06] xl:block" />
         <CompassRose className="pointer-events-none absolute -left-20 top-[22%] hidden h-[250px] w-[250px] text-azure-700/8 xl:block" />
         <FlightPath
           variant="rise"

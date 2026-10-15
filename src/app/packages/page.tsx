@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CardRail } from '@/components/CardRail';
-import { PackageCard } from '@/components/PackageCard';
+import { PACKAGE_ITEM, PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { PencilCamera } from '@/components/PencilCamera';
+import { PencilBackpack, PencilPines } from '@/components/PencilDoodles';
 import {
   BanyanTree,
   FlightPath,
@@ -19,11 +20,9 @@ import {
   destinationsByState,
   durationBuckets,
   packageDestinations,
-  packagesForSeason,
   SEASONS,
   seasonsForPackage,
   THEMES,
-  themesWithCounts,
 } from '@/lib/catalog';
 import { AGENCY } from '@/lib/content';
 import { getPackages, whatsappLink, type Package } from '@/lib/mktours';
@@ -34,15 +33,18 @@ export const metadata: Metadata = {
     'Every MK Tours fixed-departure group package — pilgrimage circuits, Kashmir, Kerala, Rajasthan and Nepal — with durations, sharing options and prices.',
 };
 
+/** A filter value may arrive once, repeated, or comma-joined. */
+type Param = string | string[] | undefined;
+
 interface Props {
   searchParams: Promise<{
-    state?: string;
-    destination?: string;
-    city?: string;
-    month?: string;
-    duration?: string;
-    season?: string;
-    theme?: string;
+    state?: Param;
+    destination?: Param;
+    city?: Param;
+    month?: Param;
+    duration?: Param;
+    season?: Param;
+    theme?: Param;
   }>;
 }
 
@@ -50,16 +52,23 @@ export default async function PackagesPage({ searchParams }: Props) {
   const params = await searchParams;
   const packages = await getPackages();
 
-  const filtered = applyFilters(packages, params);
+  const selected = readSelections(params);
+  const filtered = packages.filter((pkg) => matches(pkg, selected));
+
   const destinations = allDestinations(packages);
   const states = destinationsByState(packages);
   const durations = durationBuckets(packages);
-  const themes = themesWithCounts(packages);
   const wa = whatsappLink(AGENCY.whatsapp, `Hi ${AGENCY.name}, I'm looking for a tour and would like some help choosing.`);
 
-  const activeLabel = describe(params, destinations);
-  const hasFilters = Object.values(params).some(Boolean);
-  const departureCity = DEPARTURE_CITIES.find((c) => c.slug === params.city)?.label ?? 'Mumbai';
+  const activeLabel = describe(selected, destinations);
+  const hasFilters = FACETS.some((f) => selected[f].length > 0);
+  const departureCity = DEPARTURE_CITIES.find((c) => selected.city.includes(c.slug))?.label ?? 'Mumbai';
+
+  // Faceted counts: how many tours a chip would leave once added to the rest of
+  // the selection. Counting against the other facets only keeps every row
+  // self-consistent, so the numbers never contradict the result list.
+  const countFor = (facet: Facet, value: string) =>
+    packages.filter((pkg) => matches(pkg, selected, facet) && MATCHERS[facet](pkg, value)).length;
 
   return (
     <>
@@ -73,6 +82,8 @@ export default async function PackagesPage({ searchParams }: Props) {
 
       <div className="relative overflow-hidden">
         <PencilCamera className="pointer-events-none absolute -left-16 top-56 hidden w-[230px] -rotate-[9deg] opacity-[0.07] xl:block" />
+        <PencilBackpack className="pointer-events-none absolute -right-10 top-32 hidden w-[140px] rotate-[7deg] opacity-[0.07] lg:block" />
+        <PencilPines className="pointer-events-none absolute -left-12 bottom-24 hidden w-[200px] rotate-[3deg] opacity-[0.06] xl:block" />
         <FlightPath
           variant="arch"
           className="pointer-events-none absolute left-[8%] top-10 hidden h-[150px] w-[80%] text-vermilion-500/18 lg:block"
@@ -110,16 +121,26 @@ export default async function PackagesPage({ searchParams }: Props) {
               </div>
             </div>
 
+            <p className="mb-5 text-[12px] leading-relaxed text-muted">
+              Pick as many as you like — chips in the same row widen the search, and each row narrows the next. Tap a
+              selected chip again to drop it.
+            </p>
+
             <div className="space-y-4">
               <FilterRow label="Destination">
-                <Chip href="/packages" active={!hasFilters} label="All tours" />
+                <Chip
+                  href={hrefWithout(selected, 'destination')}
+                  active={selected.destination.length === 0}
+                  label="All tours"
+                  toggle={false}
+                />
                 {destinations.slice(0, 12).map((d) => (
                   <Chip
                     key={d.slug}
-                    href={`/packages?destination=${encodeURIComponent(d.slug)}`}
-                    active={params.destination === d.slug}
+                    href={hrefToggling(selected, 'destination', d.slug)}
+                    active={selected.destination.includes(d.slug)}
                     label={d.label}
-                    count={d.count}
+                    count={countFor('destination', d.slug)}
                   />
                 ))}
               </FilterRow>
@@ -128,9 +149,10 @@ export default async function PackagesPage({ searchParams }: Props) {
                 {states.map((s) => (
                   <Chip
                     key={s.state}
-                    href={`/packages?state=${encodeURIComponent(s.state)}`}
-                    active={params.state === s.state}
+                    href={hrefToggling(selected, 'state', s.state)}
+                    active={selected.state.includes(s.state)}
                     label={s.state}
+                    count={countFor('state', s.state)}
                   />
                 ))}
               </FilterRow>
@@ -139,22 +161,22 @@ export default async function PackagesPage({ searchParams }: Props) {
                 {durations.map((d) => (
                   <Chip
                     key={d.days}
-                    href={`/packages?duration=${d.days}`}
-                    active={params.duration === String(d.days)}
+                    href={hrefToggling(selected, 'duration', String(d.days))}
+                    active={selected.duration.includes(String(d.days))}
                     label={d.label}
-                    count={d.count}
+                    count={countFor('duration', String(d.days))}
                   />
                 ))}
               </FilterRow>
 
               <FilterRow label="Theme">
-                {themes.map((t) => (
+                {THEMES.map((t) => (
                   <Chip
                     key={t.slug}
-                    href={`/packages?theme=${t.slug}`}
-                    active={params.theme === t.slug}
+                    href={hrefToggling(selected, 'theme', t.slug)}
+                    active={selected.theme.includes(t.slug)}
                     label={t.label}
-                    count={t.count}
+                    count={countFor('theme', t.slug)}
                   />
                 ))}
               </FilterRow>
@@ -163,10 +185,10 @@ export default async function PackagesPage({ searchParams }: Props) {
                 {SEASONS.map((s) => (
                   <Chip
                     key={s.slug}
-                    href={`/packages?season=${s.slug}`}
-                    active={params.season === s.slug}
+                    href={hrefToggling(selected, 'season', s.slug)}
+                    active={selected.season.includes(s.slug)}
                     label={`${s.label} · ${s.window}`}
-                    count={packagesForSeason(packages, s.slug).length}
+                    count={countFor('season', s.slug)}
                   />
                 ))}
               </FilterRow>
@@ -175,7 +197,7 @@ export default async function PackagesPage({ searchParams }: Props) {
 
           {/* Results */}
           {filtered.length > 0 ? (
-            <CardRail className="mt-9" label="Tour packages">
+            <CardRail className="mt-9" itemClassName={PACKAGE_ITEM} label="Tour packages">
               {filtered.map((pkg, i) => (
                 <PackageCard key={pkg.id} pkg={pkg} priority={i < 3} />
               ))}
@@ -220,8 +242,8 @@ export default async function PackagesPage({ searchParams }: Props) {
                   {DEPARTURE_CITIES.map((c) => (
                     <Chip
                       key={c.slug}
-                      href={`/packages?city=${c.slug}`}
-                      active={params.city === c.slug}
+                      href={hrefToggling(selected, 'city', c.slug)}
+                      active={selected.city.includes(c.slug)}
                       label={c.label}
                     />
                   ))}
@@ -236,60 +258,115 @@ export default async function PackagesPage({ searchParams }: Props) {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Faceted filtering                                                          */
+/* -------------------------------------------------------------------------- */
 
-function applyFilters(packages: Package[], params: Awaited<Props['searchParams']>): Package[] {
-  const { state, destination, duration, season, theme, month } = params;
-  return packages.filter((pkg) => {
-    const slugs = packageDestinations(pkg);
+const FACETS = ['destination', 'state', 'duration', 'theme', 'season', 'month', 'city'] as const;
+type Facet = (typeof FACETS)[number];
+type Selections = Record<Facet, string[]>;
 
-    if (destination && !slugs.includes(destination.toLowerCase())) return false;
-    if (state && !slugs.some((s) => destinationFor(s).state === state)) return false;
-    if (duration && pkg.days !== Number(duration)) return false;
-    if (season && !seasonsForPackage(pkg).includes(season)) return false;
+/** Does one package satisfy one value of one facet? */
+const MATCHERS: Record<Facet, (pkg: Package, value: string) => boolean> = {
+  destination: (pkg, value) => packageDestinations(pkg).includes(value.toLowerCase()),
+  state: (pkg, value) => packageDestinations(pkg).some((s) => destinationFor(s).state === value),
+  duration: (pkg, value) => pkg.days === Number(value),
+  season: (pkg, value) => seasonsForPackage(pkg).includes(value),
+  // Themes are an editorial grouping, so defer to the catalogue's own list.
+  theme: (pkg, value) => (THEMES.find((t) => t.slug === value)?.packages ?? []).includes(pkg.slug ?? ''),
+  month: (pkg, value) =>
+    seasonsForPackage(pkg)
+      .map((slug) => SEASONS.find((s) => s.slug === slug))
+      .some((s) => s?.months.includes(Number(value)) ?? false),
+  // `city` is informational for now: every departure originates in Mumbai.
+  city: () => true,
+};
 
-    if (theme) {
-      // Themes are an editorial grouping, so defer to the catalogue's own list.
-      const themed = THEMES.find((t) => t.slug === theme);
-      if (!themed || !themed.packages.includes(pkg.slug ?? '')) return false;
-    }
+function readSelections(params: Awaited<Props['searchParams']>): Selections {
+  const out = {} as Selections;
+  for (const facet of FACETS) {
+    out[facet] = toValues((params as Record<string, Param>)[facet]);
+  }
+  return out;
+}
 
-    if (month) {
-      const m = Number(month);
-      const windows = seasonsForPackage(pkg)
-        .map((slug) => SEASONS.find((s) => s.slug === slug))
-        .filter(Boolean);
-      if (!windows.some((s) => s!.months.includes(m))) return false;
-    }
+function toValues(param: Param): string[] {
+  const raw = param === undefined ? [] : Array.isArray(param) ? param : [param];
+  return [...new Set(raw.flatMap((v) => v.split(',')).map((v) => v.trim()).filter(Boolean))];
+}
 
-    // `city` is informational for now: every departure originates in Mumbai.
-    return true;
+/**
+ * Values inside one facet widen the search (OR); facets narrow each other
+ * (AND). `ignore` drops one facet, which is how a row counts its own chips.
+ */
+function matches(pkg: Package, selected: Selections, ignore?: Facet): boolean {
+  return FACETS.every((facet) => {
+    if (facet === ignore) return true;
+    const values = selected[facet];
+    return values.length === 0 || values.some((value) => MATCHERS[facet](pkg, value));
   });
 }
 
-function describe(
-  params: Awaited<Props['searchParams']>,
-  destinations: ReturnType<typeof allDestinations>,
-): string | undefined {
-  if (params.destination) {
-    const d = destinations.find((x) => x.slug === params.destination);
-    return d ? `Tours to ${d.label}` : undefined;
+function hrefFor(selected: Selections, overrides: Partial<Selections>): string {
+  const next = { ...selected, ...overrides };
+  const query = new URLSearchParams();
+  for (const facet of FACETS) {
+    for (const value of next[facet]) query.append(facet, value);
   }
-  if (params.state) return `Tours in ${params.state}`;
-  if (params.duration) return `${params.duration}-Day Tours`;
-  if (params.season) {
-    const s = SEASONS.find((x) => x.slug === params.season);
-    return s ? `${s.label} Departures` : undefined;
-  }
-  if (params.theme) {
-    const t = THEMES.find((x) => x.slug === params.theme);
-    return t ? `${t.label} Tours` : undefined;
-  }
-  if (params.city) {
-    const c = DEPARTURE_CITIES.find((x) => x.slug === params.city);
-    return c ? `Tours from ${c.label}` : undefined;
-  }
-  return undefined;
+  const qs = query.toString();
+  return qs ? `/packages?${qs}` : '/packages';
 }
+
+/** Add the value if it is not selected, drop it if it is. */
+function hrefToggling(selected: Selections, facet: Facet, value: string): string {
+  const current = selected[facet];
+  const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
+  return hrefFor(selected, { [facet]: next });
+}
+
+/** Clear a whole facet, leaving the rest of the selection in place. */
+function hrefWithout(selected: Selections, facet: Facet): string {
+  return hrefFor(selected, { [facet]: [] });
+}
+
+function describe(selected: Selections, destinations: ReturnType<typeof allDestinations>): string | undefined {
+  const active = FACETS.filter((f) => selected[f].length > 0);
+  // Two facets at once have no natural headline; fall back to the page title.
+  if (active.length !== 1) return undefined;
+  const facet = active[0];
+  const values = selected[facet];
+
+  const join = (labels: string[]) =>
+    labels.length <= 2 ? labels.join(' & ') : `${labels.slice(0, -1).join(', ')} & ${labels[labels.length - 1]}`;
+  const labelled = (lookup: (value: string) => string | undefined) =>
+    values.map(lookup).filter((l): l is string => Boolean(l));
+
+  switch (facet) {
+    case 'destination': {
+      const labels = labelled((v) => destinations.find((d) => d.slug === v)?.label);
+      return labels.length ? `Tours to ${join(labels)}` : undefined;
+    }
+    case 'state':
+      return `Tours in ${join(values)}`;
+    case 'duration':
+      return values.length === 1 ? `${values[0]}-Day Tours` : `${join(values)} Day Tours`;
+    case 'season': {
+      const labels = labelled((v) => SEASONS.find((s) => s.slug === v)?.label);
+      return labels.length ? `${join(labels)} Departures` : undefined;
+    }
+    case 'theme': {
+      const labels = labelled((v) => THEMES.find((t) => t.slug === v)?.label);
+      return labels.length ? `${join(labels)} Tours` : undefined;
+    }
+    case 'city': {
+      const labels = labelled((v) => DEPARTURE_CITIES.find((c) => c.slug === v)?.label);
+      return labels.length ? `Tours from ${join(labels)}` : undefined;
+    }
+    default:
+      return undefined;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
 
 function FilterRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -300,11 +377,38 @@ function FilterRow({ label, children }: { label: string; children: React.ReactNo
   );
 }
 
-function Chip({ href, active, label, count }: { href: string; active: boolean; label: string; count?: number }) {
+function Chip({
+  href,
+  active,
+  label,
+  count,
+  toggle = true,
+}: {
+  href: string;
+  active: boolean;
+  label: string;
+  count?: number;
+  /** False for a chip that resets a row rather than toggling one value. */
+  toggle?: boolean;
+}) {
+  const base = 'shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all duration-300';
+
+  // A chip that would empty the results stays in place but goes quiet, so the
+  // rows never reshuffle under the cursor.
+  if (count === 0 && !active) {
+    return (
+      <span aria-disabled="true" className={`${base} cursor-not-allowed border-border bg-bg text-subtle opacity-50`}>
+        {label}
+        <span className="text-subtle"> (0)</span>
+      </span>
+    );
+  }
+
   return (
     <Link
       href={href}
-      className={`shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all duration-300 ${
+      aria-pressed={active}
+      className={`${base} ${
         active
           ? 'border-azure-900 bg-azure-900 text-on-dark shadow-lift'
           : 'border-border bg-bg text-text hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft'
@@ -314,6 +418,7 @@ function Chip({ href, active, label, count }: { href: string; active: boolean; l
       {typeof count === 'number' && (
         <span className={active ? 'text-on-dark/60' : 'text-subtle'}> ({count})</span>
       )}
+      {active && toggle && <span className="text-on-dark/70"> ×</span>}
     </Link>
   );
 }

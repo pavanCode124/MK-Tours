@@ -4,17 +4,9 @@ import { CardRail } from '@/components/CardRail';
 import { PageHero } from '@/components/PageHero';
 import { PencilCamera } from '@/components/PencilCamera';
 import { PencilPalm } from '@/components/PencilPalm';
-import {
-  BanyanTree,
-  CameraBadge,
-  FlightPath,
-  PineTree,
-  SmokePlume,
-  SmokeShadow,
-  TopoField,
-  TreeLine,
-} from '@/components/Decor';
-import { Pillar } from '@/components/sections';
+import { PencilBackpack, PencilCouple } from '@/components/PencilDoodles';
+import { BanyanTree, SmokeShadow, TopoField, TreeLine } from '@/components/Decor';
+import { PillarCard } from '@/components/sections';
 import { Button, Display, Icon } from '@/components/ui';
 import { allDestinations } from '@/lib/catalog';
 import { AGENCY, PILLARS } from '@/lib/content';
@@ -29,25 +21,25 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     n: '01',
-    icon: 'compass' as const,
+    art: 'enquiry' as const,
     title: 'You tell us the trip',
     body: 'Pick a fixed departure from the calendar, or tell us where you want to go and when. Either way we start with your dates, your group size and the sharing you want.',
   },
   {
     n: '02',
-    icon: 'wallet' as const,
+    art: 'quote' as const,
     title: 'We quote it in writing',
     body: 'You get the itinerary, the train class, the hotel sharing and the full price — with the exclusions listed, not implied. Nothing is held until you have read it.',
   },
   {
     n: '03',
-    icon: 'train' as const,
+    art: 'booking' as const,
     title: 'We book the group',
     body: 'An advance confirms your seat. We make the group rail booking, hold the hotels, and send you the packing note and the documents you will need to carry.',
   },
   {
     n: '04',
-    icon: 'shield' as const,
+    art: 'manager' as const,
     title: 'A tour manager travels with you',
     body: 'From the platform at Mumbai to the platform you come home to. If something changes on the road, somebody who works for us is standing there to change it.',
   },
@@ -106,6 +98,7 @@ export default async function AboutPage() {
       {/* Story */}
       <section className="relative overflow-hidden py-12 lg:py-16">
         <PencilPalm className="pointer-events-none absolute -bottom-8 -left-10 hidden w-[150px] -rotate-[7deg] opacity-[0.08] lg:block" />
+        <PencilCouple className="pointer-events-none absolute -right-8 bottom-0 hidden w-[165px] rotate-[4deg] opacity-[0.08] lg:block" />
         <BanyanTree className="pointer-events-none absolute -top-10 right-[2%] hidden h-[220px] w-[220px] text-azure-700/8 xl:block" />
         <div className="pointer-events-none absolute -left-24 top-1/3 h-[320px] w-[320px] bloom-cool" />
         <div className="relative mx-auto grid max-w-[1320px] items-start gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
@@ -165,62 +158,53 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* How it works — a flight leg with four stops */}
-      <section className="relative overflow-hidden bg-surface py-12 lg:py-16">
+      {/* How it works — four illustrated stops between enquiry and platform */}
+      <section className="relative overflow-hidden bg-surface py-14 lg:py-20">
         <div className="pointer-events-none absolute inset-0 dotfield opacity-50" />
         <PencilCamera className="pointer-events-none absolute -right-12 -top-8 hidden w-[220px] rotate-[10deg] opacity-[0.1] md:block lg:w-[290px]" />
-        <FlightPath
-          variant="rise"
-          className="pointer-events-none absolute left-[6%] top-[40%] hidden h-[180px] w-[88%] text-vermilion-500/30 lg:block"
-        />
+        <PencilBackpack className="pointer-events-none absolute -left-10 bottom-4 hidden w-[130px] -rotate-[6deg] opacity-[0.07] lg:block" />
         <TopoField className="pointer-events-none absolute -bottom-10 left-0 hidden h-[280px] w-[40%] text-azure-700/8 lg:block" />
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <Display className="display-caps text-[30px] sm:text-[38px]">
-            From enquiry to <span className="flourish">platform</span>
-          </Display>
+          <div className="text-center">
+            <Display className="display-caps mx-auto max-w-3xl text-[30px] sm:text-[38px] lg:text-[44px]">
+              From enquiry to platform
+            </Display>
+            <span className="mx-auto mt-4 block h-[5px] w-[120px] rounded-full bg-vermilion-500" />
+            <p className="mx-auto mt-5 max-w-xl text-[14.5px] leading-[1.8] text-muted">
+              Four steps between the first message and the morning you board — in that order, every time.
+            </p>
+          </div>
           <CardRail className="mt-11" itemClassName="w-[270px] sm:w-[300px] lg:w-[320px]" label="How we work">
             {STEPS.map((s) => (
-              <div key={s.n} className="card group relative overflow-hidden p-6 hover:card-hover">
-                <span className="absolute right-4 top-3 font-display text-[48px] font-bold leading-none text-vermilion-100 transition-colors duration-500 group-hover:text-vermilion-300/70">
-                  {s.n}
-                </span>
-                <span className="relative mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-azure-800 text-vermilion-300 shadow-soft transition-colors duration-500 group-hover:bg-vermilion-500 group-hover:text-white">
-                  <Icon name={s.icon} className="h-5 w-5" />
-                </span>
-                <h3 className="relative font-display text-[19px] font-semibold leading-snug text-text">{s.title}</h3>
-                <p className="relative mt-2.5 text-[13px] leading-[1.7] text-muted">{s.body}</p>
-              </div>
+              <PillarCard key={s.n} art={s.art} step={s.n} title={s.title} text={s.body} />
             ))}
           </CardRail>
         </div>
       </section>
 
-      {/* Pillars */}
-      <section className="py-12 lg:py-16">
-        <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="relative overflow-hidden rounded-[2.25rem] bg-azure-900 px-6 py-10 shadow-float lg:px-12 lg:py-12">
-            <SmokePlume
-              seed={2}
-              className="pointer-events-none absolute -bottom-6 left-[4%] hidden h-[230px] w-[180px] text-white/15 lg:block"
-            />
-            <CameraBadge className="pointer-events-none absolute -right-6 top-6 hidden h-[180px] w-[210px] text-vermilion-300/12 lg:block" />
-            <PineTree className="pointer-events-none absolute -bottom-1 right-[8%] hidden h-[150px] w-[64px] text-black/25 tree-breathe lg:block" />
-            <div className="relative text-center">
-              <Display className="display-caps text-[29px] text-on-dark sm:text-[36px]">
-                Travel the way it was meant to be
-              </Display>
-            </div>
-            <CardRail
-              className="relative mt-9"
-              itemClassName="w-[265px] sm:w-[295px] lg:w-[315px]"
-              label="What you can count on"
-              tone="dark"
-            >
-              {PILLARS.map((p, i) => (
-                <Pillar key={p.title} {...p} index={i} />
-              ))}
-            </CardRail>
+      {/* Pillars — the same light cards as the home page */}
+      <section className="relative overflow-hidden py-14 lg:py-20">
+        <div className="pointer-events-none absolute -left-24 top-10 h-[320px] w-[320px] bloom-cool" />
+        <div className="pointer-events-none absolute -right-20 bottom-0 h-[300px] w-[300px] bloom-warm" />
+        <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
+          <div className="text-center">
+            <Display className="display-caps mx-auto max-w-3xl text-[30px] sm:text-[38px] lg:text-[44px]">
+              Travel the way it was meant to be
+            </Display>
+            <span className="mx-auto mt-4 block h-[5px] w-[120px] rounded-full bg-vermilion-500" />
+            <p className="mx-auto mt-5 max-w-xl text-[14.5px] leading-[1.8] text-muted">
+              Four things we settle before you board, so nothing has to be settled on the road.
+            </p>
           </div>
+          <CardRail
+            className="mt-11"
+            itemClassName="w-[270px] sm:w-[300px] lg:w-[320px]"
+            label="What you can count on"
+          >
+            {PILLARS.map((p) => (
+              <PillarCard key={p.title} art={p.icon} title={p.title} text={p.text} />
+            ))}
+          </CardRail>
         </div>
       </section>
 

@@ -5,11 +5,11 @@ import { SearchBar } from '@/components/SearchBar';
 import { JourneyInFrames } from '@/components/JourneyInFrames';
 import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
-import { PackageTabs } from '@/components/PackageTabs';
 import { DestinationMarquee } from '@/components/DestinationMarquee';
 import {
+  ExperienceCard,
   FaqList,
-  Pillar,
+  PillarCard,
   ReviewCard,
 } from '@/components/sections';
 import {
@@ -26,6 +26,7 @@ import {
 } from '@/components/Decor';
 import { PencilCamera } from '@/components/PencilCamera';
 import { PencilPalm } from '@/components/PencilPalm';
+import { PencilBalloon, PencilCouple, PencilPines } from '@/components/PencilDoodles';
 import { Button, Display, Icon, SectionHeading, Stars } from '@/components/ui';
 import {
   allDestinations,
@@ -33,7 +34,6 @@ import {
   destinationsByState,
   durationBuckets,
   packagesForSeason,
-  packagesForState,
   SEASONS,
   themesWithCounts,
 } from '@/lib/catalog';
@@ -49,16 +49,6 @@ export default async function HomePage() {
   const durations = durationBuckets(packages);
   const wa = whatsappLink(AGENCY.whatsapp, `Hi ${AGENCY.name}, I'd like to plan a trip.`);
   const tel = telHref(AGENCY.phonePrimary);
-
-  // The package grid is grouped by state, so the tabs mirror the catalogue.
-  const tabStates = byState.filter((g) => packagesForState(packages, g.state).length > 1).slice(0, 4);
-  const tabs = [
-    { label: 'All Tours', content: <Grid packages={packages} priority /> },
-    ...tabStates.map((g) => ({
-      label: g.state,
-      content: <Grid packages={packagesForState(packages, g.state)} />,
-    })),
-  ];
 
   return (
     <>
@@ -89,7 +79,7 @@ export default async function HomePage() {
       </Section>
 
       {/* Who we are — a curved terracotta panel with a photo collage */}
-      <section className="relative overflow-hidden bg-clay py-12 text-on-dark lg:py-16">
+      <section className="relative overflow-hidden bg-clay py-10 text-on-dark lg:py-12">
         <WaveDivider flip className="pointer-events-none absolute inset-x-0 top-0 h-[64px] text-bg" />
         <SmokeShadow className="pointer-events-none absolute -bottom-16 right-0 h-[340px] w-[60%] text-white/15" />
         <PineTree className="pointer-events-none absolute bottom-0 left-[4%] hidden h-[190px] w-[80px] text-azure-900/25 tree-breathe lg:block" />
@@ -98,10 +88,10 @@ export default async function HomePage() {
           className="pointer-events-none absolute right-0 top-10 hidden h-[150px] w-[55%] text-white/25 lg:block"
         />
 
-        <div className="relative mx-auto grid max-w-[1320px] items-center gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
+        <div className="relative mx-auto grid max-w-[1320px] items-center gap-10 px-5 md:px-8 lg:grid-cols-2 lg:gap-14 lg:px-12">
           <div className="reveal relative">
             {/* Two overlapping prints instead of one flat rectangle */}
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2.25rem] shadow-float sm:aspect-[4/3] lg:aspect-[4/5]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2.25rem] shadow-float sm:aspect-[4/3] lg:aspect-[5/5]">
               <Image
                 src="/images/about-group.jpg"
                 alt="Travellers above Phewa Lake with the Annapurna range behind"
@@ -129,31 +119,21 @@ export default async function HomePage() {
             <Display className="display-caps text-[32px] text-on-dark sm:text-[40px] lg:text-[46px]">
               A trusted travel partner for private &amp; group journeys
             </Display>
-            <div className="mt-7 space-y-4 text-[14.5px] leading-[1.85] text-on-dark/85">
+            <div className="mt-5 space-y-3 text-[14.5px] leading-[1.8] text-on-dark/85">
               <p>
-                MK Tours has been running group journeys across India since {AGENCY.since}. More than {AGENCY.travellers}{' '}
-                travellers have gone out with us since — on pilgrimage circuits through the Ganga plain, up into the
-                Kashmir valleys, down the Kerala backwaters, and across the Thar to Jaisalmer.
+                Since {AGENCY.since} we have taken more than {AGENCY.travellers} travellers out on fixed group
+                departures — pilgrimage circuits on the Ganga plain, the Kashmir valleys, the Kerala backwaters and the
+                Thar to Jaisalmer.
               </p>
               <p>
-                Every departure is a fixed departure. The train is booked as a group, the hotels are held in advance, and
-                a tour manager travels with you from the platform at Mumbai to the platform you come home to. Nothing is
-                arranged at the last minute, because nothing on a group trip survives being arranged at the last minute.
-              </p>
-              <p>
-                One price covers the journey, the stays, the meals during the stay, the local transport and the
-                sightseeing in the itinerary. What it does not cover is written out on every package page — entry fees,
-                special darshan, personal expenses. We would rather you read the exclusions before you book than discover
-                them on the road.
-              </p>
-              <p>
-                Go private and the whole itinerary is yours to shape. Join a group departure and you travel with people
-                who chose the same trip for the same reasons. Either way, you travel with someone who answers the phone.
+                The train is booked as a group, the hotels are held in advance and a tour manager travels with you both
+                ways. One price covers the journey, the stays, the meals, local transport and sightseeing; what it does
+                not cover is written out on every package page.
               </p>
             </div>
 
             {/* Three quick facts, as capsules on the warm panel */}
-            <div className="mt-8 flex flex-wrap gap-2.5">
+            <div className="mt-6 flex flex-wrap gap-2.5">
               {[
                 { icon: 'train' as const, label: 'Group rail booking' },
                 { icon: 'shield' as const, label: 'Tour manager on board' },
@@ -169,7 +149,7 @@ export default async function HomePage() {
               ))}
             </div>
 
-            <Button href="/about" variant="onDark" className="mt-9">
+            <Button href="/about" variant="onDark" className="mt-7">
               Learn more about how we work
             </Button>
           </div>
@@ -179,7 +159,7 @@ export default async function HomePage() {
       </section>
 
       {/* Packages */}
-      <section className="relative overflow-hidden bg-surface py-10 lg:py-12">
+      <section className="relative overflow-hidden bg-surface py-9 lg:py-10">
         <div className="pointer-events-none absolute inset-0 dotfield opacity-50" />
         <TopoField className="pointer-events-none absolute -right-16 top-24 hidden h-[360px] w-[45%] text-azure-700/8 lg:block" />
         <PencilPalm className="pointer-events-none absolute -bottom-10 left-0 hidden w-[160px] -rotate-[8deg] opacity-[0.09] lg:block" />
@@ -188,7 +168,7 @@ export default async function HomePage() {
               foot, so the collection reads as one piece rather than a banner
               with a separate grid beneath it. */}
           <div className="reveal relative">
-            <div className="absolute inset-x-0 top-0 h-[300px] overflow-hidden rounded-[1.75rem] bg-azure-900 shadow-lift sm:h-[330px] lg:h-[360px] lg:rounded-[2.25rem]">
+            <div className="absolute inset-x-0 top-0 h-[250px] overflow-hidden rounded-[1.75rem] bg-azure-900 shadow-lift sm:h-[265px] lg:h-[280px] lg:rounded-[2.25rem]">
               <Image
                 src="/images/hero-varanasi.jpg"
                 alt=""
@@ -201,7 +181,7 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-r from-azure-900/80 via-azure-900/35 to-transparent" />
             </div>
 
-            <div className="relative px-5 pt-8 sm:px-9 sm:pt-9 lg:px-12">
+            <div className="relative px-5 pt-7 sm:px-9 lg:px-12">
               <SectionHeading
                 tone="dark"
                 title={
@@ -209,20 +189,15 @@ export default async function HomePage() {
                     Popular <span className="flourish">tour packages</span>
                   </>
                 }
-                lede="Every departure below is dated, priced and ready to book. Filter by state to find the one that fits your calendar."
-                link={{ href: '/packages', label: 'View all' }}
+                lede="Every departure below is dated, priced and ready to book."
+                link={{ href: '/packages', label: 'View all packages' }}
               />
             </div>
 
-            {/* Tabs over the photograph, cards overlapping its foot. */}
-            <div className="relative z-10 mt-6 px-5 sm:px-6 lg:px-8">
-              <PackageTabs groups={tabs} />
+            {/* Cards ride up over the foot of the photograph. */}
+            <div className="relative z-10 mt-5 px-5 sm:px-6 lg:px-8">
+              <Grid packages={packages} priority />
             </div>
-          </div>
-          <div className="reveal mt-7 text-center">
-            <Button href="/packages" variant="solid">
-              View all {packages.length} packages
-            </Button>
           </div>
         </div>
       </section>
@@ -234,6 +209,7 @@ export default async function HomePage() {
           seed={3}
           className="pointer-events-none absolute -right-6 top-10 hidden h-[260px] w-[200px] text-azure-600/12 lg:block"
         />
+        <PencilBalloon className="pointer-events-none absolute -right-8 bottom-10 hidden w-[150px] rotate-[6deg] opacity-[0.08] lg:block" />
         <div className="reveal relative">
           <SectionHeading
             align="center"
@@ -242,30 +218,29 @@ export default async function HomePage() {
                 Pick a length, a <span className="flourish">season</span>, or a reason
               </>
             }
-            lede="Six days or ten, winter in Rajasthan or summer in the Kashmir vermilions — find the trip length and travel window that fits your calendar."
+            lede="Find the trip length and travel window that fits your calendar."
           />
         </div>
 
-        <div className="relative mt-9 grid gap-5 lg:grid-cols-2">
-          <div className="reveal card p-7">
+        <div className="relative mt-7 grid gap-4 lg:grid-cols-2">
+          <div className="reveal card p-5 lg:p-6">
             <BoardHead
-              icon="calendar"
               kicker="By duration"
               title="Trip length"
               note={`${durations.length} lengths`}
             />
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
               {durations.map((d) => (
                 <Link
                   key={d.days}
                   href={`/packages?duration=${d.days}`}
-                  className="group/d rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:shadow-lift"
+                  className="group/d rounded-2xl border border-border bg-bg p-3.5 transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:shadow-lift"
                 >
                   <div className="font-display text-[23px] font-bold leading-none text-azure-700 transition-colors group-hover/d:text-vermilion-700">
                     {d.days}D
                   </div>
-                  <div className="mt-1.5 text-[12px] text-muted">{d.nights} nights</div>
-                  <div className="mt-0.5 text-[11px] text-subtle">
+                  <div className="mt-1 text-[11.5px] text-muted">{d.nights} nights</div>
+                  <div className="text-[11px] text-subtle">
                     {d.count} {d.count === 1 ? 'tour' : 'tours'}
                   </div>
                 </Link>
@@ -273,16 +248,16 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="reveal card p-7">
-            <BoardHead icon="sun" kicker="By season" title="Travel window" note={`${SEASONS.length} seasons`} />
-            <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="reveal card p-5 lg:p-6">
+            <BoardHead kicker="By season" title="Travel window" note={`${SEASONS.length} seasons`} />
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
               {SEASONS.map((s) => {
                 const count = packagesForSeason(packages, s.slug).length;
                 return (
                   <Link
                     key={s.slug}
                     href={`/packages?season=${s.slug}`}
-                    className="group/s rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:border-vermilion-300 hover:shadow-lift"
+                    className="group/s rounded-2xl border border-border bg-bg p-3.5 transition-all duration-300 hover:border-vermilion-300 hover:shadow-lift"
                   >
                     <div className="font-display text-[19px] font-semibold leading-tight text-text transition-colors group-hover/s:text-vermilion-700">
                       {s.label}
@@ -290,7 +265,7 @@ export default async function HomePage() {
                     <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-vermilion-700">
                       {s.window}
                     </div>
-                    <div className="mt-2 text-[11px] text-muted">
+                    <div className="mt-1.5 text-[11px] text-muted">
                       {s.note} · {count} {count === 1 ? 'tour' : 'tours'}
                     </div>
                   </Link>
@@ -301,60 +276,44 @@ export default async function HomePage() {
         </div>
 
         {/* Themes */}
-        <div className="reveal card mt-5 p-7">
-          <BoardHead icon="sparkle" kicker="By theme" title="What the trip is for" note={`${themes.length} themes`} />
-          <div className="mt-6 flex flex-wrap gap-2.5">
+        <div className="reveal card mt-4 p-5 lg:p-6">
+          <BoardHead kicker="By theme" title="What the trip is for" note={`${themes.length} themes`} />
+          <CardRail className="mt-5" itemClassName="w-[230px] sm:w-[250px] lg:w-[265px]" label="Experiences">
             {themes.map((t) => (
-              <Link
-                key={t.slug}
-                href={`/themes/${t.slug}`}
-                className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft"
-              >
-                {t.label}
-                <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-subtle transition-colors group-hover/t:bg-vermilion-100 group-hover/t:text-vermilion-700">
-                  {t.count}
-                </span>
-              </Link>
+              <ExperienceCard key={t.slug} theme={t} />
             ))}
-          </div>
+          </CardRail>
         </div>
       </Section>
 
-      {/* Why us — dark indigo panel with glass pillars */}
-      <section className="relative overflow-hidden bg-azure-900 py-12 text-on-dark lg:py-16">
-        <WaveDivider flip className="pointer-events-none absolute inset-x-0 top-0 h-[64px] text-bg" />
-        <FlightPath
-          variant="arch"
-          className="pointer-events-none absolute left-[8%] top-16 hidden h-[170px] w-[84%] text-vermilion-300/30 md:block"
-        />
-        <SmokePlume
-          seed={5}
-          className="pointer-events-none absolute bottom-10 left-[6%] hidden h-[240px] w-[180px] text-white/15 lg:block"
-        />
-        <CameraBadge className="pointer-events-none absolute -right-8 bottom-16 hidden h-[200px] w-[230px] text-vermilion-300/12 lg:block" />
+      {/* Why us — a light panel: the promise in type, the drawing underneath */}
+      <section className="relative overflow-hidden bg-surface py-14 lg:py-20">
+        <div className="pointer-events-none absolute -left-24 top-10 h-[320px] w-[320px] bloom-cool" />
+        <div className="pointer-events-none absolute -right-20 bottom-0 h-[300px] w-[300px] bloom-warm" />
+        <PencilCouple className="pointer-events-none absolute -left-6 bottom-2 hidden w-[180px] -rotate-[4deg] opacity-[0.09] lg:block" />
+        <PencilPines className="pointer-events-none absolute -right-6 top-6 hidden w-[200px] rotate-[3deg] opacity-[0.07] lg:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
           <div className="reveal text-center">
-            <Display className="display-caps mx-auto max-w-3xl text-[32px] text-on-dark sm:text-[40px] lg:text-[47px]">
+            <Display className="display-caps mx-auto max-w-3xl text-[30px] sm:text-[38px] lg:text-[44px]">
               Travel the way it was meant to be
             </Display>
-            <p className="mx-auto mt-5 max-w-xl text-[14.5px] leading-[1.8] text-on-dark/70">
+            {/* the short rule under the heading, as on the rest of the page */}
+            <span className="mx-auto mt-4 block h-[5px] w-[120px] rounded-full bg-vermilion-500" />
+            <p className="mx-auto mt-5 max-w-xl text-[14.5px] leading-[1.8] text-muted">
               Four things we settle before you board, so nothing has to be settled on the road.
             </p>
           </div>
           <CardRail
-            className="reveal mt-10"
+            className="reveal mt-11"
             itemClassName="w-[270px] sm:w-[300px] lg:w-[320px]"
             label="Why MK Tours"
-            tone="dark"
           >
-            {PILLARS.map((p, i) => (
-              <Pillar key={p.title} icon={p.icon} title={p.title} text={p.text} index={i} />
+            {PILLARS.map((p) => (
+              <PillarCard key={p.title} art={p.icon} title={p.title} text={p.text} />
             ))}
           </CardRail>
         </div>
-
-        <TreeLine className="pointer-events-none absolute inset-x-0 bottom-0 h-[70px] text-bg" />
       </section>
 
       {/* Reviews */}
@@ -497,24 +456,19 @@ function Section({
 
 /** The header row on each planning-board card. */
 function BoardHead({
-  icon,
   kicker,
   title,
   note,
 }: {
-  icon: 'calendar' | 'sun' | 'sparkle';
   kicker: string;
   title: string;
   note: string;
 }) {
   return (
     <div className="flex items-center gap-3.5">
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
-        <Icon name={icon} className="h-5 w-5" />
-      </span>
       <div className="flex-1">
         <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">{kicker}</div>
-        <div className="font-display text-[20px] font-semibold leading-tight text-text">{title}</div>
+        <div className="font-display text-[19px] font-semibold leading-tight text-text">{title}</div>
       </div>
       <span className="shrink-0 rounded-full bg-surface px-3 py-1.5 text-[11px] font-semibold text-subtle">{note}</span>
     </div>
@@ -523,7 +477,7 @@ function BoardHead({
 
 function Grid({ packages, priority = false }: { packages: Awaited<ReturnType<typeof getPackages>>; priority?: boolean }) {
   return (
-    <CardRail label="Tour packages">
+    <CardRail label="Tour packages" itemClassName="w-[240px] sm:w-[260px] lg:w-[280px]">
       {packages.map((pkg, i) => (
         <PackageCard key={pkg.id} pkg={pkg} priority={priority && i < 3} />
       ))}

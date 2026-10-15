@@ -2,22 +2,15 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CardRail } from '@/components/CardRail';
-import { PackageCard } from '@/components/PackageCard';
+import { PACKAGE_ITEM, PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
+import { ExperienceCard } from '@/components/sections';
 import { Button, Display, Icon } from '@/components/ui';
 import { CompassRose, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
-import { packagesForTheme, THEMES, themesWithCounts } from '@/lib/catalog';
+import { packagesForTheme, THEME_IMAGES, THEMES, themesWithCounts } from '@/lib/catalog';
 import { AGENCY } from '@/lib/content';
 import { getPackages, whatsappLink } from '@/lib/mktours';
 
-const THEME_IMAGES: Record<string, string> = {
-  pilgrimage: '/images/dest-varanasi.jpg',
-  'hill-station': '/images/dest-gulmarg.jpg',
-  heritage: '/images/dest-jaisalmer.jpg',
-  family: '/images/hero-alleppey.jpg',
-  honeymoon: '/images/dest-munnar.jpg',
-  international: '/images/dest-pokhara.jpg',
-};
 
 export const dynamicParams = false;
 
@@ -68,7 +61,7 @@ export default async function ThemePage({ params }: Props) {
                   {tours.length} {theme.label.toLowerCase()} {tours.length === 1 ? 'departure' : 'departures'}
                 </Display>
               </div>
-              <CardRail label="Departures">
+              <CardRail itemClassName={PACKAGE_ITEM} label="Departures">
                 {tours.map((p, i) => (
                   <PackageCard key={p.id} pkg={p} priority={i < 3} />
                 ))}
@@ -95,20 +88,11 @@ export default async function ThemePage({ params }: Props) {
           {others.length > 0 && (
             <section className="mt-20">
               <Display className="display-caps text-[27px] sm:text-[33px]">Other ways to travel</Display>
-              <div className="mt-7 flex flex-wrap gap-2.5">
+              <CardRail className="mt-7" itemClassName="w-[230px] sm:w-[250px] lg:w-[265px]" label="Other experiences">
                 {others.map((t) => (
-                  <Link
-                    key={t.slug}
-                    href={`/themes/${t.slug}`}
-                    className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-raised px-4 py-2.5 text-[12.5px] font-semibold text-text shadow-soft transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700"
-                  >
-                    {t.label}
-                    <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-subtle transition-colors group-hover/t:bg-vermilion-100 group-hover/t:text-vermilion-700">
-                      {t.count}
-                    </span>
-                  </Link>
+                  <ExperienceCard key={t.slug} theme={t} />
                 ))}
-              </div>
+              </CardRail>
             </section>
           )}
         </div>

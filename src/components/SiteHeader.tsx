@@ -9,6 +9,7 @@ import {
 } from '@/lib/catalog';
 import { AGENCY } from '@/lib/content';
 import { NavBar, NavMenu } from '@/components/NavMenu';
+import { ScrollAwareHeader } from '@/components/ScrollAwareHeader';
 import { durationPhrase, getHost, getPackages, mediaUrl, telHref, whatsappLink, type Package } from '@/lib/mktours';
 
 const NAV_LINK =
@@ -34,17 +35,22 @@ export async function SiteHeader() {
   const durations = durationBuckets(packages);
 
   return (
-    <header className="sticky top-0 z-40">
+    <ScrollAwareHeader>
       {/* Top strip — a white band, tall enough to carry the wordmark and the
           About Us link alongside the direct lines. */}
-      <div className="border-b border-border bg-raised text-text">
-        <div className="flex h-[66px] w-full items-center gap-4 px-5 md:px-8 lg:h-[84px] lg:gap-7 lg:px-10">
+      <div className="site-header__strip border-b border-border bg-raised text-text group-data-[scrolled=true]:border-border/60 group-data-[scrolled=true]:bg-white/70 group-data-[scrolled=true]:backdrop-blur-xl group-data-[scrolled=true]:backdrop-saturate-150">
+        <div className="flex h-[56px] w-full items-center gap-4 px-5 md:px-8 lg:h-[66px] lg:gap-7 lg:px-10">
           <Link href="/" className="flex flex-shrink-0 items-center gap-2.5" aria-label={`${AGENCY.name} home`}>
             {logo ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logo} alt="" aria-hidden="true" className="h-10 w-auto lg:h-12" />
+              // The artwork is a round badge sitting on a square off-white
+              // canvas; the circular mask drops those corners so the mark reads
+              // as a disc rather than a hard-edged tile.
+              <span className="block h-9 w-9 overflow-hidden rounded-full lg:h-10 lg:w-10">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={logo} alt="" aria-hidden="true" className="h-full w-full object-cover object-center" />
+              </span>
             ) : (
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-azure-900 font-display text-base font-bold text-white lg:h-12 lg:w-12">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-azure-900 font-display text-base font-bold text-white lg:h-10 lg:w-10">
                 MK
               </span>
             )}
@@ -120,7 +126,7 @@ export async function SiteHeader() {
                 <span className="block h-[2px] w-[20px] rounded-full bg-text transition-all" />
                 <span className="block h-[2px] w-[12px] rounded-full bg-sky-500 transition-all group-open/menu:w-[20px]" />
               </summary>
-              <div className="fixed inset-x-3 top-[76px] z-50 max-h-[calc(100vh-92px)] overflow-y-auto rounded-[1.75rem] border border-border bg-bg px-5 pb-8 pt-5 shadow-float">
+              <div className="fixed inset-x-3 top-[66px] z-50 max-h-[calc(100vh-82px)] overflow-y-auto rounded-[1.75rem] border border-border bg-bg px-5 pb-8 pt-5 shadow-float">
                 <MobileLinks
                   states={byState.map((s) => s.state)}
                   themes={themes.map((t) => ({ slug: t.slug, label: t.label }))}
@@ -133,29 +139,29 @@ export async function SiteHeader() {
 
       {/* Primary bar — a solid skyblue band whose links share the width evenly.
           Nothing in here shifts on hover; only the fill behind a link changes. */}
-      <div className="hidden border-b border-sky-700/40 bg-sky-500 xl:block">
+      <div className="site-header__bar hidden border-b border-sky-700/40 bg-sky-500 group-data-[scrolled=true]:border-sky-700/25 group-data-[scrolled=true]:bg-sky-500/70 group-data-[scrolled=true]:shadow-[0_10px_30px_-18px_rgba(10,26,60,0.45)] group-data-[scrolled=true]:backdrop-blur-xl group-data-[scrolled=true]:backdrop-saturate-150 xl:block">
         <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <NavBar className="flex h-[58px] items-center justify-center gap-8">
+          <NavBar className="flex h-[46px] items-center justify-center gap-8">
             {/* Destinations — states, regions and the regional collections */}
             <NavMenu label="Destinations" width="w-[940px]" align="left">
-              <div className="grid grid-cols-[1.4fr_1fr] gap-7 p-7">
+              <div className="grid grid-cols-[1.4fr_1fr] gap-6 px-6 py-5">
                 <div>
                   <PanelTitle>Browse by state</PanelTitle>
-                  <div className="grid grid-cols-3 gap-x-6 gap-y-5">
+                  <div className="grid grid-cols-3 gap-x-5 gap-y-3.5">
                     {byState.slice(0, 9).map((g) => (
                       <div key={g.state}>
-                        <div className="mb-2 flex items-baseline gap-2">
+                        <div className="mb-1 flex items-baseline gap-2">
                           <span className="text-[12.5px] font-bold text-text">{g.state}</span>
                           <span className="rounded-full bg-surface px-1.5 py-0.5 text-[9.5px] font-bold text-subtle">
                             {g.items.length}
                           </span>
                         </div>
-                        <ul className="space-y-1">
+                        <ul className="space-y-px">
                           {g.items.slice(0, 5).map((d) => (
                             <li key={d.slug}>
                               <Link
                                 href={`/destinations/${d.slug}`}
-                                className="-mx-2 block rounded-lg px-2 py-1 text-[12.5px] text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
+                                className="-mx-2 block rounded-lg px-2 py-0.5 text-[12.5px] text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
                               >
                                 {d.label}
                               </Link>
@@ -167,14 +173,14 @@ export async function SiteHeader() {
                   </div>
                 </div>
 
-                <div className="rounded-2xl bg-surface p-5">
+                <div className="rounded-2xl bg-surface p-4">
                   <PanelTitle>Collections</PanelTitle>
-                  <ul className="space-y-2">
+                  <ul className="space-y-0.5">
                     {COLLECTIONS.map((c) => (
                       <li key={c.href}>
                         <Link
                           href={c.href}
-                          className="group/i block rounded-xl px-3 py-2 transition-colors hover:bg-raised hover:shadow-soft"
+                          className="group/i block rounded-xl px-3 py-1.5 transition-colors hover:bg-raised hover:shadow-soft"
                         >
                           <span className="block text-[13px] font-bold text-text transition-colors group-hover/i:text-vermilion-700">
                             {c.label}
@@ -185,13 +191,13 @@ export async function SiteHeader() {
                     ))}
                   </ul>
 
-                  <PanelTitle className="mt-6">By region</PanelTitle>
-                  <ul className="space-y-1">
+                  <PanelTitle className="mt-4">By region</PanelTitle>
+                  <ul className="space-y-px">
                     {byRegion.map((r) => (
                       <li key={r.region}>
                         <Link
                           href={`/destinations?region=${encodeURIComponent(r.region)}`}
-                          className="flex items-baseline justify-between gap-3 rounded-lg px-3 py-1.5 text-[12.5px] text-muted transition-colors hover:bg-raised hover:text-vermilion-700"
+                          className="flex items-baseline justify-between gap-3 rounded-lg px-3 py-1 text-[12.5px] text-muted transition-colors hover:bg-raised hover:text-vermilion-700"
                         >
                           {r.region}
                           <span className="text-[10px] text-subtle">{r.items.length} spots</span>
@@ -209,15 +215,15 @@ export async function SiteHeader() {
 
             {/* Experiences — theme, duration, season and departure city */}
             <NavMenu label="Experiences" width="w-[900px]" align="center">
-              <div className="grid grid-cols-3 gap-7 p-7">
+              <div className="grid grid-cols-3 gap-6 px-6 py-5">
                 <div>
                   <PanelTitle>By theme</PanelTitle>
-                  <ul className="space-y-1">
+                  <ul className="space-y-px">
                     {themes.map((t) => (
                       <li key={t.slug}>
                         <Link
                           href={`/themes/${t.slug}`}
-                          className="flex items-baseline justify-between gap-3 rounded-lg px-3 py-1.5 text-[12.5px] text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
+                          className="flex items-baseline justify-between gap-3 rounded-lg px-3 py-1 text-[12.5px] text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
                         >
                           {t.label}
                           <span className="text-[10px] text-subtle">
@@ -231,12 +237,12 @@ export async function SiteHeader() {
 
                 <div>
                   <PanelTitle>By duration</PanelTitle>
-                  <ul className="space-y-1">
+                  <ul className="space-y-px">
                     {durations.map((d) => (
                       <li key={d.days}>
                         <Link
                           href={`/packages?duration=${d.days}`}
-                          className="flex items-baseline justify-between gap-3 rounded-lg px-3 py-1.5 text-[12.5px] text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
+                          className="flex items-baseline justify-between gap-3 rounded-lg px-3 py-1 text-[12.5px] text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
                         >
                           {d.label}
                           <span className="text-[10px] text-subtle">
@@ -247,13 +253,13 @@ export async function SiteHeader() {
                     ))}
                   </ul>
 
-                  <PanelTitle className="mt-6">By season</PanelTitle>
-                  <ul className="space-y-1">
+                  <PanelTitle className="mt-4">By season</PanelTitle>
+                  <ul className="space-y-px">
                     {SEASONS.map((s) => (
                       <li key={s.slug}>
                         <Link
                           href={`/packages?season=${s.slug}`}
-                          className="flex items-baseline justify-between gap-3 rounded-lg px-3 py-1.5 text-[12.5px] text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
+                          className="flex items-baseline justify-between gap-3 rounded-lg px-3 py-1 text-[12.5px] text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
                         >
                           {s.label}
                           <span className="text-[10px] uppercase text-subtle">{s.window}</span>
@@ -263,14 +269,14 @@ export async function SiteHeader() {
                   </ul>
                 </div>
 
-                <div className="rounded-2xl bg-surface p-5">
+                <div className="rounded-2xl bg-surface p-4">
                   <PanelTitle>Departing from</PanelTitle>
-                  <ul className="space-y-1.5">
+                  <ul className="space-y-0.5">
                     {DEPARTURE_CITIES.map((c) => (
                       <li key={c.slug}>
                         <Link
                           href={`/packages?city=${c.slug}`}
-                          className="group/i block rounded-xl px-3 py-2 transition-colors hover:bg-raised hover:shadow-soft"
+                          className="group/i block rounded-xl px-3 py-1.5 transition-colors hover:bg-raised hover:shadow-soft"
                         >
                           <span className="block text-[12.5px] font-bold text-text transition-colors group-hover/i:text-vermilion-700">
                             From {c.label}
@@ -281,13 +287,13 @@ export async function SiteHeader() {
                     ))}
                   </ul>
 
-                  <PanelTitle className="mt-6">Popular right now</PanelTitle>
-                  <ul className="space-y-1">
+                  <PanelTitle className="mt-4">Popular right now</PanelTitle>
+                  <ul className="space-y-px">
                     {packages.slice(0, 4).map((p: Package) => (
                       <li key={p.id}>
                         <Link
                           href={`/packages/${p.slug ?? p.id}`}
-                          className="group/i block rounded-lg px-3 py-1.5 transition-colors hover:bg-raised"
+                          className="group/i block rounded-lg px-3 py-1 transition-colors hover:bg-raised"
                         >
                           <span className="block text-[12.5px] text-muted transition-colors group-hover/i:text-vermilion-700">
                             {p.package_name.replace(/ Group Tour$/, '')}
@@ -311,7 +317,7 @@ export async function SiteHeader() {
           </NavBar>
         </div>
       </div>
-    </header>
+    </ScrollAwareHeader>
   );
 }
 
@@ -336,7 +342,7 @@ function SocialMark({ href, label, children }: { href?: string; label: string; c
 
 function PanelTitle({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`mb-3.5 flex items-center text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700 ${className}`}>
+    <div className={`mb-2.5 flex items-center text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700 ${className}`}>
       {children}
     </div>
   );

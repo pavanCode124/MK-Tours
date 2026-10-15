@@ -2,13 +2,22 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CardRail } from '@/components/CardRail';
-import { PackageCard } from '@/components/PackageCard';
+import { JourneyInFrames } from '@/components/JourneyInFrames';
+import { PACKAGE_ITEM, PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
-import { FaqList } from '@/components/sections';
+import { FaqList, ReviewCard } from '@/components/sections';
+import { ItineraryAccordion, ReadMore, TourTabs } from '@/components/TourDetail';
 import { Button, Display, Icon, Stars } from '@/components/ui';
 import { PineTree, SmokeShadow, TopoField } from '@/components/Decor';
-import { DESTINATIONS, destinationFor, longDuration, packageDestinations, seasonsForPackage, SEASONS } from '@/lib/catalog';
-import { AGENCY, FAQS } from '@/lib/content';
+import {
+  DESTINATIONS,
+  destinationFor,
+  longDuration,
+  packageDestinations,
+  seasonsForPackage,
+  SEASONS,
+} from '@/lib/catalog';
+import { AGENCY, FAQS, REVIEWS } from '@/lib/content';
 import {
   durationPhrase,
   formatINR,
@@ -21,7 +30,6 @@ import {
   telHref,
   whatsappLink,
   type Package,
-  type TourDay,
 } from '@/lib/mktours';
 
 export const dynamicParams = true;
@@ -71,21 +79,56 @@ export default async function TourPage({ params }: Props) {
     .map((s) => SEASONS.find((x) => x.slug === s))
     .filter(Boolean);
 
-  const sections = (
+  const has = (html: string | null | undefined) =>
+    Boolean(html && html.trim() && html.trim() !== '<h3><br></h3>');
+
+  // "Other info" collects the policy prose that a traveller reads once, at the
+  // end — keeping it out of the main flow is what stops the page running long.
+  const otherInfo = (
     [
-      { id: 'highlights', title: 'Tour Highlights', icon: 'sparkle', html: pkg.highlights },
-      { id: 'inclusions', title: "What's Included", icon: 'check', html: pkg.inclusions },
-      { id: 'exclusions', title: "What's Not Included", icon: 'arrow', html: pkg.exclusions },
       { id: 'payment', title: 'Payment Policy', icon: 'wallet', html: pkg.payment_policy },
       { id: 'cancellation', title: 'Cancellation Policy', icon: 'shield', html: pkg.cancellation_policy },
       { id: 'terms', title: 'Terms & Conditions', icon: 'book', html: pkg.terms_and_conditions },
     ] as const
-  ).filter((s) => s.html && s.html.trim() && s.html.trim() !== '<h3><br></h3>');
+  ).filter((s) => has(s.html));
+
+  const hasOverview = has(pkg.description) || has(pkg.highlights);
+
+  // The sticky band only lists sections this particular tour actually has.
+  const tabs = [
+    ...(hasOverview ? [{ id: 'overview', label: 'Overview & Highlights' }] : []),
+    ...(days.length > 0 ? [{ id: 'itinerary', label: 'Itinerary' }] : []),
+    ...(has(pkg.inclusions) ? [{ id: 'inclusions', label: 'Inclusions' }] : []),
+    ...(has(pkg.exclusions) ? [{ id: 'exclusions', label: 'Exclusions' }] : []),
+    ...(otherInfo.length > 0 ? [{ id: 'other-info', label: 'Other Info' }] : []),
+    { id: 'faq', label: 'FAQs' },
+    { id: 'reviews', label: 'Reviews' },
+  ];
+
+  // Quick facts, the row of bordered tiles under the banner.
+  const facts = [
+    { icon: 'train' as const, label: 'Pickup & Drop', value: 'Mumbai — Mumbai' },
+    { icon: 'calendar' as const, label: 'Duration', value: longDuration(pkg) },
+    ...(places.length > 0
+      ? [
+          {
+            icon: 'pin' as const,
+            label: 'Destinations',
+            value: places.map((p) => p.label).join(' · '),
+          },
+        ]
+      : []),
+    ...(pkg.package_code ? [{ icon: 'check' as const, label: 'Tour Code', value: pkg.package_code }] : []),
+  ];
 
   // Prefer departures that share a destination, then fill the row with others.
   const others = allPackages.filter((p) => p.id !== pkg.id);
   const sharesPlace = (p: Package) => packageDestinations(p).some((s) => places.some((pl) => pl.slug === s));
   const related = [...others.filter(sharesPlace), ...others.filter((p) => !sharesPlace(p))].slice(0, 3);
+
+  const frames = places
+    .filter((p) => DESTINATIONS[p.slug])
+    .map((p) => ({ src: p.image, label: p.state }));
 
   return (
     <>
@@ -94,107 +137,194 @@ export default async function TourPage({ params }: Props) {
         title={pkg.package_name}
         crumbs={[{ href: '/packages', label: 'Tour Packages' }, { label: pkg.package_name }]}
       >
-        <div className="flex flex-wrap items-center gap-2.5">
-          {[
-            { icon: 'calendar' as const, text: longDuration(pkg) },
-            ...(places.length > 0
-              ? [
-                  {
-                    icon: 'pin' as const,
-                    text: `${places.length} ${places.length === 1 ? 'destination' : 'destinations'}`,
-                  },
-                ]
-              : []),
-            { icon: 'train' as const, text: 'Departs Mumbai' },
-            ...(pkg.package_code ? [{ icon: 'check' as const, text: `Code ${pkg.package_code}` }] : []),
-          ].map((f) => (
-            <span
-              key={f.text}
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-azure-900/40 px-3.5 py-2 text-[12px] font-semibold text-on-dark backdrop-blur-md"
+        <div className="flex flex-wrap items-center gap-3">
+          {wa && (
+            <Button href={wa} external variant="accent">
+              Request a callback
+            </Button>
+          )}
+          {brochure && (
+            <a
+              href={brochure}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/10 px-6 py-3 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark backdrop-blur-md transition-colors duration-300 hover:border-white/70 hover:bg-white/20"
             >
-              <Icon name={f.icon} className="h-4 w-4 text-vermilion-300" />
-              {f.text}
-            </span>
-          ))}
+              <Icon name="book" className="h-4 w-4" />
+              Download itinerary
+            </a>
+          )}
         </div>
       </PageHero>
 
-      <div className="relative overflow-hidden">
-        <TopoField className="pointer-events-none absolute -left-12 top-[28%] hidden h-[320px] w-[34%] text-azure-700/8 xl:block" />
+      {/* No `overflow-hidden` on this wrapper: it would become the containing
+          block for the sticky section band below and stop it from sticking.
+          The decoration is clipped by its own layer instead. */}
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <TopoField className="absolute -left-12 top-[28%] hidden h-[320px] w-[34%] text-azure-700/8 xl:block" />
+        </div>
 
-        <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
+        <div className="relative mx-auto max-w-[1320px] px-5 pt-8 md:px-8 lg:px-12">
+          {/* Quick facts */}
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {facts.map((f) => (
+              <div
+                key={f.label}
+                className="flex items-start gap-3 rounded-2xl border border-border bg-surface px-4 py-3.5"
+              >
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-raised text-vermilion-700 ring-1 ring-border">
+                  <Icon name={f.icon} className="h-[17px] w-[17px]" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.12em] text-subtle">
+                    {f.label}
+                  </span>
+                  <span className="mt-0.5 block truncate text-[13.5px] font-bold text-text">{f.value}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* The sticky section band is a direct child of the full-height page
+            wrapper on purpose: a sticky element can only travel inside its own
+            parent, so boxing it in a short container would let it scroll away
+            with the quick facts instead of pinning under the header. */}
+        <TourTabs items={tabs} />
+
+        <div className="relative mx-auto max-w-[1320px] px-5 pb-10 pt-8 md:px-8 lg:px-12 lg:pb-14">
           <div className="grid gap-12 lg:grid-cols-[1fr_390px] lg:gap-12">
             {/* Main column */}
             <div className="min-w-0 space-y-6">
-              {/* Places visited */}
-              {places.length > 0 && (
-                <section className="card p-7">
-                  <div className="flex flex-wrap gap-2.5">
-                    {places.map((p) => (
-                      <Link
-                        key={p.slug}
-                        href={`/destinations/${p.slug}`}
-                        className="group/p inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft"
-                      >
-                        <Icon name="pin" className="h-3.5 w-3.5 text-vermilion-600" />
-                        {p.label}
-                        <span className="text-subtle">· {p.state}</span>
-                      </Link>
-                    ))}
+              {/* Overview & highlights */}
+              {hasOverview && (
+                <section id="overview" className="card scroll-mt-[170px] p-7 sm:p-9">
+                  <SectionTitle icon="book">Overview &amp; Highlights</SectionTitle>
+                  {places.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {places.map((p) => (
+                        <Link
+                          key={p.slug}
+                          href={`/destinations/${p.slug}`}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg px-3.5 py-1.5 text-[12px] font-semibold text-text transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700"
+                        >
+                          <Icon name="pin" className="h-3 w-3 text-vermilion-600" />
+                          {p.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                  <div className="mt-5">
+                    <ReadMore html={[pkg.description, pkg.highlights].filter((h) => has(h)).join('')} />
                   </div>
-                </section>
-              )}
-
-              {/* Overview */}
-              {pkg.description && plainText(pkg.description).length > 0 && (
-                <section className="card p-7 sm:p-9">
-                  <SectionTitle icon="book">Overview</SectionTitle>
-                  <div
-                    className="rich-text mt-4 text-[14.5px] text-muted"
-                    dangerouslySetInnerHTML={{ __html: pkg.description }}
-                  />
                 </section>
               )}
 
               {/* Itinerary */}
               {days.length > 0 && (
-                <section id="itinerary" className="card relative overflow-hidden scroll-mt-28 p-7 sm:p-9">
+                <section
+                  id="itinerary"
+                  className="card relative overflow-hidden scroll-mt-[170px] p-7 sm:p-9"
+                >
                   <PineTree className="pointer-events-none absolute -bottom-3 right-4 hidden h-[160px] w-[70px] text-azure-700/8 tree-breathe sm:block" />
                   <div className="relative">
                     <SectionTitle icon="compass">Day-by-Day Itinerary</SectionTitle>
-                    <ol className="mt-7 space-y-0">
-                      {days.map((d, i) => (
-                        <DayRow key={d.id} day={d} last={i === days.length - 1} />
-                      ))}
-                    </ol>
+                    <div className="mt-6">
+                      <ItineraryAccordion days={days} />
+                    </div>
+                    {brochure && (
+                      <a
+                        href={brochure}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-7 inline-flex items-center gap-2 rounded-full border border-vermilion-300 bg-vermilion-50 px-5 py-2.5 text-[12px] font-bold text-vermilion-800 transition-colors hover:bg-vermilion-100"
+                      >
+                        <Icon name="book" className="h-4 w-4" />
+                        Download the full itinerary (PDF)
+                      </a>
+                    )}
                   </div>
                 </section>
               )}
 
-              {/* CRM-authored sections */}
-              {sections.map((s) => (
-                <section key={s.id} id={s.id} className="card scroll-mt-28 p-7 sm:p-9">
-                  <SectionTitle icon={s.icon}>{s.title}</SectionTitle>
-                  <div
-                    className="rich-text mt-4 text-[14.5px] text-muted"
-                    dangerouslySetInnerHTML={{ __html: s.html ?? '' }}
-                  />
+              {/* Inclusions / exclusions, side by side like a checklist */}
+              {(has(pkg.inclusions) || has(pkg.exclusions)) && (
+                <div className="grid gap-6 xl:grid-cols-2">
+                  {has(pkg.inclusions) && (
+                    <section id="inclusions" className="card scroll-mt-[170px] p-7 sm:p-8">
+                      <SectionTitle icon="check">Inclusions</SectionTitle>
+                      <div
+                        className="rich-text tick-list mt-4 text-[14px] text-muted"
+                        data-tone="in"
+                        dangerouslySetInnerHTML={{ __html: pkg.inclusions ?? '' }}
+                      />
+                    </section>
+                  )}
+                  {has(pkg.exclusions) && (
+                    <section id="exclusions" className="card scroll-mt-[170px] p-7 sm:p-8">
+                      <SectionTitle icon="arrow">Exclusions</SectionTitle>
+                      <div
+                        className="rich-text tick-list mt-4 text-[14px] text-muted"
+                        data-tone="out"
+                        dangerouslySetInnerHTML={{ __html: pkg.exclusions ?? '' }}
+                      />
+                    </section>
+                  )}
+                </div>
+              )}
+
+              {/* Other info — the policies, folded away */}
+              {otherInfo.length > 0 && (
+                <section id="other-info" className="card scroll-mt-[170px] p-7 sm:p-9">
+                  <SectionTitle icon="shield">Other Info</SectionTitle>
+                  <div className="mt-5 grid gap-3">
+                    {otherInfo.map((s) => (
+                      <details
+                        key={s.id}
+                        id={s.id}
+                        className="group/info scroll-mt-[170px] overflow-hidden rounded-2xl border border-border bg-surface transition-colors open:bg-raised"
+                      >
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4">
+                          <span className="flex items-center gap-3">
+                            <Icon name={s.icon} className="h-[17px] w-[17px] text-vermilion-700" />
+                            <span className="font-display text-[16px] font-semibold text-text">{s.title}</span>
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border text-[11px] text-muted transition-transform duration-300 group-open/info:rotate-180"
+                          >
+                            ▾
+                          </span>
+                        </summary>
+                        <div
+                          className="rich-text border-t border-border px-5 pb-5 pt-4 text-[13.5px] text-muted"
+                          dangerouslySetInnerHTML={{ __html: s.html ?? '' }}
+                        />
+                      </details>
+                    ))}
+                  </div>
                 </section>
-              ))}
+              )}
 
               {/* Tour poster from the CRM, if the agency uploaded one */}
               {poster && (
                 <section className="card p-7 sm:p-9">
                   <SectionTitle icon="camera">Tour Flyer</SectionTitle>
-                  <div className="mt-5 overflow-hidden rounded-[1.25rem] border border-border bg-surface shadow-soft">
+                  <div className="mt-5 flex justify-center overflow-hidden rounded-[1.25rem] border border-border bg-surface shadow-soft">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={poster} alt={`${pkg.package_name} flyer`} loading="lazy" className="w-full" />
+                    <img
+                      src={poster}
+                      alt={`${pkg.package_name} flyer`}
+                      loading="lazy"
+                      className="max-h-[32rem] w-auto max-w-full object-contain"
+                    />
                   </div>
                 </section>
               )}
 
               {/* FAQ */}
-              <section id="faq" className="scroll-mt-28">
+              <section id="faq" className="scroll-mt-[170px]">
                 <div className="card p-7 sm:p-9">
                   <SectionTitle icon="sparkle">Before You Book</SectionTitle>
                   <div className="mt-6">
@@ -205,7 +335,7 @@ export default async function TourPage({ params }: Props) {
             </div>
 
             {/* Booking rail */}
-            <aside className="lg:sticky lg:top-28 lg:self-start">
+            <aside className="lg:sticky lg:top-[176px] lg:self-start">
               <div
                 id="book"
                 className="relative overflow-hidden rounded-[1.75rem] border border-border bg-raised p-6 shadow-float scroll-mt-28"
@@ -229,6 +359,30 @@ export default async function TourPage({ params }: Props) {
                 <div className="mt-3 flex items-center gap-2">
                   <Stars />
                   <span className="text-[11.5px] text-muted">Fixed departure · tour manager included</span>
+                </div>
+
+                <div className="mt-5 flex flex-col gap-2.5">
+                  {wa && (
+                    <Button href={wa} external variant="accent" className="w-full">
+                      Book now
+                    </Button>
+                  )}
+                  {phones[0] && (
+                    <Button href={telHref(phones[0]) ?? '#'} external variant="outline" className="w-full">
+                      Call +91 {phones[0]}
+                    </Button>
+                  )}
+                  {brochure && (
+                    <a
+                      href={brochure}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-flex items-center justify-center gap-2 text-center text-[12.5px] font-bold text-vermilion-700 underline-offset-4 hover:underline"
+                    >
+                      <Icon name="book" className="h-4 w-4" />
+                      Download the brochure (PDF)
+                    </a>
+                  )}
                 </div>
 
                 {(pkg.pricing ?? []).length > 0 && (
@@ -257,30 +411,6 @@ export default async function TourPage({ params }: Props) {
                   </div>
                 )}
 
-                <div className="mt-6 flex flex-col gap-2.5">
-                  {wa && (
-                    <Button href={wa} external variant="accent" className="w-full">
-                      Book on WhatsApp
-                    </Button>
-                  )}
-                  {phones[0] && (
-                    <Button href={telHref(phones[0]) ?? '#'} external variant="outline" className="w-full">
-                      Call +91 {phones[0]}
-                    </Button>
-                  )}
-                  {brochure && (
-                    <a
-                      href={brochure}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-1 inline-flex items-center justify-center gap-2 text-center text-[12.5px] font-bold text-vermilion-700 underline-offset-4 hover:underline"
-                    >
-                      <Icon name="book" className="h-4 w-4" />
-                      Download the brochure (PDF)
-                    </a>
-                  )}
-                </div>
-
                 <div className="mt-6 space-y-2.5 rounded-2xl bg-surface p-4 text-[12px] text-muted">
                   <Fact icon="train" text="Group rail booking from Mumbai, Pune boarding available" />
                   <Fact icon="home" text="Hotels on twin or triple sharing, held in advance" />
@@ -306,41 +436,60 @@ export default async function TourPage({ params }: Props) {
                     </div>
                   </div>
                 )}
-
-                {/* Jump links */}
-                <nav className="mt-6 border-t border-border pt-5">
-                  <div className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.14em] text-subtle">On this page</div>
-                  <div className="space-y-1 text-[12.5px]">
-                    {days.length > 0 && <JumpLink href="#itinerary">Day-by-day itinerary</JumpLink>}
-                    {sections.map((s) => (
-                      <JumpLink key={s.id} href={`#${s.id}`}>
-                        {s.title}
-                      </JumpLink>
-                    ))}
-                    <JumpLink href="#faq">Before you book</JumpLink>
-                  </div>
-                </nav>
               </div>
             </aside>
           </div>
+        </div>
 
-          {/* Related */}
-          {related.length > 0 && (
-            <section className="relative mt-20 overflow-hidden">
+        {/* Travellers */}
+        <section id="reviews" className="relative scroll-mt-[170px] bg-surface py-16 lg:py-20">
+          <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
+            <Display className="display-caps text-[27px] sm:text-[33px]">
+              Hear from travellers like you
+            </Display>
+            <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {REVIEWS.slice(0, 3).map((r) => (
+                <ReviewCard key={r.name} {...r} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Gallery */}
+        {frames.length > 1 && (
+          <section className="py-16 lg:py-20">
+            <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
+              <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-vermilion-700">
+                Journey in frames
+              </span>
+              <Display className="display-caps mt-2 text-[27px] sm:text-[33px]">
+                Picture-perfect moments
+              </Display>
+            </div>
+            <div className="mt-8">
+              <JourneyInFrames items={frames} surfaceClass="bg-bg" />
+            </div>
+          </section>
+        )}
+
+        {/* Related */}
+        {related.length > 0 && (
+          <div className="relative mx-auto max-w-[1320px] px-5 pb-16 md:px-8 lg:px-12 lg:pb-20">
+            <section className="relative overflow-hidden">
               <SmokeShadow className="pointer-events-none absolute -right-10 -top-10 h-[280px] w-[50%] text-azure-600/10" />
               <div className="relative">
                 <Display className="display-caps text-[27px] sm:text-[33px]">
                   Other departures you might like
                 </Display>
-                <CardRail className="mt-8" label="Other departures">
+                <CardRail className="mt-8" itemClassName={PACKAGE_ITEM} label="Other departures">
                   {related.map((p: Package) => (
                     <PackageCard key={p.id} pkg={p} />
                   ))}
                 </CardRail>
               </div>
             </section>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
@@ -372,46 +521,5 @@ function Fact({ icon, text }: { icon: 'train' | 'home' | 'shield' | 'phone'; tex
       <Icon name={icon} className="mt-0.5 h-4 w-4 shrink-0 text-vermilion-700" />
       <span className="leading-snug">{text}</span>
     </div>
-  );
-}
-
-function JumpLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <a
-      href={href}
-      className="group/j flex items-center gap-2 rounded-lg px-2 py-1.5 text-muted transition-colors hover:bg-vermilion-50 hover:text-vermilion-700"
-    >
-      <span className="h-px w-2 bg-border-strong transition-all duration-300 group-hover/j:w-4 group-hover/j:bg-vermilion-500" />
-      {children}
-    </a>
-  );
-}
-
-function DayRow({ day, last }: { day: TourDay; last: boolean }) {
-  const points = day.sightseeing?.description_points ?? '';
-  const place = [day.sightseeing?.city, day.sightseeing?.country].filter(Boolean).join(', ');
-  return (
-    <li className={`relative pl-12 ${last ? 'pb-0' : 'pb-9'}`}>
-      {/* The connector line runs behind the day badge, stopping at the last day. */}
-      {!last && <span className="absolute left-[19px] top-10 h-[calc(100%-2.5rem)] w-px bg-border" />}
-      <span className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-2xl bg-azure-800 font-display text-[15px] font-bold text-vermilion-300 shadow-soft">
-        {day.day_num}
-      </span>
-      <div className="flex flex-wrap items-baseline gap-x-3 pt-1">
-        <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">Day {day.day_num}</span>
-        {place && (
-          <span className="inline-flex items-center gap-1 text-[11px] text-subtle">
-            <Icon name="pin" className="h-3 w-3" />
-            {place}
-          </span>
-        )}
-      </div>
-      <h3 className="mt-1 font-display text-[19px] font-semibold leading-snug text-text">
-        {day.title || day.sightseeing?.activity || `Day ${day.day_num}`}
-      </h3>
-      {points && (
-        <div className="rich-text mt-2 text-[13.5px] text-muted" dangerouslySetInnerHTML={{ __html: points }} />
-      )}
-    </li>
   );
 }
