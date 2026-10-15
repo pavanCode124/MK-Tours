@@ -7,7 +7,6 @@ import {
   formatINR,
   packageTagline,
   startingPrice,
-  topPrice,
   type Package,
 } from '@/lib/mktours';
 import { Icon, Stars } from './ui';
@@ -37,7 +36,6 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
   const image = cardImage(pkg);
   const duration = durationPhrase(pkg);
   const from = startingPrice(pkg);
-  const top = topPrice(pkg);
   const tagline = packageTagline(pkg);
   const places = packageDestinations(pkg).length;
 
@@ -45,7 +43,7 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
     <article className="card group relative flex flex-col overflow-hidden hover:card-hover">
       {/* Photograph runs bright and edge-to-edge — the only darkened part of the
           picture is the solid caption bar at the foot, not a wash over the whole
-          image. Badges ride the top corners on light chips instead. */}
+          image. The duration chip rides the top-right corner. */}
       <Link href={href} className="relative block aspect-[4/3] overflow-hidden bg-surface">
         <Image
           src={image.src}
@@ -57,10 +55,6 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
         />
         <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
-        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/92 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.1em] text-azure-900 shadow-soft">
-          <Icon name="train" className="h-3 w-3 text-vermilion-600" />
-          Fixed departure
-        </span>
         {duration && (
           <span className="absolute right-3 top-3 rounded-full bg-vermilion-500 px-2.5 py-1 text-[10px] font-bold text-white shadow-glow">
             {duration}
@@ -77,10 +71,10 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-4">
         {tagline && <p className="line-clamp-2 text-[13px] leading-relaxed text-muted">{tagline}</p>}
 
-        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5">
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5">
           {places > 0 && (
             <span className="flex items-center gap-1.5 text-[12px] text-muted">
               <Icon name="pin" className="h-3.5 w-3.5 text-vermilion-600" />
@@ -94,8 +88,8 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
         </div>
 
         {/* Price and actions sit in a tinted well at the foot of the card. */}
-        <div className="mt-auto pt-4">
-          <div className="-mx-1.5 -mb-1.5 flex items-end justify-between gap-3 rounded-[1.1rem] bg-surface/80 p-4">
+        <div className="mt-auto pt-3">
+          <div className="-mx-1 -mb-1 flex items-end justify-between gap-3 rounded-[1.1rem] bg-surface/80 p-3.5">
             <div>
               {from !== null ? (
                 <>
@@ -108,9 +102,6 @@ export function PackageCard({ pkg, priority = false }: { pkg: Package; priority?
                     </span>
                     <span className="text-[10.5px] font-semibold text-subtle">Onwards</span>
                   </span>
-                  {top !== null && top > from && (
-                    <span className="text-[11px] text-subtle">up to {formatINR(top)}</span>
-                  )}
                 </>
               ) : (
                 <span className="block text-[12px] font-semibold text-muted">Price on request</span>

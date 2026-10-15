@@ -139,7 +139,8 @@ export function Hero({ children }: { children?: React.ReactNode }) {
         </div>
 
         {/* Search panel — closing the same viewport as the headline */}
-        {children ? <div className="relative mt-4">{children}</div> : null}
+        {/* z-30 keeps the search fields' open dropdowns above the section below. */}
+        {children ? <div className="relative z-30 mt-4">{children}</div> : null}
       </div>
     </section>
   );

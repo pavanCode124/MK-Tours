@@ -3,7 +3,7 @@ import { CardRail } from '@/components/CardRail';
 import { PlainPageHero } from '@/components/PageHero';
 import { FaqList } from '@/components/sections';
 import { Button, Display, Icon } from '@/components/ui';
-import { CameraBadge, FlightPath, FlightTag, PineTree, SmokePlume, TopoField } from '@/components/Decor';
+import { CameraBadge, FlightPath, PineTree, SmokePlume, TopoField } from '@/components/Decor';
 import { AGENCY, FAQS } from '@/lib/content';
 import { formatPhone, telHref, whatsappLink } from '@/lib/mktours';
 
@@ -27,7 +27,6 @@ export default function ContactPage() {
         lede={`Our team is on WhatsApp and on the phone, ${AGENCY.hours.toLowerCase()}. We will help you pick the right departure, check dates, or answer anything you need before you book.`}
         crumbs={[{ label: 'Contact' }]}
       >
-        <FlightTag from="You" to="Our desk" note="Replies same day" />
       </PlainPageHero>
 
       <div className="relative overflow-hidden">

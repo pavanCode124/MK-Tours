@@ -8,7 +8,6 @@ import {
   BanyanTree,
   CameraBadge,
   FlightPath,
-  FlightTag,
   PineTree,
   SmokePlume,
   SmokeShadow,
@@ -80,7 +79,6 @@ export default async function AboutPage() {
         lede={`${AGENCY.travellers} travellers, ${destinations.length} destinations, ${states.size} states and countries — all on fixed departures out of Mumbai.`}
         crumbs={[{ label: 'Our Story' }]}
       >
-        <FlightTag from="Mumbai" to="India & Nepal" note="Since 2017" />
       </PageHero>
 
       {/* Numbers — a raised card lifted over the banner */}

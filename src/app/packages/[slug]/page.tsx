@@ -6,7 +6,7 @@ import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { FaqList } from '@/components/sections';
 import { Button, Display, Icon, Stars } from '@/components/ui';
-import { FlightTag, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
+import { PineTree, SmokeShadow, TopoField } from '@/components/Decor';
 import { DESTINATIONS, destinationFor, longDuration, packageDestinations, seasonsForPackage, SEASONS } from '@/lib/catalog';
 import { AGENCY, FAQS } from '@/lib/content';
 import {
@@ -230,13 +230,6 @@ export default async function TourPage({ params }: Props) {
                   <Stars />
                   <span className="text-[11.5px] text-muted">Fixed departure · tour manager included</span>
                 </div>
-
-                <FlightTag
-                  from="Mumbai"
-                  to={places[0]?.label ?? 'India'}
-                  note={durationPhrase(pkg) || undefined}
-                  className="mt-5 w-full justify-between"
-                />
 
                 {(pkg.pricing ?? []).length > 0 && (
                   <div className="mt-6">

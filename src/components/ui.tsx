@@ -74,7 +74,7 @@ export function SectionHeading({
           href={link.href}
           className={`group/link inline-flex shrink-0 items-center gap-2 rounded-full border px-6 py-3 text-[11.5px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ${
             dark
-              ? 'border-white/25 text-on-dark hover:border-vermilion-400 hover:bg-vermilion-500 hover:text-white'
+              ? 'border-transparent bg-white text-azure-900 shadow-lift hover:bg-vermilion-500 hover:text-white'
               : 'border-border-strong bg-raised text-text shadow-soft hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark hover:shadow-lift'
           }`}
         >

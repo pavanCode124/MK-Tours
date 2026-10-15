@@ -17,7 +17,6 @@ import {
   CameraBadge,
   CompassRose,
   FlightPath,
-  FlightTag,
   PineTree,
   SmokePlume,
   SmokeShadow,
@@ -85,12 +84,6 @@ export default async function HomePage() {
               viewAllHref="/destinations"
               viewAllLabel="View all"
             />
-          </div>
-          <div className="reveal mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Button href="/destinations" variant="solid">
-              View all {destinations.length} destinations
-            </Button>
-            <FlightTag from="Mumbai" to="Anywhere" note="By train or air" className="hidden sm:inline-flex" />
           </div>
         </div>
       </Section>
@@ -186,24 +179,29 @@ export default async function HomePage() {
       </section>
 
       {/* Packages */}
-      <section className="relative overflow-hidden bg-surface py-12 lg:py-16">
+      <section className="relative overflow-hidden bg-surface py-10 lg:py-12">
         <div className="pointer-events-none absolute inset-0 dotfield opacity-50" />
         <TopoField className="pointer-events-none absolute -right-16 top-24 hidden h-[360px] w-[45%] text-azure-700/8 lg:block" />
         <PencilPalm className="pointer-events-none absolute -bottom-10 left-0 hidden w-[160px] -rotate-[8deg] opacity-[0.09] lg:block" />
-        <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          {/* The heading sits on a photograph, so the collection opens the way
-              the destination sections below it do. */}
-          <div className="reveal relative overflow-hidden rounded-[1.75rem] bg-azure-900 px-6 py-8 shadow-lift sm:px-10 lg:rounded-[2.25rem] lg:px-12 lg:py-10">
-            <Image
-              src="/images/hero-varanasi.jpg"
-              alt=""
-              fill
-              aria-hidden="true"
-              sizes="100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-azure-900/85 via-azure-900/55 to-azure-900/25" />
-            <div className="relative">
+        <div className="relative mx-auto max-w-[1600px] px-5 md:px-8 lg:px-10">
+          {/* The heading rides on a photograph and the cards ride up over its
+              foot, so the collection reads as one piece rather than a banner
+              with a separate grid beneath it. */}
+          <div className="reveal relative">
+            <div className="absolute inset-x-0 top-0 h-[300px] overflow-hidden rounded-[1.75rem] bg-azure-900 shadow-lift sm:h-[330px] lg:h-[360px] lg:rounded-[2.25rem]">
+              <Image
+                src="/images/hero-varanasi.jpg"
+                alt=""
+                fill
+                aria-hidden="true"
+                sizes="100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-azure-900/90 via-azure-900/45 to-azure-900/25" />
+              <div className="absolute inset-0 bg-gradient-to-r from-azure-900/80 via-azure-900/35 to-transparent" />
+            </div>
+
+            <div className="relative px-5 pt-8 sm:px-9 sm:pt-9 lg:px-12">
               <SectionHeading
                 tone="dark"
                 title={
@@ -215,11 +213,13 @@ export default async function HomePage() {
                 link={{ href: '/packages', label: 'View all' }}
               />
             </div>
+
+            {/* Tabs over the photograph, cards overlapping its foot. */}
+            <div className="relative z-10 mt-6 px-5 sm:px-6 lg:px-8">
+              <PackageTabs groups={tabs} />
+            </div>
           </div>
-          <div className="reveal mt-8">
-            <PackageTabs groups={tabs} />
-          </div>
-          <div className="reveal mt-9 text-center">
+          <div className="reveal mt-7 text-center">
             <Button href="/packages" variant="solid">
               View all {packages.length} packages
             </Button>

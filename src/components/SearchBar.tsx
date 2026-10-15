@@ -1,3 +1,7 @@
+'use client';
+
+import { useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
+
 export interface HeroOption {
   value: string;
   label: string;
@@ -74,6 +78,16 @@ const FIELD_ICONS = {
   calendar: 'M4 6h16v15H4zM4 10h16M8 3v4M16 3v4',
 } as const;
 
+/**
+ * One search field: a listbox, not a native `<select>`.
+ *
+ * The native control hands its popup to the OS, which sizes the list to the
+ * field and clips longer names — "Himachal Pradesh" and "All Destinations" came
+ * out truncated and crowded against the field's own border. This panel is ours:
+ * it starts at the field's width, grows to the longest label (`min-w-max`),
+ * caps at the viewport, and scrolls past ten or so entries. A hidden input
+ * carries the value so the form stays a plain GET to /packages.
+ */
 function Field({
   label,
   name,
@@ -87,39 +101,129 @@ function Field({
   placeholder: string;
   icon: keyof typeof FIELD_ICONS;
 }) {
+  const items: HeroOption[] = [{ value: '', label: placeholder }, ...options];
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState('');
+  const [active, setActive] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const listId = useId();
+
+  const current = items.find((o) => o.value === selected) ?? items[0];
+
+  // Escape closes, and so does a click or a focus landing outside the field.
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (e: MouseEvent | TouchEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('mousedown', onPointer);
+    document.addEventListener('touchstart', onPointer);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onPointer);
+      document.removeEventListener('touchstart', onPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  // Keep the highlighted row in view while arrowing through a long list.
+  useEffect(() => {
+    if (!open) return;
+    listRef.current?.children[active]?.scrollIntoView({ block: 'nearest' });
+  }, [open, active]);
+
+  const choose = (i: number) => {
+    setSelected(items[i].value);
+    setActive(i);
+    setOpen(false);
+  };
+
+  const onKeyDown = (e: ReactKeyboardEvent) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!open) {
+        setOpen(true);
+        return;
+      }
+      const step = e.key === 'ArrowDown' ? 1 : -1;
+      setActive((i) => (i + step + items.length) % items.length);
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (open) choose(active);
+      else setOpen(true);
+    } else if (e.key === 'Tab') {
+      setOpen(false);
+    }
+  };
+
   return (
-    <label className="group/field relative flex items-center gap-3 rounded-2xl border border-border bg-bg px-4 py-2.5 transition-colors duration-300 focus-within:border-vermilion-500 hover:border-border-strong">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-vermilion-50 text-vermilion-700">
-        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d={FIELD_ICONS[icon]} />
-        </svg>
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block truncate text-[9px] font-bold uppercase tracking-[0.16em] text-subtle">{label}</span>
-        <select
-          name={name}
-          defaultValue=""
-          aria-label={label}
-          className="-ml-0.5 w-full cursor-pointer appearance-none truncate bg-transparent pr-5 text-[13.5px] font-medium text-text outline-none"
-        >
-          <option value="">{placeholder}</option>
-          {options.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-      </span>
-      <svg
-        viewBox="0 0 20 20"
-        className="pointer-events-none absolute right-3.5 h-4 w-4 text-subtle transition-transform duration-300 group-focus-within/field:rotate-180"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        aria-hidden="true"
+    <div ref={rootRef} className="relative">
+      <input type="hidden" name={name} value={selected} />
+      <button
+        type="button"
+        role="combobox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-haspopup="listbox"
+        aria-label={label}
+        onClick={() => {
+          setActive(items.findIndex((o) => o.value === selected));
+          setOpen((v) => !v);
+        }}
+        onKeyDown={onKeyDown}
+        className={`flex w-full items-center gap-3 rounded-2xl border bg-bg px-4 py-2.5 text-left transition-colors duration-300 hover:border-border-strong ${
+          open ? 'border-vermilion-500' : 'border-border'
+        }`}
       >
-        <path d="M5 7.5l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </label>
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-vermilion-50 text-vermilion-700">
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d={FIELD_ICONS[icon]} />
+          </svg>
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[9px] font-bold uppercase tracking-[0.16em] text-subtle">{label}</span>
+          <span className="block truncate text-[13.5px] font-medium leading-6 text-text">{current.label}</span>
+        </span>
+        <svg
+          viewBox="0 0 20 20"
+          className={`h-4 w-4 shrink-0 text-subtle transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          aria-hidden="true"
+        >
+          <path d="M5 7.5l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      {open && (
+        <ul
+          ref={listRef}
+          id={listId}
+          role="listbox"
+          aria-label={label}
+          className="absolute left-0 top-[calc(100%+0.4rem)] z-50 max-h-[min(19rem,50vh)] w-full min-w-max max-w-[min(22rem,80vw)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-raised py-1.5 shadow-float"
+        >
+          {items.map((o, i) => (
+            <li
+              key={o.value || '__any'}
+              role="option"
+              aria-selected={o.value === selected}
+              onMouseEnter={() => setActive(i)}
+              onClick={() => choose(i)}
+              className={`cursor-pointer whitespace-nowrap px-4 py-2 text-[13.5px] leading-6 transition-colors duration-150 ${
+                o.value === selected ? 'font-semibold text-vermilion-700' : 'text-text'
+              } ${i === active ? 'bg-vermilion-50' : ''}`}
+            >
+              {o.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

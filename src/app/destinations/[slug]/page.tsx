@@ -6,7 +6,7 @@ import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { DestinationRail } from '@/components/sections';
 import { Button, Display, Icon } from '@/components/ui';
-import { BanyanTree, FlightTag, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
+import { BanyanTree, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
 import {
   allDestinations,
   DESTINATIONS,
@@ -69,7 +69,6 @@ export default async function DestinationPage({ params }: Props) {
               Customize a {destination.label} trip
             </Button>
           )}
-          <FlightTag from="Mumbai" to={destination.label} note={destination.region} className="hidden sm:inline-flex" />
         </div>
       </PageHero>
 

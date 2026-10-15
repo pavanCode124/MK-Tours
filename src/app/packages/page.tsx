@@ -7,7 +7,6 @@ import { PencilCamera } from '@/components/PencilCamera';
 import {
   BanyanTree,
   FlightPath,
-  FlightTag,
   PineTree,
   SmokeShadow,
   TopoField,
@@ -70,7 +69,6 @@ export default async function PackagesPage({ searchParams }: Props) {
         lede={`${filtered.length} fixed-departure ${filtered.length === 1 ? 'tour' : 'tours'} from ${departureCity}, with the train, stays, meals and sightseeing in one price.`}
         crumbs={[{ label: 'Tour Packages' }]}
       >
-        <FlightTag from={departureCity} to="Pick a route" note={`${packages.length} departures`} />
       </PageHero>
 
       <div className="relative overflow-hidden">
@@ -229,7 +227,6 @@ export default async function PackagesPage({ searchParams }: Props) {
                   ))}
                 </div>
               </div>
-              <FlightTag from="Mumbai CSMT" to="Pune" note="Same rake" className="shrink-0" />
             </div>
           </div>
         </div>

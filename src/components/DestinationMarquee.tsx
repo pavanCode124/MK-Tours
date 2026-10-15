@@ -34,10 +34,8 @@ export function DestinationMarquee({
 }) {
   if (destinations.length === 0) return null;
 
-  // Two rails need a healthy row each; below that one long rail reads better.
-  const split = destinations.length >= 8;
-  const half = Math.ceil(destinations.length / 2);
-  const rows = split ? [destinations.slice(0, half), destinations.slice(half)] : [destinations];
+  // One continuous rail carries the whole collection past the eye.
+  const rows = [destinations];
 
   return (
     <div className="marquee-panel relative overflow-hidden rounded-[1.5rem] border-2 border-white/35 px-0 py-10 shadow-float sm:rounded-[1.75rem] sm:py-14">

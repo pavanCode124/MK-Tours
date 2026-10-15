@@ -5,7 +5,7 @@ import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { Button, Display, Icon } from '@/components/ui';
-import { CompassRose, FlightTag, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
+import { CompassRose, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
 import { packagesForTheme, THEMES, themesWithCounts } from '@/lib/catalog';
 import { AGENCY } from '@/lib/content';
 import { getPackages, whatsappLink } from '@/lib/mktours';
@@ -54,7 +54,6 @@ export default async function ThemePage({ params }: Props) {
         lede={theme.blurb}
         crumbs={[{ href: '/packages', label: 'Explore Trips' }, { label: theme.label }]}
       >
-        <FlightTag from="Mumbai" to={theme.label} note={`${tours.length} ${tours.length === 1 ? 'tour' : 'tours'}`} />
       </PageHero>
 
       <div className="relative overflow-hidden">

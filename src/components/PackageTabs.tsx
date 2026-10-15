@@ -17,7 +17,7 @@ export function PackageTabs({ groups }: { groups: { label: string; content: Reac
   return (
     <div>
       {groups.length > 1 && (
-        <div className="rail -mx-5 mb-9 flex overflow-x-auto px-5 md:mx-0 md:px-0">
+        <div className="rail -mx-5 mb-6 flex overflow-x-auto px-5 md:mx-0 md:px-0">
           <div className="inline-flex shrink-0 gap-1.5 rounded-full border border-border bg-raised p-1.5 shadow-soft md:flex-wrap">
             {groups.map((g, i) => (
               <button

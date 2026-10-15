@@ -48,7 +48,7 @@ export const HERO_SLIDES = [
 export const TRUST_ITEMS: { top: string; label: string; note: string }[] = [
   { top: '★★★★★', label: '4.9 / 5', note: 'Google reviews' },
   { top: '10,000+', label: 'Travellers', note: 'Since 2017' },
-  { top: 'GST', label: 'Registered', note: 'Invoiced, on the books' },
+  { top: '100%', label: 'Customised', note: 'Itineraries built to you' },
   { top: 'Tour', label: 'Manager', note: 'On every departure' },
   { top: '24×7', label: 'Support', note: 'All 365 days' },
 ];
