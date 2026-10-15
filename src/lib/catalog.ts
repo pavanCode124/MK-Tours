@@ -33,7 +33,8 @@ export type Region =
   | 'West India'
   | 'East India'
   | 'Himalayas'
-  | 'Nepal';
+  | 'Nepal'
+  | 'Southeast Asia';
 
 /**
  * The photograph and strapline behind each region's rail. Sections across the
@@ -47,7 +48,20 @@ export const REGION_BANNERS: Record<Region, { image: string; tagline: string }> 
   'East India': { image: '/images/dest-gaya.jpg', tagline: 'Temple towns along the Ganga plain' },
   Himalayas: { image: '/images/hero-pahalgam.jpg', tagline: 'Snow lines, high meadows and mountain shrines' },
   Nepal: { image: '/images/dest-pokhara.jpg', tagline: 'Annapurna mornings and valley temples' },
+  'Southeast Asia': { image: '/images/city-mumbai-night.jpg', tagline: 'Island cities, night markets and the Andaman coast' },
 };
+
+const FALLBACK_IMAGE = 'dest-varanasi.jpg';
+
+/**
+ * A destination may carry a file under /public/images or an absolute URL —
+ * the CRM's own media, for places we have no photograph of yet.
+ */
+export function imageSrc(image: string | undefined): string {
+  const value = image ?? FALLBACK_IMAGE;
+  return value.startsWith('http') ? value : `/images/${value}`;
+}
+
 
 /** Keyed by the destination slug exactly as the CRM stores it. */
 export const DESTINATIONS: Record<string, DestinationMeta> = {
@@ -96,9 +110,14 @@ export const DESTINATIONS: Record<string, DestinationMeta> = {
   muktinath: { state: 'Nepal', region: 'Nepal', image: 'dest-muktinath.jpg', blurb: 'The 108 waterspouts at 3,800 metres in Mustang.' },
   lumbini: { state: 'Nepal', region: 'Nepal', image: 'dest-lumbini.jpg', blurb: 'The birthplace of the Buddha and the Ashoka pillar.' },
   chitwan: { state: 'Nepal', region: 'Nepal', image: 'dest-chitwan.jpg', blurb: 'Sal forest and grassland, rhino country on the Terai.' },
-};
 
-const FALLBACK_IMAGE = 'dest-varanasi.jpg';
+  // Southeast Asia
+  // No photography of these three in the repo yet, so they wear the
+  // catalogue's default image until one is added under /public/images.
+  singapore: { state: 'Singapore', region: 'Southeast Asia', image: FALLBACK_IMAGE, blurb: 'Marina Bay, Sentosa and Gardens by the Bay.' },
+  malaysia: { label: 'Kuala Lumpur', state: 'Malaysia', region: 'Southeast Asia', image: FALLBACK_IMAGE, blurb: 'The Petronas Towers, Batu Caves and Genting Highlands.' },
+  thailand: { label: 'Bangkok & Pattaya', state: 'Thailand', region: 'Southeast Asia', image: FALLBACK_IMAGE, blurb: 'Temple city by day, the Gulf coast by evening.' },
+};
 
 /**
  * Destinations the CRM has not tagged on a package. Keyed by package slug, so
@@ -108,6 +127,7 @@ const IMPLIED_DESTINATIONS: Record<string, string[]> = {
   'vrindavan-group-tour': ['mathura', 'vrindavan', 'agra'],
   'amritsar-vaishnodevi-shivkhori-group-tour': ['amritsar', 'katra', 'vaishnodevi'],
   'ayodhya-kashi-gaya-baidyanath-group-tour': ['gaya', 'baidyanath'],
+  'singapore-malaysia-thailand-group-tour-9n10d': ['singapore', 'malaysia', 'thailand'],
 };
 
 /** Destination slugs for a package, including the ones implied by its itinerary. */
@@ -134,7 +154,7 @@ export function destinationFor(slug: string, count = 0): Destination {
     label: meta?.label ?? destinationLabel(slug),
     state: meta?.state ?? 'India',
     region: meta?.region ?? 'North India',
-    image: `/images/${meta?.image ?? FALLBACK_IMAGE}`,
+    image: imageSrc(meta?.image),
     blurb: meta?.blurb,
     count,
   };
@@ -176,6 +196,16 @@ export function destinationsByRegion(packages: Package[]): { region: Region; ite
   return [...groups.entries()]
     .map(([region, items]) => ({ region, items }))
     .sort((a, b) => b.items.length - a.items.length);
+}
+
+/** Regions that sit outside India — the top level of the catalogue filter. */
+export const INTERNATIONAL_REGIONS: Region[] = ['Nepal', 'Southeast Asia'];
+
+/** Is this state abroad? Read off the destinations filed under it. */
+export function isInternationalState(state: string): boolean {
+  return Object.values(DESTINATIONS).some(
+    (d) => d.state === state && INTERNATIONAL_REGIONS.includes(d.region),
+  );
 }
 
 export function packagesForDestination(packages: Package[], slug: string): Package[] {
@@ -253,8 +283,8 @@ export const THEMES: Theme[] = [
   {
     slug: 'international',
     label: 'International',
-    blurb: 'Across the border to Nepal, on the same fixed-departure terms.',
-    packages: ['nepal-with-muktinath-group-tour'],
+    blurb: 'Across the border to Nepal and Southeast Asia, on the same fixed-departure terms.',
+    packages: ['nepal-with-muktinath-group-tour', 'singapore-malaysia-thailand-group-tour-9n10d'],
   },
 ];
 
@@ -282,9 +312,9 @@ export function themeImage(packages: Package[], slug: string): string {
   if (picked) return picked;
   for (const pkg of packagesForTheme(packages, slug)) {
     const place = packageDestinations(pkg).find((s) => DESTINATIONS[s]);
-    if (place) return `/images/${DESTINATIONS[place].image}`;
+    if (place) return imageSrc(DESTINATIONS[place].image);
   }
-  return `/images/${FALLBACK_IMAGE}`;
+  return imageSrc(undefined);
 }
 
 export function themesWithCounts(packages: Package[]): (Theme & { count: number; image: string })[] {

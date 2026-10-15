@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CardRail } from '@/components/CardRail';
-import { PACKAGE_ITEM, PackageCard } from '@/components/PackageCard';
+import { PackageCard } from '@/components/PackageCard';
+import {
+  PackageFilters,
+  type DestinationGroup,
+  type FilterBounds,
+  type FilterOption,
+  type FilterSelection,
+} from '@/components/PackageFilters';
 import { PageHero } from '@/components/PageHero';
 import { PencilCamera } from '@/components/PencilCamera';
 import { PencilBackpack, PencilPines } from '@/components/PencilDoodles';
@@ -18,14 +24,14 @@ import {
   DEPARTURE_CITIES,
   destinationFor,
   destinationsByState,
-  durationBuckets,
+  isInternationalState,
   packageDestinations,
   SEASONS,
   seasonsForPackage,
   THEMES,
 } from '@/lib/catalog';
 import { AGENCY } from '@/lib/content';
-import { getPackages, whatsappLink, type Package } from '@/lib/mktours';
+import { durationNights, getPackages, startingPrice, whatsappLink, type Package } from '@/lib/mktours';
 
 export const metadata: Metadata = {
   title: 'Tour Packages',
@@ -45,6 +51,8 @@ interface Props {
     duration?: Param;
     season?: Param;
     theme?: Param;
+    nights?: Param;
+    price?: Param;
   }>;
 }
 
@@ -52,23 +60,62 @@ export default async function PackagesPage({ searchParams }: Props) {
   const params = await searchParams;
   const packages = await getPackages();
 
-  const selected = readSelections(params);
+  const bounds = boundsFor(packages);
+  const selected = readSelections(params, bounds);
   const filtered = packages.filter((pkg) => matches(pkg, selected));
 
   const destinations = allDestinations(packages);
-  const states = destinationsByState(packages);
-  const durations = durationBuckets(packages);
   const wa = whatsappLink(AGENCY.whatsapp, `Hi ${AGENCY.name}, I'm looking for a tour and would like some help choosing.`);
 
   const activeLabel = describe(selected, destinations);
-  const hasFilters = FACETS.some((f) => selected[f].length > 0);
+  const hasFilters = isFiltered(selected, bounds);
   const departureCity = DEPARTURE_CITIES.find((c) => selected.city.includes(c.slug))?.label ?? 'Mumbai';
 
-  // Faceted counts: how many tours a chip would leave once added to the rest of
-  // the selection. Counting against the other facets only keeps every row
+  // Faceted counts: how many tours an option would leave once added to the rest
+  // of the selection. Counting against the other facets only keeps every list
   // self-consistent, so the numbers never contradict the result list.
   const countFor = (facet: Facet, value: string) =>
     packages.filter((pkg) => matches(pkg, selected, facet) && MATCHERS[facet](pkg, value)).length;
+
+  const states = destinationsByState(packages).map((s) => ({
+    state: s.state,
+    count: countFor('state', s.state),
+    items: s.items.map((d) => ({ value: d.slug, label: d.label, count: countFor('destination', d.slug) })),
+  }));
+
+  const groups: DestinationGroup[] = [
+    { key: 'india', label: 'India', states: states.filter((s) => !isInternationalState(s.state)) },
+    { key: 'international', label: 'International', states: states.filter((s) => isInternationalState(s.state)) },
+  ].map((g) => ({ ...g, count: new Set(g.states.flatMap((s) => s.items.map((i) => i.value))).size }));
+
+  const themeOptions: FilterOption[] = THEMES.map((t) => ({
+    value: t.slug,
+    label: t.label,
+    count: countFor('theme', t.slug),
+  }));
+
+  const seasonOptions: FilterOption[] = SEASONS.map((s) => ({
+    value: s.slug,
+    label: `${s.label} · ${s.window}`,
+    count: countFor('season', s.slug),
+  }));
+
+  const monthOptions: FilterOption[] = upcomingMonths().map((m) => ({
+    value: m.value,
+    label: m.label,
+    count: countFor('month', m.value),
+  }));
+
+  // The sidebar is a client island, so everything it reads has to be plain data.
+  const selection: FilterSelection = {
+    destination: selected.destination,
+    state: selected.state,
+    theme: selected.theme,
+    season: selected.season,
+    month: selected.month,
+    nights: selected.nights,
+    price: selected.price,
+  };
 
   return (
     <>
@@ -92,24 +139,28 @@ export default async function PackagesPage({ searchParams }: Props) {
         <BanyanTree className="pointer-events-none absolute bottom-[12%] -left-14 hidden h-[240px] w-[240px] text-azure-700/8 xl:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
-          {/* Filter board — one raised card holding every rail */}
-          <div className="card p-6 sm:p-7">
-            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-3.5">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/50">
-                  <Icon name="compass" className="h-5 w-5" />
-                </span>
+          <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[300px_minmax(0,1fr)]">
+            <PackageFilters
+              groups={groups}
+              themes={themeOptions}
+              seasons={seasonOptions}
+              months={monthOptions}
+              bounds={bounds}
+              selected={selection}
+              resultCount={filtered.length}
+              total={packages.length}
+            />
+
+            <div>
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">Narrow it down</div>
-                  <div className="font-display text-[20px] font-semibold leading-tight text-text">
-                    Filter the catalogue
+                  <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-vermilion-700">
+                    Fixed departures
                   </div>
+                  <h2 className="font-display text-[22px] font-semibold leading-tight text-text">
+                    {filtered.length} {filtered.length === 1 ? 'tour' : 'tours'} to choose from
+                  </h2>
                 </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="rounded-full bg-surface px-3.5 py-1.5 text-[11.5px] font-bold text-muted">
-                  {filtered.length} of {packages.length} shown
-                </span>
                 {hasFilters && (
                   <Link
                     href="/packages"
@@ -119,115 +170,41 @@ export default async function PackagesPage({ searchParams }: Props) {
                   </Link>
                 )}
               </div>
-            </div>
 
-            <p className="mb-5 text-[12px] leading-relaxed text-muted">
-              Pick as many as you like — chips in the same row widen the search, and each row narrows the next. Tap a
-              selected chip again to drop it.
-            </p>
-
-            <div className="space-y-4">
-              <FilterRow label="Destination">
-                <Chip
-                  href={hrefWithout(selected, 'destination')}
-                  active={selected.destination.length === 0}
-                  label="All tours"
-                  toggle={false}
-                />
-                {destinations.slice(0, 12).map((d) => (
-                  <Chip
-                    key={d.slug}
-                    href={hrefToggling(selected, 'destination', d.slug)}
-                    active={selected.destination.includes(d.slug)}
-                    label={d.label}
-                    count={countFor('destination', d.slug)}
-                  />
-                ))}
-              </FilterRow>
-
-              <FilterRow label="State">
-                {states.map((s) => (
-                  <Chip
-                    key={s.state}
-                    href={hrefToggling(selected, 'state', s.state)}
-                    active={selected.state.includes(s.state)}
-                    label={s.state}
-                    count={countFor('state', s.state)}
-                  />
-                ))}
-              </FilterRow>
-
-              <FilterRow label="Duration">
-                {durations.map((d) => (
-                  <Chip
-                    key={d.days}
-                    href={hrefToggling(selected, 'duration', String(d.days))}
-                    active={selected.duration.includes(String(d.days))}
-                    label={d.label}
-                    count={countFor('duration', String(d.days))}
-                  />
-                ))}
-              </FilterRow>
-
-              <FilterRow label="Theme">
-                {THEMES.map((t) => (
-                  <Chip
-                    key={t.slug}
-                    href={hrefToggling(selected, 'theme', t.slug)}
-                    active={selected.theme.includes(t.slug)}
-                    label={t.label}
-                    count={countFor('theme', t.slug)}
-                  />
-                ))}
-              </FilterRow>
-
-              <FilterRow label="Season">
-                {SEASONS.map((s) => (
-                  <Chip
-                    key={s.slug}
-                    href={hrefToggling(selected, 'season', s.slug)}
-                    active={selected.season.includes(s.slug)}
-                    label={`${s.label} · ${s.window}`}
-                    count={countFor('season', s.slug)}
-                  />
-                ))}
-              </FilterRow>
+              {filtered.length > 0 ? (
+                <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                  {filtered.map((pkg, i) => (
+                    <PackageCard key={pkg.id} pkg={pkg} priority={i < 3} />
+                  ))}
+                </div>
+              ) : (
+                <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-12 text-center shadow-soft">
+                  <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/15" />
+                  <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-azure-700/12 tree-breathe sm:block" />
+                  <div className="relative">
+                    <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/60">
+                      <Icon name="compass" className="h-6 w-6" />
+                    </span>
+                    <Display className="text-[23px]">No tours match these filters yet.</Display>
+                    <p className="mx-auto mt-3.5 max-w-md text-[13.5px] leading-[1.75] text-muted">
+                      Our catalogue grows every season, and we build itineraries to order. Tell us where you want to go
+                      and when, and we will quote it.
+                    </p>
+                    <div className="mt-8 flex flex-wrap justify-center gap-3">
+                      <Button href="/packages" variant="outline">
+                        Clear filters
+                      </Button>
+                      {wa && (
+                        <Button href={wa} external variant="accent">
+                          Ask us on WhatsApp
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-
-          {/* Results */}
-          {filtered.length > 0 ? (
-            <CardRail className="mt-9" itemClassName={PACKAGE_ITEM} label="Tour packages">
-              {filtered.map((pkg, i) => (
-                <PackageCard key={pkg.id} pkg={pkg} priority={i < 3} />
-              ))}
-            </CardRail>
-          ) : (
-            <div className="relative mt-9 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-12 text-center shadow-soft">
-              <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/15" />
-              <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-azure-700/12 tree-breathe sm:block" />
-              <div className="relative">
-                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/60">
-                  <Icon name="compass" className="h-6 w-6" />
-                </span>
-                <Display className="text-[23px]">No tours match these filters yet.</Display>
-                <p className="mx-auto mt-3.5 max-w-md text-[13.5px] leading-[1.75] text-muted">
-                  Our catalogue grows every season, and we build itineraries to order. Tell us where you want to go and
-                  when, and we will quote it.
-                </p>
-                <div className="mt-8 flex flex-wrap justify-center gap-3">
-                  <Button href="/packages" variant="outline">
-                    Clear filters
-                  </Button>
-                  {wa && (
-                    <Button href={wa} external variant="accent">
-                      Ask us on WhatsApp
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Departure cities footnote */}
           <div className="card mt-16 overflow-hidden p-7 sm:p-9">
@@ -240,12 +217,19 @@ export default async function PackagesPage({ searchParams }: Props) {
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2.5">
                   {DEPARTURE_CITIES.map((c) => (
-                    <Chip
+                    <Link
                       key={c.slug}
-                      href={hrefToggling(selected, 'city', c.slug)}
-                      active={selected.city.includes(c.slug)}
-                      label={c.label}
-                    />
+                      href={hrefToggling(selected, bounds, 'city', c.slug)}
+                      aria-pressed={selected.city.includes(c.slug)}
+                      className={`shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all duration-300 ${
+                        selected.city.includes(c.slug)
+                          ? 'border-azure-900 bg-azure-900 text-on-dark shadow-lift'
+                          : 'border-border bg-bg text-text hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700'
+                      }`}
+                    >
+                      {c.label}
+                      {selected.city.includes(c.slug) && <span className="text-on-dark/70"> ×</span>}
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -261,9 +245,12 @@ export default async function PackagesPage({ searchParams }: Props) {
 /* Faceted filtering                                                          */
 /* -------------------------------------------------------------------------- */
 
-const FACETS = ['destination', 'state', 'duration', 'theme', 'season', 'month', 'city'] as const;
-type Facet = (typeof FACETS)[number];
-type Selections = Record<Facet, string[]>;
+const LIST_FACETS = ['destination', 'state', 'duration', 'theme', 'season', 'month', 'city'] as const;
+type Facet = (typeof LIST_FACETS)[number];
+type Selections = Record<Facet, string[]> & {
+  nights: [number, number];
+  price: [number, number];
+};
 
 /** Does one package satisfy one value of one facet? */
 const MATCHERS: Record<Facet, (pkg: Package, value: string) => boolean> = {
@@ -273,19 +260,48 @@ const MATCHERS: Record<Facet, (pkg: Package, value: string) => boolean> = {
   season: (pkg, value) => seasonsForPackage(pkg).includes(value),
   // Themes are an editorial grouping, so defer to the catalogue's own list.
   theme: (pkg, value) => (THEMES.find((t) => t.slug === value)?.packages ?? []).includes(pkg.slug ?? ''),
-  month: (pkg, value) =>
-    seasonsForPackage(pkg)
-      .map((slug) => SEASONS.find((s) => s.slug === slug))
-      .some((s) => s?.months.includes(Number(value)) ?? false),
+  // "2026-10" — the CRM has no batch dates, so a month matches when one of the
+  // package's travel windows covers it. The all-weather window is set aside
+  // first: counting it would make every tour match every month.
+  month: (pkg, value) => {
+    const month = Number(value.split('-')[1]);
+    const windows = seasonsForPackage(pkg)
+      .filter((slug) => slug !== 'year-round')
+      .map((slug) => SEASONS.find((s) => s.slug === slug));
+    // A route with no season of its own runs whenever the traveller asks.
+    if (windows.length === 0) return true;
+    return windows.some((s) => s?.months.includes(month) ?? false);
+  },
   // `city` is informational for now: every departure originates in Mumbai.
   city: () => true,
 };
 
-function readSelections(params: Awaited<Props['searchParams']>): Selections {
+function nightsOf(pkg: Package): number {
+  return durationNights(pkg);
+}
+
+/** The widest range the catalogue covers, which is where both sliders start. */
+function boundsFor(packages: Package[]): FilterBounds {
+  const nights = packages.map(nightsOf).filter((n) => n > 0);
+  const prices = packages.map((p) => startingPrice(p)).filter((n): n is number => n !== null && n > 0);
+  const round = (n: number, to: number, dir: 'down' | 'up') =>
+    dir === 'down' ? Math.floor(n / to) * to : Math.ceil(n / to) * to;
+  return {
+    nights: [nights.length ? Math.min(...nights) : 1, nights.length ? Math.max(...nights) : 15],
+    price: [
+      prices.length ? round(Math.min(...prices), 500, 'down') : 0,
+      prices.length ? round(Math.max(...prices), 500, 'up') : 100000,
+    ],
+  };
+}
+
+function readSelections(params: Awaited<Props['searchParams']>, bounds: FilterBounds): Selections {
   const out = {} as Selections;
-  for (const facet of FACETS) {
+  for (const facet of LIST_FACETS) {
     out[facet] = toValues((params as Record<string, Param>)[facet]);
   }
+  out.nights = toRange(params.nights, bounds.nights);
+  out.price = toRange(params.price, bounds.price);
   return out;
 }
 
@@ -294,42 +310,85 @@ function toValues(param: Param): string[] {
   return [...new Set(raw.flatMap((v) => v.split(',')).map((v) => v.trim()).filter(Boolean))];
 }
 
+/** "2-9" into a pair, clamped to the catalogue's own range. */
+function toRange(param: Param, fallback: [number, number]): [number, number] {
+  const raw = Array.isArray(param) ? param[0] : param;
+  const [a, b] = (raw ?? '').split('-').map((v) => Number(v.trim()));
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return [...fallback] as [number, number];
+  const lo = Math.max(fallback[0], Math.min(a, b));
+  const hi = Math.min(fallback[1], Math.max(a, b));
+  return lo <= hi ? [lo, hi] : ([...fallback] as [number, number]);
+}
+
 /**
  * Values inside one facet widen the search (OR); facets narrow each other
- * (AND). `ignore` drops one facet, which is how a row counts its own chips.
+ * (AND). `ignore` drops one facet, which is how a list counts its own options.
+ * The two sliders always narrow, since they carry no options of their own.
  */
 function matches(pkg: Package, selected: Selections, ignore?: Facet): boolean {
-  return FACETS.every((facet) => {
+  const nights = nightsOf(pkg);
+  if (nights < selected.nights[0] || nights > selected.nights[1]) return false;
+
+  const price = startingPrice(pkg);
+  // A tour with no published price is only hidden once the slider has moved.
+  if (price !== null && (price < selected.price[0] || price > selected.price[1])) return false;
+
+  return LIST_FACETS.every((facet) => {
     if (facet === ignore) return true;
     const values = selected[facet];
     return values.length === 0 || values.some((value) => MATCHERS[facet](pkg, value));
   });
 }
 
-function hrefFor(selected: Selections, overrides: Partial<Selections>): string {
+function isFiltered(selected: Selections, bounds: FilterBounds): boolean {
+  return (
+    LIST_FACETS.some((f) => selected[f].length > 0) ||
+    selected.nights[0] !== bounds.nights[0] ||
+    selected.nights[1] !== bounds.nights[1] ||
+    selected.price[0] !== bounds.price[0] ||
+    selected.price[1] !== bounds.price[1]
+  );
+}
+
+function hrefFor(selected: Selections, bounds: FilterBounds, overrides: Partial<Selections>): string {
   const next = { ...selected, ...overrides };
   const query = new URLSearchParams();
-  for (const facet of FACETS) {
+  for (const facet of LIST_FACETS) {
     for (const value of next[facet]) query.append(facet, value);
+  }
+  if (next.nights[0] !== bounds.nights[0] || next.nights[1] !== bounds.nights[1]) {
+    query.set('nights', `${next.nights[0]}-${next.nights[1]}`);
+  }
+  if (next.price[0] !== bounds.price[0] || next.price[1] !== bounds.price[1]) {
+    query.set('price', `${next.price[0]}-${next.price[1]}`);
   }
   const qs = query.toString();
   return qs ? `/packages?${qs}` : '/packages';
 }
 
 /** Add the value if it is not selected, drop it if it is. */
-function hrefToggling(selected: Selections, facet: Facet, value: string): string {
+function hrefToggling(selected: Selections, bounds: FilterBounds, facet: Facet, value: string): string {
   const current = selected[facet];
   const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
-  return hrefFor(selected, { [facet]: next });
+  return hrefFor(selected, bounds, { [facet]: next } as Partial<Selections>);
 }
 
-/** Clear a whole facet, leaving the rest of the selection in place. */
-function hrefWithout(selected: Selections, facet: Facet): string {
-  return hrefFor(selected, { [facet]: [] });
+/** The next twelve months, as the filter's own "Oct-26" labels. */
+function upcomingMonths(): { value: string; label: string }[] {
+  const names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const now = new Date();
+  return Array.from({ length: 12 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    const month = d.getMonth() + 1;
+    return {
+      value: `${d.getFullYear()}-${String(month).padStart(2, '0')}`,
+      label: `${names[d.getMonth()]}-${String(d.getFullYear()).slice(2)}`,
+    };
+  });
 }
 
 function describe(selected: Selections, destinations: ReturnType<typeof allDestinations>): string | undefined {
-  const active = FACETS.filter((f) => selected[f].length > 0);
+  const active = LIST_FACETS.filter((f) => selected[f].length > 0);
   // Two facets at once have no natural headline; fall back to the page title.
   if (active.length !== 1) return undefined;
   const facet = active[0];
@@ -364,61 +423,4 @@ function describe(selected: Selections, destinations: ReturnType<typeof allDesti
     default:
       return undefined;
   }
-}
-
-/* -------------------------------------------------------------------------- */
-
-function FilterRow({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start">
-      <span className="w-24 shrink-0 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-subtle">{label}</span>
-      <div className="rail -mx-5 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:px-0">{children}</div>
-    </div>
-  );
-}
-
-function Chip({
-  href,
-  active,
-  label,
-  count,
-  toggle = true,
-}: {
-  href: string;
-  active: boolean;
-  label: string;
-  count?: number;
-  /** False for a chip that resets a row rather than toggling one value. */
-  toggle?: boolean;
-}) {
-  const base = 'shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all duration-300';
-
-  // A chip that would empty the results stays in place but goes quiet, so the
-  // rows never reshuffle under the cursor.
-  if (count === 0 && !active) {
-    return (
-      <span aria-disabled="true" className={`${base} cursor-not-allowed border-border bg-bg text-subtle opacity-50`}>
-        {label}
-        <span className="text-subtle"> (0)</span>
-      </span>
-    );
-  }
-
-  return (
-    <Link
-      href={href}
-      aria-pressed={active}
-      className={`${base} ${
-        active
-          ? 'border-azure-900 bg-azure-900 text-on-dark shadow-lift'
-          : 'border-border bg-bg text-text hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft'
-      }`}
-    >
-      {label}
-      {typeof count === 'number' && (
-        <span className={active ? 'text-on-dark/60' : 'text-subtle'}> ({count})</span>
-      )}
-      {active && toggle && <span className="text-on-dark/70"> ×</span>}
-    </Link>
-  );
 }

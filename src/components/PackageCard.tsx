@@ -1,4 +1,4 @@
-import { DESTINATIONS, packageDestinations, SEASONS, seasonsForPackage } from '@/lib/catalog';
+import { DESTINATIONS, imageSrc, packageDestinations, SEASONS, seasonsForPackage } from '@/lib/catalog';
 import {
   destinationLabel,
   durationNights,
@@ -34,7 +34,7 @@ function cardImage(pkg: Package): { src: string; alt: string } {
   const slug = packageDestinations(pkg).find((s) => DESTINATIONS[s]);
   const meta = slug ? DESTINATIONS[slug] : undefined;
   return {
-    src: `/images/${meta?.image ?? 'dest-varanasi.jpg'}`,
+    src: imageSrc(meta?.image),
     alt: pkg.package_name,
   };
 }

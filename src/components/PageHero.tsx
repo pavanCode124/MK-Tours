@@ -28,7 +28,7 @@ function Breadcrumbs({ crumbs, tone }: { crumbs: Crumb[]; tone: 'dark' | 'light'
         Home
       </Link>
       {crumbs.map((c, i) => (
-        <span key={c.label} className="flex items-center gap-2">
+        <span key={`${c.label}-${i}`} className="flex items-center gap-2">
           <span aria-hidden="true" className={onDark ? 'text-on-dark/35' : 'text-subtle'}>
             ›
           </span>

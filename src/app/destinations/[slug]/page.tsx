@@ -56,7 +56,10 @@ export default async function DestinationPage({ params }: Props) {
         lede={destination.blurb}
         crumbs={[
           { href: '/destinations', label: 'Destinations' },
-          { href: `/destinations?state=${encodeURIComponent(destination.state)}`, label: destination.state },
+          // A city-state names both rungs of the trail; show the word once.
+          ...(destination.state === destination.label
+            ? []
+            : [{ href: `/destinations?state=${encodeURIComponent(destination.state)}`, label: destination.state }]),
           { label: destination.label },
         ]}
       >
