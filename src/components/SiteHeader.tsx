@@ -87,7 +87,7 @@ export async function SiteHeader() {
             )}
             <Link
               href="/packages"
-              className="hidden items-center justify-center gap-2 rounded-full bg-azure-900 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark shadow-lift transition-all duration-300 hover:bg-vermilion-500 hover:text-white xl:inline-flex"
+              className="hidden items-center justify-center gap-2 rounded-full bg-azure-900 px-6 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark shadow-lift transition-all duration-300 hover:bg-vermilion-500 hover:text-white xl:inline-flex"
             >
               Book a Tour
               <span aria-hidden="true">→</span>
@@ -336,8 +336,7 @@ function SocialMark({ href, label, children }: { href?: string; label: string; c
 
 function PanelTitle({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`mb-3.5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700 ${className}`}>
-      <span className="h-1.5 w-1.5 rounded-full bg-vermilion-500" />
+    <div className={`mb-3.5 flex items-center text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700 ${className}`}>
       {children}
     </div>
   );
@@ -367,8 +366,7 @@ function MobileLinks({ states, themes }: { states: string[]; themes: { slug: str
         ))}
       </ul>
 
-      <div className="mt-6 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700">
-        <span className="h-1.5 w-1.5 rounded-full bg-vermilion-500" />
+      <div className="mt-6 flex items-center text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700">
         By theme
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
@@ -383,8 +381,7 @@ function MobileLinks({ states, themes }: { states: string[]; themes: { slug: str
         ))}
       </div>
 
-      <div className="mt-6 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700">
-        <span className="h-1.5 w-1.5 rounded-full bg-vermilion-500" />
+      <div className="mt-6 flex items-center text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700">
         By state
       </div>
       <div className="mt-3 flex flex-wrap gap-2">

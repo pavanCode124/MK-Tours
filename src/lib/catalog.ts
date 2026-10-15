@@ -35,6 +35,20 @@ export type Region =
   | 'Himalayas'
   | 'Nepal';
 
+/**
+ * The photograph and strapline behind each region's rail. Sections across the
+ * site lead with a picture rather than a plain heading, so every region needs
+ * one of its own.
+ */
+export const REGION_BANNERS: Record<Region, { image: string; tagline: string }> = {
+  'North India': { image: '/images/hero-taj.jpg', tagline: 'A journey through time, colour and culture' },
+  'South India': { image: '/images/hero-alleppey.jpg', tagline: 'Backwaters, tea hills and the spice coast' },
+  'West India': { image: '/images/dest-jaisalmer.jpg', tagline: 'Desert forts and the long road west' },
+  'East India': { image: '/images/dest-gaya.jpg', tagline: 'Temple towns along the Ganga plain' },
+  Himalayas: { image: '/images/hero-pahalgam.jpg', tagline: 'Snow lines, high meadows and mountain shrines' },
+  Nepal: { image: '/images/dest-pokhara.jpg', tagline: 'Annapurna mornings and valley temples' },
+};
+
 /** Keyed by the destination slug exactly as the CRM stores it. */
 export const DESTINATIONS: Record<string, DestinationMeta> = {
   // Jammu & Kashmir

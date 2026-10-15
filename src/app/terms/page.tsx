@@ -24,7 +24,6 @@ export default async function TermsPage() {
   return (
     <>
       <PlainPageHero
-        eyebrow={`Legal · Effective ${LEGAL_EFFECTIVE_DATE}`}
         title={
           <>
             Terms &amp; <span className="flourish">Conditions</span>

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { PlainPageHero } from '@/components/PageHero';
 import { ReviewCard } from '@/components/sections';
-import { Button, Display, Eyebrow, Icon, Stars } from '@/components/ui';
+import { CardRail } from '@/components/CardRail';
+import { Button, Display, Icon, Stars } from '@/components/ui';
 import { FlightPath, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
 import { AGENCY, REVIEWS } from '@/lib/content';
 import { whatsappLink } from '@/lib/mktours';
@@ -18,7 +19,6 @@ export default function ReviewsPage() {
   return (
     <>
       <PlainPageHero
-        eyebrow="Reviews"
         title={
           <>
             What our <span className="flourish">travellers</span> say
@@ -35,7 +35,7 @@ export default function ReviewsPage() {
           className="pointer-events-none absolute -left-8 bottom-[26%] hidden h-[150px] w-[70%] text-vermilion-500/15 lg:block"
         />
 
-        <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
+        <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
           {/* Rating summary — a raised card with the score pulled out */}
           <div className="card flex flex-wrap items-center gap-7 p-7 sm:p-9">
             <div className="flex items-center gap-5">
@@ -62,11 +62,11 @@ export default function ReviewsPage() {
             </a>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <CardRail className="mt-9" itemClassName="w-[280px] sm:w-[330px] lg:w-[360px]" label="Traveller reviews">
             {REVIEWS.map((r) => (
               <ReviewCard key={r.name} {...r} />
             ))}
-          </div>
+          </CardRail>
 
           <div className="relative mt-16 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-12 text-center shadow-soft">
             <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/12" />
@@ -75,7 +75,6 @@ export default function ReviewsPage() {
               <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-vermilion-50 text-vermilion-700 ring-1 ring-vermilion-300/60">
                 <Icon name="heart" className="h-6 w-6" />
               </span>
-              <Eyebrow className="mb-4">Your turn</Eyebrow>
               <Display className="text-[24px]">Travelled with us?</Display>
               <p className="mx-auto mt-3.5 max-w-lg text-[13.5px] leading-[1.75] text-muted">
                 Leave a review on our Google profile, or send it to us directly. We read the critical ones too — it is how

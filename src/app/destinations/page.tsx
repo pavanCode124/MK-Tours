@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { PageHero } from '@/components/PageHero';
 import { PencilPalm } from '@/components/PencilPalm';
 import { BanyanTree, CompassRose, FlightPath, PineTree, TopoField } from '@/components/Decor';
-import { DestinationCard, DestinationMosaic } from '@/components/sections';
-import { Display, Eyebrow, Icon } from '@/components/ui';
-import { allDestinations, destinationsByRegion, destinationsByState } from '@/lib/catalog';
+import { RailSection } from '@/components/RailSection';
+import { DestinationCard, DestinationRail, DESTINATION_ITEM } from '@/components/sections';
+import { Display, Icon } from '@/components/ui';
+import { allDestinations, destinationsByRegion, destinationsByState, REGION_BANNERS } from '@/lib/catalog';
 import { getPackages } from '@/lib/mktours';
 
 export const metadata: Metadata = {
@@ -38,13 +39,12 @@ export default async function DestinationsPage({ searchParams }: Props) {
     <>
       <PageHero
         image="/images/dest-srinagar.jpg"
-        eyebrow="Explore"
         title={title}
         lede={`${filtered.length} places across ${new Set(filtered.map((d) => d.state)).size} states and countries, every one of them on a fixed departure out of Mumbai.`}
         crumbs={[{ label: 'Destinations' }]}
       />
 
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-x-clip">
         <PencilPalm className="pointer-events-none absolute -right-12 top-28 hidden w-[170px] rotate-[8deg] opacity-[0.07] xl:block" />
         <CompassRose className="pointer-events-none absolute -left-20 top-[22%] hidden h-[250px] w-[250px] text-azure-700/8 xl:block" />
         <FlightPath
@@ -54,7 +54,7 @@ export default async function DestinationsPage({ searchParams }: Props) {
         <TopoField className="pointer-events-none absolute -right-10 bottom-[18%] hidden h-[320px] w-[40%] text-azure-700/8 lg:block" />
         <BanyanTree className="pointer-events-none absolute -bottom-10 left-[2%] hidden h-[230px] w-[230px] text-azure-700/8 lg:block" />
 
-        <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
+        <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
           {/* Region / state filters on one raised card */}
           <div className="card p-6 sm:p-7">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
@@ -100,57 +100,38 @@ export default async function DestinationsPage({ searchParams }: Props) {
             </div>
           </div>
 
-          {/* Grouped grid */}
+          {/* Every collection runs as a rail under its own photographic banner,
+              so the page reads as a set of places rather than one long grid. */}
           {region || state ? (
-            <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-              {filtered.map((d) => (
-                <DestinationCard key={d.slug} destination={d} />
-              ))}
+            <div className="mt-9">
+              <DestinationRail destinations={filtered} label={title} />
             </div>
-          ) : (
-            <div className="mt-12 space-y-16">
-              {byRegion.map((r, i) => (
-                <section key={r.region}>
-                  <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
-                    <div>
-                      <Eyebrow className="mb-3.5">
-                        {r.items.length} {r.items.length === 1 ? 'place' : 'places'}
-                      </Eyebrow>
-                      <Display className="display-caps text-[27px] sm:text-[33px]">{r.region}</Display>
-                    </div>
-                    <Link
-                      href={`/destinations?region=${encodeURIComponent(r.region)}`}
-                      className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
-                    >
-                      View {r.region}
-                      <span className="">→</span>
-                    </Link>
-                  </div>
-                  {/* The first region leads with a mosaic; the rest run as grids,
-                      so the page has a shape rather than one repeating rhythm. */}
-                  {i === 0 && r.items.length >= 5 ? (
-                    <DestinationMosaic destinations={r.items.slice(0, 7)} />
-                  ) : (
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-                      {r.items.map((d) => (
-                        <DestinationCard key={d.slug} destination={d} />
-                      ))}
-                    </div>
-                  )}
-                  {i === 0 && r.items.length > 7 && (
-                    <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-                      {r.items.slice(7).map((d) => (
-                        <DestinationCard key={d.slug} destination={d} />
-                      ))}
-                    </div>
-                  )}
-                </section>
-              ))}
-            </div>
-          )}
+          ) : null}
+        </div>
 
+        {!region && !state && (
+          <div className="-mt-4">
+            {byRegion.map((r) => (
+              <RailSection
+                key={r.region}
+                image={REGION_BANNERS[r.region].image}
+                title={r.region}
+                subtitle={REGION_BANNERS[r.region].tagline}
+                cta={{ href: `/destinations?region=${encodeURIComponent(r.region)}`, label: 'Explore' }}
+                itemClassName={DESTINATION_ITEM}
+                label={`${r.region} destinations`}
+              >
+                {r.items.map((d) => (
+                  <DestinationCard key={d.slug} destination={d} />
+                ))}
+              </RailSection>
+            ))}
+          </div>
+        )}
+
+        <div className="relative mx-auto max-w-[1320px] px-5 pb-14 md:px-8 lg:px-12 lg:pb-20">
           {filtered.length === 0 && (
-            <div className="relative mt-12 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-14 text-center shadow-soft">
+            <div className="relative mt-9 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-14 text-center shadow-soft">
               <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[140px] w-[60px] text-azure-700/12 tree-breathe sm:block" />
               <p className="relative text-[14px] text-muted">
                 Nothing here yet.{' '}

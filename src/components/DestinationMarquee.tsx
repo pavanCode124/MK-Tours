@@ -17,6 +17,8 @@ export function DestinationMarquee({
   lineTwo = 'Hill Escapes',
   tag = 'Season Sale',
   offer = 'Monsoon offers running now',
+  viewAllHref,
+  viewAllLabel = 'View all',
 }: {
   destinations: Destination[];
   /** First line of the sale lockup. */
@@ -26,6 +28,9 @@ export function DestinationMarquee({
   /** The small red flag under the lockup. */
   tag?: string;
   offer?: string;
+  /** When set, a pill link in the top-right corner of the panel. */
+  viewAllHref?: string;
+  viewAllLabel?: string;
 }) {
   if (destinations.length === 0) return null;
 
@@ -42,6 +47,17 @@ export function DestinationMarquee({
       <div className="pointer-events-none absolute -bottom-32 -right-20 h-[340px] w-[340px] rounded-full bg-vermilion-500/20 blur-3xl" aria-hidden />
 
       <div className="relative">
+        {viewAllHref && (
+          <div className="flex justify-end px-6 pb-4 sm:absolute sm:right-6 sm:top-6 sm:px-0 sm:pb-0 lg:right-8 lg:top-8">
+            <Link
+              href={viewAllHref}
+              className="group/link z-10 inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-azure-900 shadow-lift transition-all duration-300 hover:bg-vermilion-500 hover:text-white sm:px-6 sm:py-3 sm:text-[12.5px]"
+            >
+              {viewAllLabel}
+              <span className="transition-transform duration-300 group-hover/link:translate-x-0.5">→</span>
+            </Link>
+          </div>
+        )}
         {/* Title lockup — a stacked sale banner, cream on the brand blue. */}
         <div className="px-6 text-center sm:px-10">
           <h3 className="marquee-title font-display uppercase">
@@ -56,7 +72,7 @@ export function DestinationMarquee({
         </div>
 
         {/* The rails */}
-        <div className="mt-8 space-y-6 sm:mt-10 sm:space-y-7">
+        <div className="mt-8 space-y-6 sm:mt-8 sm:space-y-7">
           {rows.map((row, i) => (
             <MarqueeRow key={i} items={row} reverse={i % 2 === 1} duration={38 + i * 9} />
           ))}

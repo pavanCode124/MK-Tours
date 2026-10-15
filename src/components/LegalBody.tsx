@@ -24,7 +24,7 @@ export function LegalBody({
   const hasHtml = Boolean(html && html.replace(/<[^>]+>/g, '').trim());
 
   return (
-    <div className="relative overflow-hidden py-14 lg:py-20">
+    <div className="relative overflow-hidden py-10 lg:py-14">
       <TopoField className="pointer-events-none absolute -right-10 top-10 hidden h-[340px] w-[38%] text-azure-700/8 lg:block" />
       <div className="relative mx-auto max-w-[900px] px-5 md:px-8">
         <div className="card p-7 sm:p-10">

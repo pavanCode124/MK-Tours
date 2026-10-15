@@ -10,38 +10,6 @@ import type { ReactNode } from 'react';
  * capsule with a leading dot rather than floating as bare tracked-out caps, so
  * it reads as a tag on the section instead of a line of small print.
  */
-export function Eyebrow({
-  children,
-  tone = 'warm',
-  className = '',
-}: {
-  children: ReactNode;
-  tone?: 'warm' | 'dark' | 'bare';
-  className?: string;
-}) {
-  if (tone === 'bare') {
-    return (
-      <span
-        className={`block text-[10.5px] font-bold uppercase tracking-[0.2em] text-vermilion-700 ${className}`}
-      >
-        {children}
-      </span>
-    );
-  }
-  const skin =
-    tone === 'dark'
-      ? 'border-vermilion-300/35 bg-white/8 text-vermilion-300'
-      : 'border-vermilion-300/70 bg-vermilion-50 text-vermilion-700';
-  return (
-    <span
-      className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.16em] ${skin} ${className}`}
-    >
-      <span className="h-1.5 w-1.5 rounded-full bg-current" />
-      {children}
-    </span>
-  );
-}
-
 /**
  * Display heading: the soft serif set tight, in mixed case.
  *
@@ -67,11 +35,10 @@ export function Display({
 }
 
 /**
- * Section header: eyebrow, display heading, optional lede and a trailing link.
+ * Section header: display heading, optional lede and a trailing link.
  * `align` switches between the left-aligned and centred variants.
  */
 export function SectionHeading({
-  eyebrow,
   title,
   lede,
   link,
@@ -79,7 +46,6 @@ export function SectionHeading({
   tone = 'light',
   className = '',
 }: {
-  eyebrow?: string;
   title: ReactNode;
   lede?: ReactNode;
   link?: { href: string; label: string };
@@ -94,14 +60,13 @@ export function SectionHeading({
       className={`${centered ? 'text-center' : 'flex flex-wrap items-end justify-between gap-x-8 gap-y-4'} ${className}`}
     >
       <div className={centered ? 'mx-auto max-w-2xl' : 'max-w-2xl'}>
-        {eyebrow && <Eyebrow tone={dark ? 'dark' : 'warm'} className="mb-4">{eyebrow}</Eyebrow>}
         <Display
           className={`display-caps text-[30px] sm:text-[38px] lg:text-[45px] ${dark ? 'text-on-dark' : ''}`}
         >
           {title}
         </Display>
         {lede && (
-          <p className={`mt-5 text-[15px] leading-[1.8] ${dark ? 'text-on-dark/75' : 'text-muted'}`}>{lede}</p>
+          <p className={`mt-4 text-[15px] leading-[1.8] ${dark ? 'text-on-dark/75' : 'text-muted'}`}>{lede}</p>
         )}
       </div>
       {link && (

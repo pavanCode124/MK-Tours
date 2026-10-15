@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Destination } from '@/lib/catalog';
-import { PineTree } from './Decor';
+import { CardRail } from './CardRail';
 import { Icon, type IconName, Stars } from './ui';
 
 /* -------------------------------------------------------------------------- */
@@ -56,74 +56,37 @@ export function DestinationCard({
   );
 }
 
-/** Horizontally scrolling rail of destination tiles. */
-export function DestinationRail({ destinations }: { destinations: Destination[] }) {
+/** Uniform cell width for a destination tile, used by every destination rail. */
+export const DESTINATION_ITEM = 'w-[205px] sm:w-[225px] lg:w-[240px]';
+
+/**
+ * Destination tiles on a scrolling rail. Every tile is the same width and the
+ * row never wraps — an arrow on either flank pages through the collection
+ * instead.
+ */
+export function DestinationRail({
+  destinations,
+  label = 'Destinations',
+  className = '',
+}: {
+  destinations: Destination[];
+  label?: string;
+  className?: string;
+}) {
   return (
-    <div className="rail -mx-5 flex gap-4 overflow-x-auto px-5 pb-2 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0 lg:grid-cols-5">
+    <CardRail className={className} itemClassName={DESTINATION_ITEM} label={label}>
       {destinations.map((d) => (
-        <DestinationCard key={d.slug} destination={d} className="w-[62vw] shrink-0 sm:w-[40vw] md:w-auto" />
+        <DestinationCard key={d.slug} destination={d} />
       ))}
-    </div>
+    </CardRail>
   );
 }
 
 /**
- * Destination tiles on a true grid — two up on phones, three on tablets, five
- * across on desktop. No horizontal scrolling at any width.
+ * Kept as the name older callers import. Destination collections are rails
+ * everywhere now, so this is the same row.
  */
-export function DestinationGrid({ destinations }: { destinations: Destination[] }) {
-  return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
-      {destinations.map((d) => (
-        <DestinationCard key={d.slug} destination={d} />
-      ))}
-    </div>
-  );
-}
-
-/**
- * A staggered editorial grid: the first tile runs tall and wide, the rest fill in
- * around it. Used where a flat grid of equal tiles would read as a catalogue.
- */
-export function DestinationMosaic({ destinations }: { destinations: Destination[] }) {
-  const [lead, ...rest] = destinations;
-  if (!lead) return null;
-  return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <Link
-        href={`/destinations/${lead.slug}`}
-        className="group relative col-span-1 overflow-hidden rounded-[2rem] bg-azure-900 shadow-lift transition-all duration-500 hover:-translate-y-1.5 hover:shadow-float sm:col-span-2 sm:row-span-2"
-      >
-        <div className="relative aspect-[4/5] sm:aspect-auto sm:h-full sm:min-h-[420px]">
-          <Image
-            src={lead.image}
-            alt={lead.label}
-            fill
-            sizes="(min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-azure-900/80 via-azure-900/10 to-transparent" />
-          <PineTree className="absolute -bottom-2 right-4 h-36 w-16 text-vermilion-300/25 tree-breathe" />
-          <div className="absolute inset-x-0 bottom-0 p-6">
-            <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-300">
-              <Icon name="pin" className="h-3.5 w-3.5" />
-              {lead.state}
-            </span>
-            <span className="mt-1.5 block font-display text-[30px] font-semibold leading-none text-on-dark sm:text-[36px]">
-              {lead.label}
-            </span>
-            {lead.blurb && (
-              <span className="mt-2.5 block max-w-sm text-[13px] leading-relaxed text-on-dark/75">{lead.blurb}</span>
-            )}
-          </div>
-        </div>
-      </Link>
-      {rest.map((d) => (
-        <DestinationCard key={d.slug} destination={d} />
-      ))}
-    </div>
-  );
-}
+export const DestinationGrid = DestinationRail;
 
 /* -------------------------------------------------------------------------- */
 /* Departure city card                                                        */

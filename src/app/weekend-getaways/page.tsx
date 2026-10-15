@@ -20,7 +20,6 @@ export default async function WeekendGetawaysPage() {
   return (
     <CollectionPage
       image="/images/dest-vrindavan.jpg"
-      eyebrow="Short trips"
       title="Weekend Getaways"
       lede="Trips of five days or fewer — short enough for a long weekend, long enough to be worth the journey."
       crumbLabel="Weekend Getaways"

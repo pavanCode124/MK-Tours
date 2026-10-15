@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
-import { DestinationCard } from '@/components/sections';
-import { Button, Display, Eyebrow, Icon } from '@/components/ui';
+import { DestinationRail } from '@/components/sections';
+import { Button, Display, Icon } from '@/components/ui';
 import { BanyanTree, FlightTag, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
 import {
   allDestinations,
@@ -52,7 +52,6 @@ export default async function DestinationPage({ params }: Props) {
     <>
       <PageHero
         image={destination.image}
-        eyebrow={destination.state}
         title={`${destination.label} Tours`}
         lede={destination.blurb}
         crumbs={[
@@ -78,9 +77,8 @@ export default async function DestinationPage({ params }: Props) {
         <TopoField className="pointer-events-none absolute -right-12 top-[14%] hidden h-[320px] w-[38%] text-azure-700/8 lg:block" />
         <BanyanTree className="pointer-events-none absolute -left-14 bottom-[20%] hidden h-[240px] w-[240px] text-azure-700/8 xl:block" />
 
-        <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
+        <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
           <section id="tours" className="scroll-mt-28">
-            <Eyebrow className="mb-4">Departures</Eyebrow>
             <Display className="display-caps text-[28px] sm:text-[34px]">
               Tours that visit <span className="flourish">{destination.label}</span>
             </Display>
@@ -113,7 +111,6 @@ export default async function DestinationPage({ params }: Props) {
 
           {stateTours.length > 0 && (
             <section className="mt-20">
-              <Eyebrow className="mb-4">Nearby departures</Eyebrow>
               <Display className="display-caps text-[27px] sm:text-[33px]">
                 More tours in {destination.state}
               </Display>
@@ -129,7 +126,6 @@ export default async function DestinationPage({ params }: Props) {
             <section className="mt-20">
               <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <Eyebrow className="mb-4">On the map</Eyebrow>
                   <Display className="display-caps text-[27px] sm:text-[33px]">Nearby in {destination.state}</Display>
                 </div>
                 <Link
@@ -140,11 +136,10 @@ export default async function DestinationPage({ params }: Props) {
                   <span className="">→</span>
                 </Link>
               </div>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-                {sameState.slice(0, 5).map((d) => (
-                  <DestinationCard key={d.slug} destination={d} />
-                ))}
-              </div>
+              <DestinationRail
+                destinations={sameState}
+                label={`Nearby in ${destination.state}`}
+              />
             </section>
           )}
         </div>

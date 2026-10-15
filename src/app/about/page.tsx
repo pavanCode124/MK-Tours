@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { CardRail } from '@/components/CardRail';
 import { PageHero } from '@/components/PageHero';
 import { PencilCamera } from '@/components/PencilCamera';
 import { PencilPalm } from '@/components/PencilPalm';
@@ -15,7 +16,7 @@ import {
   TreeLine,
 } from '@/components/Decor';
 import { Pillar } from '@/components/sections';
-import { Button, Display, Eyebrow, Icon } from '@/components/ui';
+import { Button, Display, Icon } from '@/components/ui';
 import { allDestinations } from '@/lib/catalog';
 import { AGENCY, PILLARS } from '@/lib/content';
 import { getPackages, whatsappLink } from '@/lib/mktours';
@@ -75,7 +76,6 @@ export default async function AboutPage() {
     <>
       <PageHero
         image="/images/about-group.jpg"
-        eyebrow={`Since ${AGENCY.since}`}
         title="A trusted travel partner for private & group journeys"
         lede={`${AGENCY.travellers} travellers, ${destinations.length} destinations, ${states.size} states and countries — all on fixed departures out of Mumbai.`}
         crumbs={[{ label: 'Our Story' }]}
@@ -84,7 +84,7 @@ export default async function AboutPage() {
       </PageHero>
 
       {/* Numbers — a raised card lifted over the banner */}
-      <section className="relative z-10 -mt-10 bg-transparent">
+      <section className="relative z-10 -mt-8 bg-transparent">
         <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
           <div className="grid grid-cols-2 gap-1 rounded-[1.75rem] border border-border bg-raised p-3 shadow-float md:grid-cols-4">
             {[
@@ -106,13 +106,12 @@ export default async function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="relative overflow-hidden py-18 lg:py-24">
+      <section className="relative overflow-hidden py-12 lg:py-16">
         <PencilPalm className="pointer-events-none absolute -bottom-8 -left-10 hidden w-[150px] -rotate-[7deg] opacity-[0.08] lg:block" />
         <BanyanTree className="pointer-events-none absolute -top-10 right-[2%] hidden h-[220px] w-[220px] text-azure-700/8 xl:block" />
         <div className="pointer-events-none absolute -left-24 top-1/3 h-[320px] w-[320px] bloom-cool" />
         <div className="relative mx-auto grid max-w-[1320px] items-start gap-12 px-5 md:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
           <div>
-            <Eyebrow className="mb-5">Who we are</Eyebrow>
             <Display className="display-caps text-[30px] sm:text-[38px]">
               We started with one coach and <span className="flourish">one route</span>
             </Display>
@@ -169,7 +168,7 @@ export default async function AboutPage() {
       </section>
 
       {/* How it works — a flight leg with four stops */}
-      <section className="relative overflow-hidden bg-surface py-18 lg:py-24">
+      <section className="relative overflow-hidden bg-surface py-12 lg:py-16">
         <div className="pointer-events-none absolute inset-0 dotfield opacity-50" />
         <PencilCamera className="pointer-events-none absolute -right-12 -top-8 hidden w-[220px] rotate-[10deg] opacity-[0.1] md:block lg:w-[290px]" />
         <FlightPath
@@ -178,11 +177,10 @@ export default async function AboutPage() {
         />
         <TopoField className="pointer-events-none absolute -bottom-10 left-0 hidden h-[280px] w-[40%] text-azure-700/8 lg:block" />
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <Eyebrow className="mb-5">How we work</Eyebrow>
           <Display className="display-caps text-[30px] sm:text-[38px]">
             From enquiry to <span className="flourish">platform</span>
           </Display>
-          <div className="mt-11 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <CardRail className="mt-11" itemClassName="w-[270px] sm:w-[300px] lg:w-[320px]" label="How we work">
             {STEPS.map((s) => (
               <div key={s.n} className="card group relative overflow-hidden p-6 hover:card-hover">
                 <span className="absolute right-4 top-3 font-display text-[48px] font-bold leading-none text-vermilion-100 transition-colors duration-500 group-hover:text-vermilion-300/70">
@@ -195,14 +193,14 @@ export default async function AboutPage() {
                 <p className="relative mt-2.5 text-[13px] leading-[1.7] text-muted">{s.body}</p>
               </div>
             ))}
-          </div>
+          </CardRail>
         </div>
       </section>
 
       {/* Pillars */}
-      <section className="py-18 lg:py-24">
+      <section className="py-12 lg:py-16">
         <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="relative overflow-hidden rounded-[2.25rem] bg-azure-900 px-6 py-14 shadow-float lg:px-12 lg:py-16">
+          <div className="relative overflow-hidden rounded-[2.25rem] bg-azure-900 px-6 py-10 shadow-float lg:px-12 lg:py-12">
             <SmokePlume
               seed={2}
               className="pointer-events-none absolute -bottom-6 left-[4%] hidden h-[230px] w-[180px] text-white/15 lg:block"
@@ -210,18 +208,20 @@ export default async function AboutPage() {
             <CameraBadge className="pointer-events-none absolute -right-6 top-6 hidden h-[180px] w-[210px] text-vermilion-300/12 lg:block" />
             <PineTree className="pointer-events-none absolute -bottom-1 right-[8%] hidden h-[150px] w-[64px] text-black/25 tree-breathe lg:block" />
             <div className="relative text-center">
-              <Eyebrow tone="dark" className="mb-5">
-                What you can count on
-              </Eyebrow>
               <Display className="display-caps text-[29px] text-on-dark sm:text-[36px]">
                 Travel the way it was meant to be
               </Display>
             </div>
-            <div className="relative mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <CardRail
+              className="relative mt-9"
+              itemClassName="w-[265px] sm:w-[295px] lg:w-[315px]"
+              label="What you can count on"
+              tone="dark"
+            >
               {PILLARS.map((p, i) => (
                 <Pillar key={p.title} {...p} index={i} />
               ))}
-            </div>
+            </CardRail>
           </div>
         </div>
       </section>
@@ -230,7 +230,7 @@ export default async function AboutPage() {
       <section className="relative overflow-hidden pb-18 lg:pb-24">
         <SmokeShadow className="pointer-events-none absolute -bottom-16 right-0 h-[300px] w-[55%] text-azure-600/12" />
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="grid gap-5 sm:grid-cols-3">
+          <CardRail itemClassName="w-[280px] sm:w-[330px] lg:w-[400px]" label="Ways to reach us">
             {[
               { icon: 'phone' as const, title: 'Call us', body: `+91 ${AGENCY.phonePrimary}`, note: AGENCY.hours },
               { icon: 'mail' as const, title: 'Email us', body: AGENCY.email, note: 'We reply the same day' },
@@ -245,7 +245,7 @@ export default async function AboutPage() {
                 <p className="mt-1 text-[12px] text-subtle">{c.note}</p>
               </div>
             ))}
-          </div>
+          </CardRail>
         </div>
         <TreeLine className="pointer-events-none absolute inset-x-0 -bottom-1 h-[64px] text-surface" />
       </section>

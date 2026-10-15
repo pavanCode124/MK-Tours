@@ -12,7 +12,7 @@ import {
   SmokeShadow,
   TopoField,
 } from '@/components/Decor';
-import { Button, Display, Eyebrow, Icon } from '@/components/ui';
+import { Button, Display, Icon } from '@/components/ui';
 import {
   allDestinations,
   DEPARTURE_CITIES,
@@ -60,17 +60,17 @@ export default async function PackagesPage({ searchParams }: Props) {
 
   const activeLabel = describe(params, destinations);
   const hasFilters = Object.values(params).some(Boolean);
+  const departureCity = DEPARTURE_CITIES.find((c) => c.slug === params.city)?.label ?? 'Mumbai';
 
   return (
     <>
       <PageHero
         image="/images/hero-varanasi.jpg"
-        eyebrow="Packages"
         title={activeLabel ?? 'Tour Packages'}
-        lede={`${filtered.length} fixed-departure ${filtered.length === 1 ? 'tour' : 'tours'} from Mumbai, with the train, stays, meals and sightseeing in one price.`}
+        lede={`${filtered.length} fixed-departure ${filtered.length === 1 ? 'tour' : 'tours'} from ${departureCity}, with the train, stays, meals and sightseeing in one price.`}
         crumbs={[{ label: 'Tour Packages' }]}
       >
-        <FlightTag from="Mumbai" to="Pick a route" note={`${packages.length} departures`} />
+        <FlightTag from={departureCity} to="Pick a route" note={`${packages.length} departures`} />
       </PageHero>
 
       <div className="relative overflow-hidden">
@@ -82,7 +82,7 @@ export default async function PackagesPage({ searchParams }: Props) {
         <TopoField className="pointer-events-none absolute -right-14 top-[45%] hidden h-[340px] w-[42%] text-azure-700/8 lg:block" />
         <BanyanTree className="pointer-events-none absolute bottom-[12%] -left-14 hidden h-[240px] w-[240px] text-azure-700/8 xl:block" />
 
-        <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
+        <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
           {/* Filter board — one raised card holding every rail */}
           <div className="card p-6 sm:p-7">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
@@ -177,13 +177,13 @@ export default async function PackagesPage({ searchParams }: Props) {
 
           {/* Results */}
           {filtered.length > 0 ? (
-            <CardRail className="mt-12" label="Tour packages">
+            <CardRail className="mt-9" label="Tour packages">
               {filtered.map((pkg, i) => (
                 <PackageCard key={pkg.id} pkg={pkg} priority={i < 3} />
               ))}
             </CardRail>
           ) : (
-            <div className="relative mt-12 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-16 text-center shadow-soft">
+            <div className="relative mt-9 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-12 text-center shadow-soft">
               <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/15" />
               <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-azure-700/12 tree-breathe sm:block" />
               <div className="relative">
@@ -213,7 +213,6 @@ export default async function PackagesPage({ searchParams }: Props) {
           <div className="card mt-16 overflow-hidden p-7 sm:p-9">
             <div className="flex flex-wrap items-start justify-between gap-6">
               <div className="max-w-2xl">
-                <Eyebrow className="mb-4">Departing from</Eyebrow>
                 <Display className="text-[23px]">Every group tour leaves by train from Mumbai</Display>
                 <p className="mt-3 text-[13.5px] leading-[1.75] text-muted">
                   Boarding is available at Pune on the same rake. Private groups can start from any city — ask us and we

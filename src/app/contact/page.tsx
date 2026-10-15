@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import { CardRail } from '@/components/CardRail';
 import { PlainPageHero } from '@/components/PageHero';
 import { FaqList } from '@/components/sections';
-import { Button, Display, Eyebrow, Icon } from '@/components/ui';
+import { Button, Display, Icon } from '@/components/ui';
 import { CameraBadge, FlightPath, FlightTag, PineTree, SmokePlume, TopoField } from '@/components/Decor';
 import { AGENCY, FAQS } from '@/lib/content';
 import { formatPhone, telHref, whatsappLink } from '@/lib/mktours';
@@ -18,7 +19,6 @@ export default function ContactPage() {
   return (
     <>
       <PlainPageHero
-        eyebrow="Get in touch"
         title={
           <>
             Have questions? <span className="flourish">Let&apos;s talk.</span>
@@ -41,9 +41,9 @@ export default function ContactPage() {
           className="pointer-events-none absolute -right-4 bottom-[22%] hidden h-[250px] w-[190px] text-azure-600/12 lg:block"
         />
 
-        <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
+        <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
           {/* Channels */}
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <CardRail itemClassName="w-[270px] sm:w-[300px] lg:w-[320px]" label="Ways to reach us">
             <ChannelCard
               icon="phone"
               title="Call us"
@@ -73,14 +73,13 @@ export default function ContactPage() {
               note="For travellers already on the road"
               action={{ href: telHref(AGENCY.emergencyPhone) ?? '#', label: 'Call emergency line', external: true }}
             />
-          </div>
+          </CardRail>
 
           {/* Where we are */}
           <div className="mt-6 grid gap-5 lg:grid-cols-3">
             <div className="card relative overflow-hidden p-7 sm:p-9 lg:col-span-2">
               <CameraBadge className="pointer-events-none absolute -right-6 -top-4 hidden h-[160px] w-[190px] text-azure-700/8 sm:block" />
               <div className="relative">
-                <Eyebrow className="mb-4">Our base</Eyebrow>
                 <Display className="text-[24px]">Where we are</Display>
                 <p className="mt-4 flex items-start gap-2.5 text-[14px] leading-relaxed text-muted">
                   <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-vermilion-700" />
@@ -104,9 +103,6 @@ export default function ContactPage() {
             <div className="relative overflow-hidden rounded-[1.5rem] bg-azure-900 p-7 text-on-dark shadow-float">
               <PineTree className="pointer-events-none absolute -bottom-1 -right-3 h-[140px] w-[60px] text-black/25 tree-breathe" />
               <div className="relative">
-                <Eyebrow tone="dark" className="mb-4">
-                  Plan with us
-                </Eyebrow>
                 <Display className="text-[21px] text-on-dark">What to send us</Display>
                 <p className="mt-3 text-[13px] leading-relaxed text-on-dark/75">
                   Send us your dates, your group size and roughly where you want to go. We come back with the next
@@ -139,12 +135,11 @@ export default function ContactPage() {
           {/* Full FAQ */}
           <section id="faq" className="mt-20 scroll-mt-28">
             <div className="text-center">
-              <Eyebrow className="mb-5">FAQ</Eyebrow>
               <Display className="display-caps text-[30px] sm:text-[38px]">
                 Common <span className="flourish">questions</span>
               </Display>
             </div>
-            <div className="mt-12 space-y-12">
+            <div className="mt-9 space-y-12">
               {FAQS.map((group) => (
                 <div key={group.group}>
                   <div className="mb-5 flex items-center gap-3">

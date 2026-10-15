@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
-import { Button, Display, Eyebrow, Icon } from '@/components/ui';
+import { Button, Display, Icon } from '@/components/ui';
 import { CompassRose, FlightTag, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
 import { packagesForTheme, THEMES, themesWithCounts } from '@/lib/catalog';
 import { AGENCY } from '@/lib/content';
@@ -50,7 +50,6 @@ export default async function ThemePage({ params }: Props) {
     <>
       <PageHero
         image={THEME_IMAGES[slug] ?? '/images/hero-varanasi.jpg'}
-        eyebrow="Explore trips"
         title={`${theme.label} Tours`}
         lede={theme.blurb}
         crumbs={[{ href: '/packages', label: 'Explore Trips' }, { label: theme.label }]}
@@ -62,11 +61,10 @@ export default async function ThemePage({ params }: Props) {
         <TopoField className="pointer-events-none absolute -right-12 top-[12%] hidden h-[320px] w-[38%] text-azure-700/8 lg:block" />
         <CompassRose className="pointer-events-none absolute -left-20 bottom-[22%] hidden h-[250px] w-[250px] text-azure-700/8 xl:block" />
 
-        <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
+        <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
           {tours.length > 0 ? (
             <>
               <div className="mb-9">
-                <Eyebrow className="mb-4">Departures</Eyebrow>
                 <Display className="display-caps text-[27px] sm:text-[33px]">
                   {tours.length} {theme.label.toLowerCase()} {tours.length === 1 ? 'departure' : 'departures'}
                 </Display>
@@ -78,7 +76,7 @@ export default async function ThemePage({ params }: Props) {
               </CardRail>
             </>
           ) : (
-            <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-16 text-center shadow-soft">
+            <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-12 text-center shadow-soft">
               <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/12" />
               <PineTree className="pointer-events-none absolute -bottom-2 right-10 hidden h-[150px] w-[64px] text-azure-700/12 tree-breathe sm:block" />
               <div className="relative">
@@ -97,7 +95,6 @@ export default async function ThemePage({ params }: Props) {
 
           {others.length > 0 && (
             <section className="mt-20">
-              <Eyebrow className="mb-4">Change direction</Eyebrow>
               <Display className="display-caps text-[27px] sm:text-[33px]">Other ways to travel</Display>
               <div className="mt-7 flex flex-wrap gap-2.5">
                 {others.map((t) => (

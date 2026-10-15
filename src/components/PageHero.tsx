@@ -57,14 +57,12 @@ function Breadcrumbs({ crumbs, tone }: { crumbs: Crumb[]; tone: 'dark' | 'light'
  */
 export function PageHero({
   image,
-  eyebrow,
   title,
   lede,
   crumbs = [],
   children,
 }: {
   image: string;
-  eyebrow?: string;
   title: ReactNode;
   lede?: ReactNode;
   crumbs?: Crumb[];
@@ -93,14 +91,8 @@ export function PageHero({
         <PineTree className="pointer-events-none absolute -bottom-2 right-[12%] hidden h-[110px] w-[48px] text-azure-900/55 tree-breathe tree-breathe-slow sm:block" />
         <TreeLine className="pointer-events-none absolute inset-x-0 bottom-0 h-[70px] text-azure-900/60" />
 
-        <div className="relative mx-auto flex max-w-[1280px] flex-col justify-end px-6 pb-14 pt-16 md:px-10 lg:px-14 lg:pb-16 lg:pt-24">
+        <div className="relative mx-auto flex max-w-[1280px] flex-col justify-end px-6 pb-10 pt-12 md:px-10 lg:px-14 lg:pb-12 lg:pt-16">
           <Breadcrumbs crumbs={crumbs} tone="dark" />
-          {eyebrow && (
-            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-vermilion-300/40 bg-azure-900/40 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-300 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 rounded-full bg-vermilion-400" />
-              {eyebrow}
-            </span>
-          )}
           <Display
             as="h1"
             className="display-caps max-w-3xl text-[32px] text-on-dark sm:text-[42px] lg:text-[52px]"
@@ -121,13 +113,11 @@ export function PageHero({
  * than a photograph.
  */
 export function PlainPageHero({
-  eyebrow,
   title,
   lede,
   crumbs = [],
   children,
 }: {
-  eyebrow?: string;
   title: ReactNode;
   lede?: ReactNode;
   crumbs?: Crumb[];
@@ -146,14 +136,8 @@ export function PlainPageHero({
         <BanyanTree className="pointer-events-none absolute -bottom-6 left-[3%] hidden h-[180px] w-[180px] text-azure-700/10 lg:block" />
         <PineTree className="pointer-events-none absolute bottom-0 left-[16%] hidden h-[140px] w-[60px] text-azure-700/12 tree-breathe xl:block" />
 
-        <div className="relative mx-auto max-w-[1280px] px-6 py-14 md:px-10 lg:px-14 lg:py-18">
+        <div className="relative mx-auto max-w-[1280px] px-6 py-10 md:px-10 lg:px-14 lg:py-14">
           <Breadcrumbs crumbs={crumbs} tone="light" />
-          {eyebrow && (
-            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-vermilion-300/70 bg-vermilion-50 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-vermilion-500" />
-              {eyebrow}
-            </span>
-          )}
           <Display as="h1" className="display-caps max-w-3xl text-[30px] sm:text-[38px] lg:text-[46px]">
             {title}
           </Display>

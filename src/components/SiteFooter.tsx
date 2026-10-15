@@ -205,8 +205,7 @@ export async function SiteFooter() {
 
 function ColumnTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-vermilion-400">
-      <span className="h-1.5 w-1.5 rounded-full bg-vermilion-500" />
+    <div className="mb-4 flex items-center text-[10px] font-bold uppercase tracking-[0.16em] text-vermilion-400">
       {children}
     </div>
   );

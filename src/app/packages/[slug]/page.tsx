@@ -5,7 +5,7 @@ import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { FaqList } from '@/components/sections';
-import { Button, Display, Eyebrow, Icon, Stars } from '@/components/ui';
+import { Button, Display, Icon, Stars } from '@/components/ui';
 import { FlightTag, PineTree, SmokeShadow, TopoField } from '@/components/Decor';
 import { DESTINATIONS, destinationFor, longDuration, packageDestinations, seasonsForPackage, SEASONS } from '@/lib/catalog';
 import { AGENCY, FAQS } from '@/lib/content';
@@ -91,7 +91,6 @@ export default async function TourPage({ params }: Props) {
     <>
       <PageHero
         image={hero}
-        eyebrow={places[0]?.state ?? 'India'}
         title={pkg.package_name}
         crumbs={[{ href: '/packages', label: 'Tour Packages' }, { label: pkg.package_name }]}
       >
@@ -123,14 +122,13 @@ export default async function TourPage({ params }: Props) {
       <div className="relative overflow-hidden">
         <TopoField className="pointer-events-none absolute -left-12 top-[28%] hidden h-[320px] w-[34%] text-azure-700/8 xl:block" />
 
-        <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
+        <div className="relative mx-auto max-w-[1320px] px-5 py-10 md:px-8 lg:px-12 lg:py-14">
           <div className="grid gap-12 lg:grid-cols-[1fr_390px] lg:gap-12">
             {/* Main column */}
             <div className="min-w-0 space-y-6">
               {/* Places visited */}
               {places.length > 0 && (
                 <section className="card p-7">
-                  <Eyebrow className="mb-4">Places on this route</Eyebrow>
                   <div className="flex flex-wrap gap-2.5">
                     {places.map((p) => (
                       <Link
@@ -338,7 +336,6 @@ export default async function TourPage({ params }: Props) {
             <section className="relative mt-20 overflow-hidden">
               <SmokeShadow className="pointer-events-none absolute -right-10 -top-10 h-[280px] w-[50%] text-azure-600/10" />
               <div className="relative">
-                <Eyebrow className="mb-4">Keep looking</Eyebrow>
                 <Display className="display-caps text-[27px] sm:text-[33px]">
                   Other departures you might like
                 </Display>

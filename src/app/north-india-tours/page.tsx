@@ -24,7 +24,6 @@ export default async function NorthIndiaPage() {
   return (
     <CollectionPage
       image="/images/hero-taj.jpg"
-      eyebrow="Region"
       title="North India Tours"
       lede="The temple towns of the Ganga plain, the forts of Rajasthan, the Golden Temple at Amritsar and the three valleys of Kashmir — all on group departures by train from Mumbai."
       crumbLabel="North India Tour"

@@ -18,7 +18,6 @@ export default function PrivacyPage() {
   return (
     <>
       <PlainPageHero
-        eyebrow={`Legal · Effective ${LEGAL_EFFECTIVE_DATE}`}
         title={
           <>
             Privacy <span className="flourish">Policy</span>

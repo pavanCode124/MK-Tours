@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Hero } from '@/components/Hero';
+import { SearchBar } from '@/components/SearchBar';
 import { JourneyInFrames } from '@/components/JourneyInFrames';
 import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
@@ -26,7 +27,7 @@ import {
 } from '@/components/Decor';
 import { PencilCamera } from '@/components/PencilCamera';
 import { PencilPalm } from '@/components/PencilPalm';
-import { Button, Display, Eyebrow, Icon, SectionHeading, Stars } from '@/components/ui';
+import { Button, Display, Icon, SectionHeading, Stars } from '@/components/ui';
 import {
   allDestinations,
   DEPARTURE_CITIES,
@@ -37,7 +38,7 @@ import {
   SEASONS,
   themesWithCounts,
 } from '@/lib/catalog';
-import { AGENCY, ALL_FAQS, PILLARS, REVIEWS, TRUST_ITEMS } from '@/lib/content';
+import { AGENCY, ALL_FAQS, PILLARS, REVIEWS } from '@/lib/content';
 import { getHost, getPackages, telHref, whatsappLink } from '@/lib/mktours';
 
 export default async function HomePage() {
@@ -62,73 +63,30 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero
-        headline="Fixed-departure group tours and private trips across India and Nepal — train, hotels, meals, transport and sightseeing in one honest price."
-        states={byState.map((g) => ({ value: g.state, label: g.state }))}
-        destinations={destinations.map((d) => ({ value: d.slug, label: d.label }))}
-        cities={DEPARTURE_CITIES.map((c) => ({ value: c.slug, label: c.label }))}
-      />
-
-      {/* Trust strip — a raised card rather than a divided band */}
-      <section className="relative z-10 bg-bg">
-        <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="rounded-[1.75rem] border border-border bg-raised p-3 shadow-lift">
-            <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-5">
-              {TRUST_ITEMS.map((item) => (
-                <div
-                  key={item.label}
-                  className="group/t rounded-2xl px-3 py-4 text-center transition-colors duration-300 hover:bg-vermilion-50"
-                >
-                  <div
-                    className={`font-display text-[17px] font-bold leading-none ${
-                      item.top.startsWith('★') ? 'text-vermilion-500' : 'text-azure-700'
-                    }`}
-                  >
-                    {item.top}
-                  </div>
-                  <div className="mt-1.5 text-[12.5px] font-bold text-text">{item.label}</div>
-                  <div className="mt-0.5 text-[11px] text-subtle">{item.note}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* A hardcoded review line, in place of the floating rating card the
-                hero used to carry. Static, not a card riding over the photo. */}
-            <div className="mt-1 flex flex-col items-center gap-3 rounded-2xl bg-vermilion-50/60 px-5 py-4 text-center sm:flex-row sm:text-left">
-              <div className="flex shrink-0 items-baseline gap-1.5">
-                <span className="font-display text-[26px] font-bold leading-none text-vermilion-600">4.9</span>
-                <span className="text-[11px] uppercase tracking-[0.14em] text-subtle">/ 5</span>
-              </div>
-              <Stars className="shrink-0" />
-              <p className="text-[12.5px] leading-relaxed text-muted">
-                Rated by travellers on our Google profile, across pilgrimage, Kashmir and Kerala departures.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero — headline, trust row and the search panel share one viewport */}
+      <Hero>
+        <SearchBar
+          embedded
+          states={byState.map((g) => ({ value: g.state, label: g.state }))}
+          destinations={destinations.map((d) => ({ value: d.slug, label: d.label }))}
+          cities={DEPARTURE_CITIES.map((c) => ({ value: c.slug, label: c.label }))}
+        />
+      </Hero>
 
       {/* Top destinations — a mosaic, not a row of medallions */}
-      <Section className="relative overflow-hidden">
+      <Section className="relative overflow-hidden" contentClassName="max-w-[1800px] lg:!px-6 xl:!px-8">
         <PencilCamera className="pointer-events-none absolute -right-10 -top-4 hidden w-[200px] rotate-[9deg] opacity-[0.1] sm:block md:w-[250px] lg:-right-14 lg:w-[310px]" />
         <BanyanTree className="pointer-events-none absolute -bottom-10 -left-12 hidden h-[260px] w-[260px] text-azure-700/8 lg:block" />
         <div className="pointer-events-none absolute -left-24 top-20 h-[300px] w-[300px] bloom-cool" />
         <div className="relative">
           <div className="reveal">
-            <SectionHeading
-              eyebrow="Explore"
-              title={
-                <>
-                  Places our travellers <span className="flourish">come back for</span>
-                </>
-              }
-              link={{ href: '/destinations', label: 'View all' }}
+            <DestinationMarquee
+              destinations={destinations.slice(0, 18)}
+              viewAllHref="/destinations"
+              viewAllLabel="View all"
             />
           </div>
-          <div className="reveal mt-10">
-            <DestinationMarquee destinations={destinations.slice(0, 18)} />
-          </div>
-          <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="reveal mt-8 flex flex-wrap items-center justify-center gap-4">
             <Button href="/destinations" variant="solid">
               View all {destinations.length} destinations
             </Button>
@@ -138,7 +96,7 @@ export default async function HomePage() {
       </Section>
 
       {/* Who we are — a curved terracotta panel with a photo collage */}
-      <section className="relative overflow-hidden bg-clay py-20 text-on-dark lg:py-28">
+      <section className="relative overflow-hidden bg-clay py-12 text-on-dark lg:py-16">
         <WaveDivider flip className="pointer-events-none absolute inset-x-0 top-0 h-[64px] text-bg" />
         <SmokeShadow className="pointer-events-none absolute -bottom-16 right-0 h-[340px] w-[60%] text-white/15" />
         <PineTree className="pointer-events-none absolute bottom-0 left-[4%] hidden h-[190px] w-[80px] text-azure-900/25 tree-breathe lg:block" />
@@ -175,9 +133,6 @@ export default async function HomePage() {
           </div>
 
           <div className="reveal">
-            <Eyebrow tone="dark" className="mb-5">
-              Who we are
-            </Eyebrow>
             <Display className="display-caps text-[32px] text-on-dark sm:text-[40px] lg:text-[46px]">
               A trusted travel partner for private &amp; group journeys
             </Display>
@@ -231,27 +186,40 @@ export default async function HomePage() {
       </section>
 
       {/* Packages */}
-      <section className="relative overflow-hidden bg-surface py-20 lg:py-28">
+      <section className="relative overflow-hidden bg-surface py-12 lg:py-16">
         <div className="pointer-events-none absolute inset-0 dotfield opacity-50" />
         <TopoField className="pointer-events-none absolute -right-16 top-24 hidden h-[360px] w-[45%] text-azure-700/8 lg:block" />
         <PencilPalm className="pointer-events-none absolute -bottom-10 left-0 hidden w-[160px] -rotate-[8deg] opacity-[0.09] lg:block" />
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="reveal">
-            <SectionHeading
-              eyebrow="Packages"
-              title={
-                <>
-                  Popular <span className="flourish">tour packages</span>
-                </>
-              }
-              lede="Every departure below is dated, priced and ready to book. Filter by state to find the one that fits your calendar."
-              link={{ href: '/packages', label: 'View all' }}
+          {/* The heading sits on a photograph, so the collection opens the way
+              the destination sections below it do. */}
+          <div className="reveal relative overflow-hidden rounded-[1.75rem] bg-azure-900 px-6 py-8 shadow-lift sm:px-10 lg:rounded-[2.25rem] lg:px-12 lg:py-10">
+            <Image
+              src="/images/hero-varanasi.jpg"
+              alt=""
+              fill
+              aria-hidden="true"
+              sizes="100vw"
+              className="object-cover"
             />
+            <div className="absolute inset-0 bg-gradient-to-r from-azure-900/85 via-azure-900/55 to-azure-900/25" />
+            <div className="relative">
+              <SectionHeading
+                tone="dark"
+                title={
+                  <>
+                    Popular <span className="flourish">tour packages</span>
+                  </>
+                }
+                lede="Every departure below is dated, priced and ready to book. Filter by state to find the one that fits your calendar."
+                link={{ href: '/packages', label: 'View all' }}
+              />
+            </div>
           </div>
-          <div className="reveal mt-10">
+          <div className="reveal mt-8">
             <PackageTabs groups={tabs} />
           </div>
-          <div className="reveal mt-12 text-center">
+          <div className="reveal mt-9 text-center">
             <Button href="/packages" variant="solid">
               View all {packages.length} packages
             </Button>
@@ -269,7 +237,6 @@ export default async function HomePage() {
         <div className="reveal relative">
           <SectionHeading
             align="center"
-            eyebrow="Travel your way"
             title={
               <>
                 Pick a length, a <span className="flourish">season</span>, or a reason
@@ -279,7 +246,7 @@ export default async function HomePage() {
           />
         </div>
 
-        <div className="relative mt-12 grid gap-5 lg:grid-cols-2">
+        <div className="relative mt-9 grid gap-5 lg:grid-cols-2">
           <div className="reveal card p-7">
             <BoardHead
               icon="calendar"
@@ -354,7 +321,7 @@ export default async function HomePage() {
       </Section>
 
       {/* Why us — dark indigo panel with glass pillars */}
-      <section className="relative overflow-hidden bg-azure-900 py-20 text-on-dark lg:py-28">
+      <section className="relative overflow-hidden bg-azure-900 py-12 text-on-dark lg:py-16">
         <WaveDivider flip className="pointer-events-none absolute inset-x-0 top-0 h-[64px] text-bg" />
         <FlightPath
           variant="arch"
@@ -368,9 +335,6 @@ export default async function HomePage() {
 
         <div className="relative mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
           <div className="reveal text-center">
-            <Eyebrow tone="dark" className="mb-5">
-              Why MK Tours
-            </Eyebrow>
             <Display className="display-caps mx-auto max-w-3xl text-[32px] text-on-dark sm:text-[40px] lg:text-[47px]">
               Travel the way it was meant to be
             </Display>
@@ -378,11 +342,16 @@ export default async function HomePage() {
               Four things we settle before you board, so nothing has to be settled on the road.
             </p>
           </div>
-          <div className="reveal mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <CardRail
+            className="reveal mt-10"
+            itemClassName="w-[270px] sm:w-[300px] lg:w-[320px]"
+            label="Why MK Tours"
+            tone="dark"
+          >
             {PILLARS.map((p, i) => (
               <Pillar key={p.title} icon={p.icon} title={p.title} text={p.text} index={i} />
             ))}
-          </div>
+          </CardRail>
         </div>
 
         <TreeLine className="pointer-events-none absolute inset-x-0 bottom-0 h-[70px] text-bg" />
@@ -393,7 +362,6 @@ export default async function HomePage() {
         <PencilPalm className="pointer-events-none absolute -bottom-12 -left-14 hidden w-[180px] -rotate-[7deg] opacity-[0.07] lg:block" />
         <div className="reveal relative flex flex-wrap items-end justify-between gap-6">
           <div>
-            <Eyebrow className="mb-4">Reviews</Eyebrow>
             <Display className="display-caps text-[28px] sm:text-[34px] lg:text-[40px]">
               What our <span className="flourish">travellers</span> say
             </Display>
@@ -406,11 +374,11 @@ export default async function HomePage() {
             </span>
           </div>
         </div>
-        <div className="reveal mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <CardRail className="reveal mt-8" itemClassName="w-[280px] sm:w-[320px] lg:w-[340px]" label="Reviews">
           {REVIEWS.map((r) => (
             <ReviewCard key={r.name} {...r} />
           ))}
-        </div>
+        </CardRail>
         <div className="reveal mt-9 text-center">
           <Button href="/reviews" variant="outline">
             Read all reviews
@@ -419,16 +387,17 @@ export default async function HomePage() {
       </Section>
 
       {/* Journey in frames — a horizontal filmstrip of destination photography */}
-      <Section tone="surface" className="relative overflow-hidden">
-        <div className="reveal text-center">
+      <Section tone="surface" className="relative overflow-hidden" contentClassName="max-w-none !px-0">
+        <div className="reveal mx-auto max-w-[1320px] px-5 text-center md:px-8 lg:px-12">
           <Display className="display-caps text-[30px] uppercase tracking-[0.02em] sm:text-[38px] lg:text-[44px]">
             Journey in frames
           </Display>
           <span className="mx-auto mt-4 block h-[5px] w-[120px] rounded-full bg-vermilion-500" />
           <p className="mt-5 text-[15px] text-muted">Pictures perfect moments</p>
         </div>
+        {/* The strip runs the full width of the section, not the text column. */}
         <div className="reveal mt-10">
-          <JourneyInFrames items={destinations.slice(0, 10).map((d) => ({ src: d.image, label: d.state }))} />
+          <JourneyInFrames items={destinations.slice(0, 12).map((d) => ({ src: d.image, label: d.state }))} />
         </div>
       </Section>
 
@@ -438,7 +407,6 @@ export default async function HomePage() {
         <div className="pointer-events-none absolute -right-20 top-10 h-[300px] w-[300px] bloom-warm" />
         <div className="relative grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
           <div className="reveal lg:sticky lg:top-28 lg:self-start">
-            <Eyebrow className="mb-4">FAQ</Eyebrow>
             <Display className="display-caps text-[28px] sm:text-[34px] lg:text-[40px]">
               Common <span className="flourish">questions</span>
             </Display>
@@ -455,10 +423,10 @@ export default async function HomePage() {
                 <span className="">→</span>
               </Link>
             </div>
-            <CameraBadge className="pointer-events-none mt-10 hidden h-[150px] w-[180px] text-azure-700/12 lg:block" />
+            <CameraBadge className="pointer-events-none mt-8 hidden h-[150px] w-[180px] text-azure-700/12 lg:block" />
           </div>
           <div className="reveal">
-            <FaqList items={ALL_FAQS.slice(0, 14)} />
+            <FaqList items={ALL_FAQS.slice(0, 5)} />
           </div>
         </div>
       </Section>
@@ -475,9 +443,6 @@ export default async function HomePage() {
             <PineTree className="pointer-events-none absolute -bottom-1 right-[6%] hidden h-[130px] w-[56px] text-azure-900/50 tree-breathe lg:block" />
 
             <div className="relative max-w-xl">
-              <Eyebrow tone="dark" className="mb-4">
-                Talk to us
-              </Eyebrow>
               <Display className="text-[27px] text-on-dark sm:text-[33px]">Have questions? Let&apos;s talk.</Display>
               <p className="mt-3 text-[13.5px] leading-[1.75] text-on-dark/80">
                 Our team is on WhatsApp and on the phone, {AGENCY.hours.toLowerCase()}. We will help you pick the right
@@ -516,14 +481,16 @@ function Section({
   children,
   tone = 'light',
   className = '',
+  contentClassName = 'max-w-[1320px]',
 }: {
   children: React.ReactNode;
   tone?: keyof typeof SECTION_TONES;
   className?: string;
+  contentClassName?: string;
 }) {
   return (
-    <section className={`${SECTION_TONES[tone]} py-20 lg:py-28 ${className}`}>
-      <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">{children}</div>
+    <section className={`${SECTION_TONES[tone]} py-12 lg:py-16 ${className}`}>
+      <div className={`mx-auto px-5 md:px-8 lg:px-12 ${contentClassName}`}>{children}</div>
     </section>
   );
 }

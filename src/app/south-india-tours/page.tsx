@@ -17,7 +17,6 @@ export default async function SouthIndiaPage() {
   return (
     <CollectionPage
       image="/images/dest-munnar.jpg"
-      eyebrow="Region"
       title="South India Tours"
       lede="Kochi, the Munnar tea terraces, the spice estates at Thekkady and a night on an Alleppey houseboat — the classic Kerala loop, run as a fixed departure."
       crumbLabel="South India Tour"

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from './ui';
 
 export interface FrameItem {
@@ -9,82 +9,82 @@ export interface FrameItem {
   label: string;
 }
 
-/** How much taller a frame grows at the far edge of the strip. */
-const CURVE = 0.17;
+/** One frame plus the gap that follows it — the distance the arrows page by. */
+const STEP = 278;
 
 /**
- * A horizontally scrolling strip of travel photographs, each pinned with a
- * location badge.
+ * A full-bleed filmstrip of travel photographs, each pinned with a location
+ * badge.
  *
- * The strip is bowed: a frame is drawn at its natural height in the middle of
- * the rail and stretches as it travels towards either flank, so the row reads
- * as a band curving away from the viewer rather than a flat line of tiles. The
- * bow is measured against the rail, not the list, so it holds its shape while
- * the strip scrolls.
+ * The band appears to bow away from the viewer. Nothing is actually warped:
+ * two wide ellipses painted in the section's own colour sit over the top and
+ * bottom of the strip, so the photographs are eaten into an arc at the middle
+ * and stand full height at the flanks. Because the ellipses are fixed to the
+ * rail rather than to the tiles, the curve holds while the strip scrolls.
+ *
+ * `surfaceClass` must be the background the strip is laid on, or the arcs show
+ * as a band of the wrong colour.
  */
-export function JourneyInFrames({ items }: { items: FrameItem[] }) {
+export function JourneyInFrames({
+  items,
+  surfaceClass = 'bg-surface',
+}: {
+  items: FrameItem[];
+  surfaceClass?: string;
+}) {
   const railRef = useRef<HTMLDivElement>(null);
   const frame = useRef<number | null>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
 
-  const curve = useCallback(() => {
+  const measure = useCallback(() => {
     const rail = railRef.current;
     if (!rail) return;
-    const box = rail.getBoundingClientRect();
-    // Nothing to measure against until the rail has been laid out — a
-    // background or freshly mounted tab reports a collapsed box.
-    if (box.width < 64) return;
-    const mid = box.left + box.width / 2;
-    const reach = box.width / 2;
-    for (const tile of Array.from(rail.children) as HTMLElement[]) {
-      const t = tile.getBoundingClientRect();
-      const d = Math.min(Math.abs(t.left + t.width / 2 - mid) / reach, 1.25);
-      tile.style.transform = `scaleY(${(1 + CURVE * d * d).toFixed(4)})`;
-    }
+    const max = rail.scrollWidth - rail.clientWidth;
+    setAtStart(rail.scrollLeft <= 1);
+    setAtEnd(rail.scrollLeft >= max - 1);
   }, []);
 
+  // Scroll fires far faster than the arrows need to be repainted, so the
+  // end-of-rail test is folded into the next frame.
   const schedule = useCallback(() => {
     if (frame.current !== null) return;
     frame.current = requestAnimationFrame(() => {
       frame.current = null;
-      curve();
+      measure();
     });
-  }, [curve]);
+  }, [measure]);
 
   useEffect(() => {
-    curve();
+    measure();
     const rail = railRef.current;
     if (!rail) return;
     const ro = new ResizeObserver(schedule);
     ro.observe(rail);
-    // Photographs settle late and the band is measured in viewport terms, so
-    // the bow is recomputed on load and on any reflow that moves the rail.
     window.addEventListener('resize', schedule);
-    window.addEventListener('load', schedule);
-    document.addEventListener('visibilitychange', schedule);
-    const io = new IntersectionObserver(schedule);
-    io.observe(rail);
     return () => {
       ro.disconnect();
-      io.disconnect();
       window.removeEventListener('resize', schedule);
-      window.removeEventListener('load', schedule);
-      document.removeEventListener('visibilitychange', schedule);
       if (frame.current !== null) cancelAnimationFrame(frame.current);
     };
-  }, [curve, schedule]);
+  }, [measure, schedule]);
 
+  /** Page the rail by whole frames, rounded to the viewport it has to fill. */
   const scrollBy = (dir: 1 | -1) => {
-    railRef.current?.scrollBy({ left: dir * 360, behavior: 'smooth' });
+    const rail = railRef.current;
+    if (!rail) return;
+    const page = Math.max(STEP, Math.floor(rail.clientWidth / STEP) * STEP - STEP);
+    rail.scrollBy({ left: dir * page, behavior: 'smooth' });
   };
 
   return (
-    <div className="relative">
-      {/* The bowed frames overflow their row, so the rail is given room to
-          breathe above and below rather than clipping them. */}
+    // The strip is laid out edge to edge, so it is given the full width of
+    // whatever it is dropped into rather than a padded column.
+    <div className="relative w-full">
       <div
         ref={railRef}
         onScroll={schedule}
-        className="rail flex gap-2 overflow-x-auto scroll-smooth px-1 py-10"
+        className="rail flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth scroll-px-4 px-4 md:scroll-px-[60px] md:px-[60px]"
         role="region"
         aria-label="Journey in frames"
         tabIndex={0}
@@ -92,51 +92,70 @@ export function JourneyInFrames({ items }: { items: FrameItem[] }) {
         {items.map((item) => (
           <div
             key={item.src}
-            className="group relative h-[300px] w-[180px] flex-shrink-0 origin-center overflow-hidden rounded-xl shadow-soft transition-shadow duration-500 hover:shadow-lift sm:h-[360px] sm:w-[215px] lg:h-[400px] lg:w-[240px]"
+            className="group relative aspect-[270/400] w-[calc(100vw-2rem)] shrink-0 snap-start overflow-hidden bg-border md:aspect-auto md:h-[400px] md:w-[270px]"
           >
             <Image
               src={item.src}
               alt={item.label}
               fill
-              sizes="(min-width: 1024px) 240px, (min-width: 640px) 215px, 180px"
-              className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
+              sizes="(min-width: 768px) 270px, 100vw"
+              className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
             />
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-azure-900/55 to-transparent" />
-            <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 text-[11.5px] font-semibold text-azure-900 shadow-soft backdrop-blur-sm">
-              <Icon name="pin" className="h-3.5 w-3.5 text-azure-700" />
+            <span className="absolute bottom-8 left-2 inline-flex items-center gap-1 rounded-full border-[0.5px] border-white/70 bg-black/40 px-1.5 py-[2px] text-[12px] font-normal leading-4 text-on-dark backdrop-blur-[2px] md:bottom-12">
+              <Icon name="pin" className="h-3 w-3" />
               {item.label}
             </span>
           </div>
         ))}
       </div>
 
-      <RailArrow side="left" onClick={() => scrollBy(-1)} />
-      <RailArrow side="right" onClick={() => scrollBy(1)} />
+      {/* The two arcs. They overhang the strip by half their height so the
+          curve bites into the photographs rather than merely capping them. */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute -top-5 left-0 right-0 z-10 h-10 rounded-[50%] md:-top-10 md:h-20 ${surfaceClass}`}
+      />
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute -bottom-5 left-0 right-0 z-10 h-10 rounded-[50%] md:-bottom-10 md:h-20 ${surfaceClass}`}
+      />
+
+      <RailArrow side="left" onClick={() => scrollBy(-1)} disabled={atStart} />
+      <RailArrow side="right" onClick={() => scrollBy(1)} disabled={atEnd} />
     </div>
   );
 }
 
-function RailArrow({ side, onClick }: { side: 'left' | 'right'; onClick: () => void }) {
+function RailArrow({
+  side,
+  onClick,
+  disabled,
+}: {
+  side: 'left' | 'right';
+  onClick: () => void;
+  disabled: boolean;
+}) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       aria-label={side === 'left' ? 'Previous photographs' : 'Next photographs'}
-      className={`absolute top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-sky-500 text-white shadow-float transition-colors duration-200 hover:bg-sky-400 sm:flex ${
-        side === 'left' ? 'left-3 lg:left-6' : 'right-3 lg:right-6'
+      className={`absolute top-1/2 z-20 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-sky-500 text-white shadow-float transition-opacity duration-150 ease-in disabled:cursor-not-allowed disabled:opacity-40 md:inline-flex ${
+        side === 'left' ? 'left-2' : 'right-2'
       }`}
     >
       <svg
-        viewBox="0 0 20 20"
+        viewBox="0 0 16 16"
         className="h-4 w-4"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2.4"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
       >
-        <path d={side === 'left' ? 'M12.5 15l-5-5 5-5' : 'M7.5 5l5 5-5 5'} />
+        <path d={side === 'left' ? 'M10 12L6 8l4-4' : 'M6 4l4 4-4 4'} />
       </svg>
     </button>
   );
