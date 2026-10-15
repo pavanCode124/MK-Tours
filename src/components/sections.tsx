@@ -30,7 +30,7 @@ export function DestinationCard({
         />
         {/* The caption sits on the photo, so the tile is one object rather than
             a picture with a label parked underneath it. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-azure-900 via-azure-900/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-azure-900/80 via-azure-900/10 to-transparent" />
         {/* A single sheen crosses the photograph on hover. */}
         <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
 
@@ -102,7 +102,7 @@ export function DestinationMosaic({ destinations }: { destinations: Destination[
             sizes="(min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-azure-900 via-azure-900/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-azure-900/80 via-azure-900/10 to-transparent" />
           <PineTree className="absolute -bottom-2 right-4 h-36 w-16 text-vermilion-300/25 tree-breathe" />
           <div className="absolute inset-x-0 bottom-0 p-6">
             <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-vermilion-300">
@@ -157,7 +157,7 @@ export function CityCard({
           sizes="(min-width: 768px) 50vw, 100vw"
           className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-azure-900/90 via-azure-900/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-azure-900/75 via-azure-900/10 to-transparent" />
         <span className="absolute left-5 top-5 rounded-full border border-white/25 bg-azure-900/55 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-on-dark backdrop-blur-md">
           {count} {count === 1 ? 'trip' : 'trips'}
         </span>
@@ -301,31 +301,4 @@ export function FaqList({ items }: { items: { q: string; a: string }[] }) {
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/* Gallery strip                                                              */
-/* -------------------------------------------------------------------------- */
-
-export function GalleryStrip({ items }: { items: { src: string; label: string }[] }) {
-  return (
-    <div className="rail flex gap-3 overflow-x-auto px-5 py-2 md:grid md:grid-cols-4 md:overflow-visible md:px-0 md:py-0 lg:grid-cols-6">
-      {items.map((item) => (
-        <div
-          key={item.src}
-          className="group relative h-[200px] w-60 flex-shrink-0 overflow-hidden rounded-2xl shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-lift md:h-[160px] md:w-auto"
-        >
-          <Image
-            src={item.src}
-            alt={item.label}
-            fill
-            sizes="(min-width: 1024px) 220px, (min-width: 768px) 25vw, 240px"
-            className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
-          />
-          <div className="absolute inset-0 flex items-end bg-gradient-to-t from-azure-900/80 to-transparent p-3">
-            <span className="text-[10.5px] font-bold text-on-dark">{item.label}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
 

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { PencilCamera } from '@/components/PencilCamera';
@@ -176,11 +177,11 @@ export default async function PackagesPage({ searchParams }: Props) {
 
           {/* Results */}
           {filtered.length > 0 ? (
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <CardRail className="mt-12" label="Tour packages">
               {filtered.map((pkg, i) => (
                 <PackageCard key={pkg.id} pkg={pkg} priority={i < 3} />
               ))}
-            </div>
+            </CardRail>
           ) : (
             <div className="relative mt-12 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-16 text-center shadow-soft">
               <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/15" />
@@ -310,7 +311,7 @@ function Chip({ href, active, label, count }: { href: string; active: boolean; l
       className={`shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all duration-300 ${
         active
           ? 'border-azure-900 bg-azure-900 text-on-dark shadow-lift'
-          : 'border-border bg-bg text-text hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft'
+          : 'border-border bg-bg text-text hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft'
       }`}
     >
       {label}

@@ -67,7 +67,7 @@ export function FloatingContact() {
       <a
         href="#top"
         aria-label="Back to top"
-        className="pointer-events-auto hidden h-11 w-11 items-center justify-center rounded-full border border-border bg-raised/90 text-muted shadow-soft backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:text-vermilion-700 lg:flex"
+        className="pointer-events-auto hidden h-11 w-11 items-center justify-center rounded-full border border-border bg-raised/90 text-muted shadow-soft backdrop-blur-md transition-all duration-300 hover:text-vermilion-700 lg:flex"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M12 19V6M6 12l6-6 6 6" />

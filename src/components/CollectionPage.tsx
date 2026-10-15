@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { DestinationCard } from '@/components/sections';
@@ -73,17 +74,17 @@ export function CollectionPage({
                   </div>
                   <Link
                     href="/packages"
-                    className="group/l inline-flex items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
+                    className="group/l inline-flex items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
                   >
                     All packages
-                    <span className="transition-transform group-hover/l:translate-x-1">→</span>
+                    <span className="">→</span>
                   </Link>
                 </div>
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <CardRail label="Departures">
                   {tours.map((p, i) => (
                     <PackageCard key={p.id} pkg={p} priority={i < 3} />
                   ))}
-                </div>
+                </CardRail>
               </>
             ) : (
               <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-16 text-center shadow-soft">
@@ -122,7 +123,7 @@ export function CollectionPage({
                   href="/destinations"
                   className="group/l shrink-0 text-[13px] font-bold text-vermilion-700 underline-offset-4 hover:underline"
                 >
-                  All destinations <span className="inline-block transition-transform group-hover/l:translate-x-1">→</span>
+                  All destinations <span className="inline-block">→</span>
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">

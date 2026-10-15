@@ -120,10 +120,10 @@ export default async function DestinationsPage({ searchParams }: Props) {
                     </div>
                     <Link
                       href={`/destinations?region=${encodeURIComponent(r.region)}`}
-                      className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
+                      className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
                     >
                       View {r.region}
-                      <span className="transition-transform group-hover/l:translate-x-1">→</span>
+                      <span className="">→</span>
                     </Link>
                   </div>
                   {/* The first region leads with a mosaic; the rest run as grids,
@@ -182,7 +182,7 @@ function Chip({ href, active, label, count }: { href: string; active: boolean; l
       className={`shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all duration-300 ${
         active
           ? 'border-azure-900 bg-azure-900 text-on-dark shadow-lift'
-          : 'border-border bg-bg text-text hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft'
+          : 'border-border bg-bg text-text hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft'
       }`}
     >
       {label}

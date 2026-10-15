@@ -98,7 +98,7 @@ function useNav() {
 }
 
 const TRIGGER =
-  'relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-2 text-[13.5px] font-semibold text-text transition-colors hover:bg-vermilion-50 hover:text-vermilion-700 data-[open=true]:bg-vermilion-50 data-[open=true]:text-vermilion-700';
+  'relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2.5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-white/15 data-[open=true]:bg-white/20';
 
 /** A dropdown trigger plus its panel. Opens on hover, click and keyboard focus. */
 export function NavMenu({
@@ -139,7 +139,7 @@ export function NavMenu({
         {label}
         <svg
           viewBox="0 0 20 20"
-          className={`h-3 w-3 text-subtle transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-3 w-3 text-white/75 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           strokeWidth="1.8"
@@ -148,7 +148,7 @@ export function NavMenu({
           <path d="M5 7.5l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <span
-          className={`absolute inset-x-3.5 -bottom-0.5 h-[2px] origin-center rounded-full bg-vermilion-500 transition-transform duration-300 ${
+          className={`absolute inset-x-3.5 -bottom-0.5 h-[2px] origin-center rounded-full bg-white transition-transform duration-300 ${
             isOpen ? 'scale-x-100' : 'scale-x-0'
           }`}
         />

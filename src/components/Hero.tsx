@@ -29,11 +29,11 @@ const FADE_MS = 320;
 /**
  * The home hero.
  *
- * Asymmetric rather than centred: the headline and buttons sit hard left over
- * the photography, a column of floating proof cards rides the right-hand edge,
- * and the search panel is a curved bar that overlaps the foot of the picture.
- * A dashed flight arc crosses the frame, smoke drifts up from the lower left,
- * and a tree line closes the bottom edge.
+ * Centred: the headline, copy and buttons sit in the middle of the frame over
+ * bright, lightly graded photography, and the search panel is a curved bar
+ * that overlaps the foot of the picture. A dashed flight arc crosses the
+ * frame, smoke drifts up from the lower left, and a tree line closes the
+ * bottom edge.
  */
 export function Hero({ states, destinations, cities, headline }: HeroProps) {
   const [slide, setSlide] = useState(0);
@@ -82,10 +82,9 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
         ))}
       </div>
 
-      {/* Grading: dark from the left so left-aligned copy always holds, plus a
-          vignette at the foot that hands over to the page background. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-azure-900/88 via-azure-900/55 to-azure-900/20" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-azure-900/85 via-transparent to-azure-900/45" />
+      {/* Grading: a light, even wash — just enough for the white copy to hold
+          against bright photography, with no heavy darkening of the image. */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-azure-900/45 via-azure-900/15 to-azure-900/55" />
 
       {/* Ornament: the flight arc, a drifting plume, and the tree line */}
       <FlightPath
@@ -95,15 +94,10 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
       <SmokePlume className="pointer-events-none absolute -bottom-6 left-[2%] hidden h-[260px] w-[200px] text-white/30 lg:block" />
       <TreeLine className="pointer-events-none absolute inset-x-0 bottom-0 h-[110px] text-azure-900/70" />
 
-      <div className="relative mx-auto grid min-h-[calc(100vh-120px)] max-w-[1320px] items-center gap-12 px-5 pb-48 pt-20 md:px-8 lg:grid-cols-[1.25fr_0.75fr] lg:px-12">
-        {/* Copy — left aligned, no card behind it */}
-        <div className="hero-copy-in max-w-[640px]">
-          <span className="inline-flex items-center gap-2.5 rounded-full border border-vermilion-300/40 bg-azure-900/35 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-vermilion-300 backdrop-blur-md">
-            <span className="h-1.5 w-1.5 rounded-full bg-vermilion-400" />
-            Since 2012 · Departures from Mumbai
-          </span>
-
-          <h1 className="mt-6 font-display text-[38px] font-semibold leading-[1.02] tracking-[-0.03em] text-on-dark sm:text-[54px] lg:text-[66px]">
+      <div className="relative mx-auto flex min-h-[calc(100vh-120px)] max-w-[900px] flex-col items-center justify-center gap-0 px-5 pb-48 pt-20 text-center md:px-8 lg:px-12">
+        {/* Copy — centred, no card behind it */}
+        <div className="hero-copy-in mx-auto max-w-[760px]">
+          <h1 className="font-display text-[38px] font-semibold leading-[1.05] tracking-[-0.03em] text-on-dark drop-shadow-[0_2px_18px_rgba(10,26,60,0.55)] sm:text-[54px] lg:text-[66px]">
             Journeys made for{' '}
             <Link
               href={current.href}
@@ -120,26 +114,28 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
             </Link>
           </h1>
 
-          <p className="mt-7 max-w-[520px] text-[15.5px] leading-[1.8] text-on-dark/80">{headline}</p>
+          <p className="mx-auto mt-7 max-w-[560px] text-[15.5px] leading-[1.8] text-on-dark/90 drop-shadow-[0_1px_10px_rgba(10,26,60,0.5)]">
+            {headline}
+          </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-3">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/packages"
-              className="group/cta inline-flex items-center gap-2 rounded-full bg-vermilion-500 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-white shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-vermilion-400"
+              className="group/cta inline-flex items-center gap-2 rounded-full bg-vermilion-500 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-white shadow-glow transition-all duration-300 hover:bg-vermilion-400"
             >
               Explore tours
-              <span className="transition-transform duration-300 group-hover/cta:translate-x-1">→</span>
+              <span aria-hidden="true">→</span>
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/20"
+              className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-white/20"
             >
               Plan a private trip
             </Link>
           </div>
 
-          {/* Inline proof line, in place of the old centred trust row */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-[12px] text-on-dark/70">
+          {/* Inline proof line */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[12px] text-on-dark/85">
             {[
               '10,000+ travellers carried',
               'Train, stays, meals & sightseeing in one price',
@@ -153,42 +149,9 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
               </span>
             ))}
           </div>
-        </div>
-
-        {/* Floating proof cards down the right-hand edge */}
-        <div className="hero-side-in hidden lg:flex lg:flex-col lg:items-end lg:gap-4">
-          <div className="float-soft glass w-[260px] p-5 text-on-dark">
-            <div className="flex items-baseline gap-2">
-              <span className="font-display text-[40px] font-bold leading-none text-vermilion-300">4.9</span>
-              <span className="text-[11.5px] uppercase tracking-[0.14em] text-on-dark/70">/ 5</span>
-            </div>
-            <div className="mt-2 flex gap-0.5 text-vermilion-400">
-              {Array.from({ length: 5 }, (_, i) => (
-                <svg key={i} viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="currentColor" aria-hidden="true">
-                  <path d="M10 1.8l2.5 5.1 5.6.8-4 4 1 5.6-5.1-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z" />
-                </svg>
-              ))}
-            </div>
-            <p className="mt-3 text-[12px] leading-relaxed text-on-dark/70">
-              Rated by travellers on our Google profile, across pilgrimage, Kashmir and Kerala departures.
-            </p>
-          </div>
-
-          <div className="float-soft float-soft-delay glass w-[230px] p-5 text-on-dark">
-            <span className="text-[9.5px] font-bold uppercase tracking-[0.2em] text-vermilion-300">Next up</span>
-            <p className="mt-1.5 font-display text-[19px] font-semibold leading-tight">
-              {HERO_SLIDES[slide]?.alt.split(',')[0] ?? 'Kashmir valleys'}
-            </p>
-            <div className="mt-3 flex items-center gap-2 text-[11.5px] text-on-dark/70">
-              <svg viewBox="0 0 24 24" className="h-4 w-4 text-vermilion-400" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
-                <path d="M6 3.5h12v11H6zM6 14.5l-2 6M18 14.5l2 6M6 9h12" />
-              </svg>
-              Group rail booking from Mumbai
-            </div>
-          </div>
 
           {/* Slide dots double as the only manual control in the hero */}
-          <div className="mt-2 flex items-center gap-2.5">
+          <div className="mt-8 flex items-center justify-center gap-2.5">
             {HERO_SLIDES.map((s, i) => (
               <button
                 key={s.src}
@@ -231,10 +194,10 @@ export function Hero({ states, destinations, cities, headline }: HeroProps) {
             />
             <button
               type="submit"
-              className="group/find mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-azure-900 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark shadow-lift transition-all duration-300 hover:-translate-y-0.5 hover:bg-vermilion-500 hover:text-white lg:mt-0"
+              className="group/find mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-azure-900 px-8 py-4 text-[11.5px] font-bold uppercase tracking-[0.14em] text-on-dark shadow-lift transition-all duration-300 hover:bg-vermilion-500 hover:text-white lg:mt-0"
             >
               Find Tours
-              <span className="transition-transform duration-300 group-hover/find:translate-x-1">→</span>
+              <span aria-hidden="true">→</span>
             </button>
           </div>
         </form>

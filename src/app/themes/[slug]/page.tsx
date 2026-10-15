@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { Button, Display, Eyebrow, Icon } from '@/components/ui';
@@ -70,11 +71,11 @@ export default async function ThemePage({ params }: Props) {
                   {tours.length} {theme.label.toLowerCase()} {tours.length === 1 ? 'departure' : 'departures'}
                 </Display>
               </div>
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <CardRail label="Departures">
                 {tours.map((p, i) => (
                   <PackageCard key={p.id} pkg={p} priority={i < 3} />
                 ))}
-              </div>
+              </CardRail>
             </>
           ) : (
             <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-16 text-center shadow-soft">
@@ -103,7 +104,7 @@ export default async function ThemePage({ params }: Props) {
                   <Link
                     key={t.slug}
                     href={`/themes/${t.slug}`}
-                    className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-raised px-4 py-2.5 text-[12.5px] font-semibold text-text shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700"
+                    className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-raised px-4 py-2.5 text-[12.5px] font-semibold text-text shadow-soft transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700"
                   >
                     {t.label}
                     <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-subtle transition-colors group-hover/t:bg-vermilion-100 group-hover/t:text-vermilion-700">

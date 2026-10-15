@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { PlainPageHero } from '@/components/PageHero';
-import { Button, Display, Eyebrow, Icon } from '@/components/ui';
+import { Button, Display, Eyebrow } from '@/components/ui';
 import { CameraBadge, FlightPath, PineTree, SmokeShadow } from '@/components/Decor';
+import { JourneyInFrames } from '@/components/JourneyInFrames';
 import { DESTINATIONS, destinationFor } from '@/lib/catalog';
 import { AGENCY } from '@/lib/content';
 import { whatsappLink } from '@/lib/mktours';
@@ -42,39 +42,15 @@ export default function GalleryPage() {
         <PineTree className="pointer-events-none absolute -left-4 bottom-[14%] hidden h-[200px] w-[86px] text-azure-700/10 tree-breathe lg:block" />
 
         <div className="relative mx-auto max-w-[1320px] px-5 py-14 md:px-8 lg:px-12 lg:py-20">
-          {/* A masonry-style column flow, so no two tiles share an edge rhythm */}
-          <div className="columns-2 gap-4 sm:columns-3 lg:columns-4 [&>*]:mb-4">
-            {items.map((d, i) => (
-              <figure
-                key={d.slug}
-                className={`group relative block break-inside-avoid overflow-hidden rounded-[1.5rem] bg-azure-900 shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-float ${
-                  i % 5 === 0 ? 'aspect-[3/4]' : i % 7 === 3 ? 'aspect-square' : 'aspect-[4/3]'
-                }`}
-              >
-                <Image
-                  src={d.image}
-                  alt={`${d.label}, ${d.state}`}
-                  fill
-                  sizes="(min-width: 1024px) 300px, (min-width: 640px) 33vw, 50vw"
-                  className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.08]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-azure-900 via-azure-900/10 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-95" />
-                <span className="sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-                {/* A shutter mark appears top-right on hover. */}
-                <span className="absolute right-3 top-3 flex h-8 w-8 translate-y-2 items-center justify-center rounded-full border border-white/25 bg-azure-900/50 text-on-dark opacity-0 backdrop-blur-md transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  <Icon name="camera" className="h-4 w-4" />
-                </span>
-                <figcaption className="absolute inset-x-0 bottom-0 p-4">
-                  <span className="flex items-center gap-1.5 text-[9.5px] font-bold uppercase tracking-[0.14em] text-vermilion-300">
-                    <Icon name="pin" className="h-3 w-3" />
-                    {d.state}
-                  </span>
-                  <span className="mt-1 block font-display text-[17px] font-semibold leading-tight text-on-dark">
-                    {d.label}
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
+          <div className="text-center">
+            <Eyebrow className="mb-4">Journey In Frames</Eyebrow>
+            <Display className="display-caps text-[28px] sm:text-[34px] lg:text-[40px]">
+              Pictures <span className="flourish">perfect</span> moments
+            </Display>
+          </div>
+
+          <div className="mt-10">
+            <JourneyInFrames items={items.map((d) => ({ src: d.image, label: d.state }))} />
           </div>
 
           <div className="relative mt-16 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-12 text-center shadow-soft">

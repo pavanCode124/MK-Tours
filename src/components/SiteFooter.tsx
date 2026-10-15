@@ -168,10 +168,10 @@ export async function SiteFooter() {
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/wa mt-6 inline-flex items-center gap-2 rounded-full bg-vermilion-500 px-6 py-3 text-[10.5px] font-bold uppercase tracking-[0.14em] text-white shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-vermilion-400"
+                className="group/wa mt-6 inline-flex items-center gap-2 rounded-full bg-vermilion-500 px-6 py-3 text-[10.5px] font-bold uppercase tracking-[0.14em] text-white shadow-glow transition-all duration-300 hover:bg-vermilion-400"
               >
                 Customize Your Trip
-                <span className="transition-transform duration-300 group-hover/wa:translate-x-1">→</span>
+                <span className="">→</span>
               </a>
             )}
           </div>
@@ -241,7 +241,7 @@ function Social({ href, label, children }: { href?: string; label: string; child
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/20 text-on-dark/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-vermilion-400 hover:bg-vermilion-500 hover:text-white"
+      className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/20 text-on-dark/80 transition-all duration-300 hover:border-vermilion-400 hover:bg-vermilion-500 hover:text-white"
     >
       {children}
     </a>

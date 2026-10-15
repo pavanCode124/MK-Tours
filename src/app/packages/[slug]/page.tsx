@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { FaqList } from '@/components/sections';
@@ -135,7 +136,7 @@ export default async function TourPage({ params }: Props) {
                       <Link
                         key={p.slug}
                         href={`/destinations/${p.slug}`}
-                        className="group/p inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft"
+                        className="group/p inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft"
                       >
                         <Icon name="pin" className="h-3.5 w-3.5 text-vermilion-600" />
                         {p.label}
@@ -341,11 +342,11 @@ export default async function TourPage({ params }: Props) {
                 <Display className="display-caps text-[27px] sm:text-[33px]">
                   Other departures you might like
                 </Display>
-                <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <CardRail className="mt-8" label="Other departures">
                   {related.map((p: Package) => (
                     <PackageCard key={p.id} pkg={p} />
                   ))}
-                </div>
+                </CardRail>
               </div>
             </section>
           )}

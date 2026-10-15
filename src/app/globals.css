@@ -45,6 +45,15 @@
   --color-vermilion-100: #fcdfd8;
   --color-vermilion-50: #fdf2ef;
 
+  /* Sky — the bright blue the navigation bar is painted in */
+  --color-sky-700: #0b74b8;
+  --color-sky-600: #1189d6;
+  --color-sky-500: #2aa3ea;
+  --color-sky-400: #51b9f2;
+  --color-sky-300: #8ed3f7;
+  --color-sky-100: #d8eefc;
+  --color-sky-50: #eff8fe;
+
   /* Warm accents — a berry clay and a rose for the odd highlight */
   --color-clay: #a62a45;
   --color-clay-600: #87203a;
@@ -504,4 +513,123 @@ summary::-webkit-details-marker {
 }
 summary {
   list-style: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Destination marquee — the brand-coloured banner on the home page.
+
+   Two rails of destination tiles slide in opposite directions. Each rail holds
+   identical copies of the same group, so translating the track by exactly one
+   group width loops without a seam. The groups carry their own trailing gap
+   rather than the track carrying a flex gap, which would throw the loop out by
+   half a gap on every cycle.
+   --------------------------------------------------------------------------- */
+.marquee-panel {
+  background:
+    radial-gradient(120% 120% at 15% 0%, var(--color-sky-400) 0%, transparent 55%),
+    linear-gradient(135deg, var(--color-sky-500) 0%, var(--color-sky-600) 42%, var(--color-azure-700) 100%);
+}
+
+.marquee-panel__rings {
+  background-image: repeating-radial-gradient(
+    circle at 50% 42%,
+    rgba(255, 255, 255, 0.11) 0 2px,
+    transparent 2px 34px
+  );
+  opacity: 0.75;
+}
+
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-slide var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+.marquee__track--reverse {
+  animation-direction: reverse;
+}
+
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__group {
+  display: flex;
+  gap: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .marquee__group {
+    gap: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+
+@keyframes marquee-slide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-100% / var(--marquee-copies, 2)), 0, 0);
+  }
+}
+
+/* A slow pulse on the "offers live" dots. */
+.marquee-dot {
+  animation: marquee-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes marquee-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.72);
+  }
+}
+
+/* Reduced motion: stop the slide and hand the rail back to the visitor. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+  }
+
+  .marquee__track,
+  .marquee-dot {
+    animation: none;
+  }
+}
+
+/* The sale lockup: chunky cream capitals with a layered shadow underneath,
+   the way a printed banner is set. The ampersand carries the vermilion. */
+.marquee-title {
+  color: #f8f1e2;
+  font-weight: 700;
+  font-size: clamp(24px, 7vw, 76px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-shadow:
+    0 2px 0 rgba(10, 26, 60, 0.18),
+    0 10px 26px rgba(10, 26, 60, 0.3);
+}
+
+.marquee-title__amp {
+  color: var(--color-vermilion-500);
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.35);
+}
+
+.marquee-tag {
+  transform: rotate(-1.4deg);
 }

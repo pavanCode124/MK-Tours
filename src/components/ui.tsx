@@ -110,11 +110,11 @@ export function SectionHeading({
           className={`group/link inline-flex shrink-0 items-center gap-2 rounded-full border px-6 py-3 text-[11.5px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ${
             dark
               ? 'border-white/25 text-on-dark hover:border-vermilion-400 hover:bg-vermilion-500 hover:text-white'
-              : 'border-border-strong bg-raised text-text shadow-soft hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark hover:shadow-lift'
+              : 'border-border-strong bg-raised text-text shadow-soft hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark hover:shadow-lift'
           }`}
         >
           {link.label}
-          <span className="transition-transform duration-300 group-hover/link:translate-x-1">→</span>
+          <span className="">→</span>
         </Link>
       )}
     </div>
@@ -126,7 +126,7 @@ export function SectionHeading({
 /* -------------------------------------------------------------------------- */
 
 const BTN_BASE =
-  'group/btn inline-flex items-center justify-center gap-2 rounded-full text-[11.5px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0';
+  'group/btn inline-flex items-center justify-center gap-2 rounded-full text-[11.5px] font-bold uppercase tracking-[0.14em] transition-all duration-300 ease-out';
 
 const BTN_VARIANTS = {
   solid: 'bg-azure-900 text-on-dark shadow-lift hover:bg-azure-700 hover:shadow-float',
@@ -166,7 +166,7 @@ export function Button({
     <>
       {children}
       {arrow && (
-        <span aria-hidden="true" className="transition-transform duration-300 group-hover/btn:translate-x-1">
+        <span aria-hidden="true" className="">
           →
         </span>
       )}

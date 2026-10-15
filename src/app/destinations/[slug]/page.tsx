@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PageHero } from '@/components/PageHero';
 import { DestinationCard } from '@/components/sections';
@@ -84,11 +85,11 @@ export default async function DestinationPage({ params }: Props) {
               Tours that visit <span className="flourish">{destination.label}</span>
             </Display>
             {tours.length > 0 ? (
-              <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <CardRail className="mt-9" label="Tours that visit this destination">
                 {tours.map((p, i) => (
                   <PackageCard key={p.id} pkg={p} priority={i < 3} />
                 ))}
-              </div>
+              </CardRail>
             ) : (
               <div className="relative mt-9 overflow-hidden rounded-[2rem] border border-border bg-surface px-6 py-14 text-center shadow-soft">
                 <SmokeShadow className="pointer-events-none absolute inset-0 h-full w-full text-azure-600/12" />
@@ -116,11 +117,11 @@ export default async function DestinationPage({ params }: Props) {
               <Display className="display-caps text-[27px] sm:text-[33px]">
                 More tours in {destination.state}
               </Display>
-              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {stateTours.slice(0, 3).map((p) => (
+              <CardRail className="mt-8" label="Nearby departures">
+                {stateTours.slice(0, 6).map((p) => (
                   <PackageCard key={p.id} pkg={p} />
                 ))}
-              </div>
+              </CardRail>
             </section>
           )}
 
@@ -133,10 +134,10 @@ export default async function DestinationPage({ params }: Props) {
                 </div>
                 <Link
                   href={`/destinations?state=${encodeURIComponent(destination.state)}`}
-                  className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
+                  className="group/l inline-flex shrink-0 items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
                 >
                   All of {destination.state}
-                  <span className="transition-transform group-hover/l:translate-x-1">→</span>
+                  <span className="">→</span>
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">

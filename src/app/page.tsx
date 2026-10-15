@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Hero } from '@/components/Hero';
+import { JourneyInFrames } from '@/components/JourneyInFrames';
+import { CardRail } from '@/components/CardRail';
 import { PackageCard } from '@/components/PackageCard';
 import { PackageTabs } from '@/components/PackageTabs';
+import { DestinationMarquee } from '@/components/DestinationMarquee';
 import {
-  DestinationMosaic,
   FaqList,
   Pillar,
   ReviewCard,
@@ -70,23 +72,38 @@ export default async function HomePage() {
       {/* Trust strip — a raised card rather than a divided band */}
       <section className="relative z-10 bg-bg">
         <div className="mx-auto max-w-[1320px] px-5 md:px-8 lg:px-12">
-          <div className="grid grid-cols-2 gap-1 rounded-[1.75rem] border border-border bg-raised p-3 shadow-lift sm:grid-cols-3 lg:grid-cols-5">
-            {TRUST_ITEMS.map((item) => (
-              <div
-                key={item.label}
-                className="group/t rounded-2xl px-3 py-4 text-center transition-colors duration-300 hover:bg-vermilion-50"
-              >
+          <div className="rounded-[1.75rem] border border-border bg-raised p-3 shadow-lift">
+            <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-5">
+              {TRUST_ITEMS.map((item) => (
                 <div
-                  className={`font-display text-[17px] font-bold leading-none ${
-                    item.top.startsWith('★') ? 'text-vermilion-500' : 'text-azure-700'
-                  }`}
+                  key={item.label}
+                  className="group/t rounded-2xl px-3 py-4 text-center transition-colors duration-300 hover:bg-vermilion-50"
                 >
-                  {item.top}
+                  <div
+                    className={`font-display text-[17px] font-bold leading-none ${
+                      item.top.startsWith('★') ? 'text-vermilion-500' : 'text-azure-700'
+                    }`}
+                  >
+                    {item.top}
+                  </div>
+                  <div className="mt-1.5 text-[12.5px] font-bold text-text">{item.label}</div>
+                  <div className="mt-0.5 text-[11px] text-subtle">{item.note}</div>
                 </div>
-                <div className="mt-1.5 text-[12.5px] font-bold text-text">{item.label}</div>
-                <div className="mt-0.5 text-[11px] text-subtle">{item.note}</div>
+              ))}
+            </div>
+
+            {/* A hardcoded review line, in place of the floating rating card the
+                hero used to carry. Static, not a card riding over the photo. */}
+            <div className="mt-1 flex flex-col items-center gap-3 rounded-2xl bg-vermilion-50/60 px-5 py-4 text-center sm:flex-row sm:text-left">
+              <div className="flex shrink-0 items-baseline gap-1.5">
+                <span className="font-display text-[26px] font-bold leading-none text-vermilion-600">4.9</span>
+                <span className="text-[11px] uppercase tracking-[0.14em] text-subtle">/ 5</span>
               </div>
-            ))}
+              <Stars className="shrink-0" />
+              <p className="text-[12.5px] leading-relaxed text-muted">
+                Rated by travellers on our Google profile, across pilgrimage, Kashmir and Kerala departures.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -109,7 +126,7 @@ export default async function HomePage() {
             />
           </div>
           <div className="reveal mt-10">
-            <DestinationMosaic destinations={destinations.slice(0, 7)} />
+            <DestinationMarquee destinations={destinations.slice(0, 18)} />
           </div>
           <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button href="/destinations" variant="solid">
@@ -275,7 +292,7 @@ export default async function HomePage() {
                 <Link
                   key={d.days}
                   href={`/packages?duration=${d.days}`}
-                  className="group/d rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:-translate-y-1 hover:border-vermilion-300 hover:bg-vermilion-50 hover:shadow-lift"
+                  className="group/d rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:shadow-lift"
                 >
                   <div className="font-display text-[23px] font-bold leading-none text-azure-700 transition-colors group-hover/d:text-vermilion-700">
                     {d.days}D
@@ -298,7 +315,7 @@ export default async function HomePage() {
                   <Link
                     key={s.slug}
                     href={`/packages?season=${s.slug}`}
-                    className="group/s rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:-translate-y-1 hover:border-vermilion-300 hover:shadow-lift"
+                    className="group/s rounded-2xl border border-border bg-bg p-4 transition-all duration-300 hover:border-vermilion-300 hover:shadow-lift"
                   >
                     <div className="font-display text-[19px] font-semibold leading-tight text-text transition-colors group-hover/s:text-vermilion-700">
                       {s.label}
@@ -324,7 +341,7 @@ export default async function HomePage() {
               <Link
                 key={t.slug}
                 href={`/themes/${t.slug}`}
-                className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:-translate-y-0.5 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft"
+                className="group/t inline-flex items-center gap-2 rounded-full border border-border bg-bg px-4 py-2.5 text-[12.5px] font-semibold text-text transition-all duration-300 hover:border-vermilion-300 hover:bg-vermilion-50 hover:text-vermilion-700 hover:shadow-soft"
               >
                 {t.label}
                 <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-subtle transition-colors group-hover/t:bg-vermilion-100 group-hover/t:text-vermilion-700">
@@ -401,6 +418,20 @@ export default async function HomePage() {
         </div>
       </Section>
 
+      {/* Journey in frames — a horizontal filmstrip of destination photography */}
+      <Section tone="surface" className="relative overflow-hidden">
+        <div className="reveal text-center">
+          <Display className="display-caps text-[30px] uppercase tracking-[0.02em] sm:text-[38px] lg:text-[44px]">
+            Journey in frames
+          </Display>
+          <span className="mx-auto mt-4 block h-[5px] w-[120px] rounded-full bg-vermilion-500" />
+          <p className="mt-5 text-[15px] text-muted">Pictures perfect moments</p>
+        </div>
+        <div className="reveal mt-10">
+          <JourneyInFrames items={destinations.slice(0, 10).map((d) => ({ src: d.image, label: d.state }))} />
+        </div>
+      </Section>
+
       {/* FAQ — heading on the left, accordion cards on the right */}
       <Section className="relative overflow-hidden">
         <PencilCamera className="pointer-events-none absolute -left-16 top-24 hidden w-[240px] -rotate-[10deg] opacity-[0.08] xl:block" />
@@ -418,10 +449,10 @@ export default async function HomePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/contact#faq"
-                className="group/l inline-flex items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-3 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
+                className="group/l inline-flex items-center gap-2 rounded-full border border-border-strong bg-raised px-5 py-3 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
               >
                 All {ALL_FAQS.length} questions
-                <span className="transition-transform group-hover/l:translate-x-1">→</span>
+                <span className="">→</span>
               </Link>
             </div>
             <CameraBadge className="pointer-events-none mt-10 hidden h-[150px] w-[180px] text-azure-700/12 lg:block" />
@@ -525,10 +556,10 @@ function BoardHead({
 
 function Grid({ packages, priority = false }: { packages: Awaited<ReturnType<typeof getPackages>>; priority?: boolean }) {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <CardRail label="Tour packages">
       {packages.map((pkg, i) => (
         <PackageCard key={pkg.id} pkg={pkg} priority={priority && i < 3} />
       ))}
-    </div>
+    </CardRail>
   );
 }

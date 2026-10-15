@@ -55,10 +55,10 @@ export default function ReviewsPage() {
               href={AGENCY.googleProfile}
               target="_blank"
               rel="noopener noreferrer"
-              className="group/l ml-auto inline-flex items-center gap-2 rounded-full border border-border-strong bg-bg px-5 py-3 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:-translate-y-0.5 hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
+              className="group/l ml-auto inline-flex items-center gap-2 rounded-full border border-border-strong bg-bg px-5 py-3 text-[11.5px] font-bold uppercase tracking-[0.12em] text-text shadow-soft transition-all hover:border-azure-700 hover:bg-azure-800 hover:text-on-dark"
             >
               Read them on Google
-              <span className="transition-transform group-hover/l:translate-x-1">→</span>
+              <span className="">→</span>
             </a>
           </div>
 

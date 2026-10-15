@@ -211,7 +211,7 @@ function ChannelCard({
           className="mt-auto inline-flex items-center gap-1.5 pt-5 text-[12.5px] font-bold text-vermilion-700 underline-offset-4 hover:underline"
         >
           {action.label}
-          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          <span className="">→</span>
         </a>
       )}
     </div>
